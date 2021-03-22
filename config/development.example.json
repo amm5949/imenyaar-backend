@@ -1,0 +1,12 @@
+{
+  "LEVEL": "development",
+  "PORT": 2000,
+  "PGHOST": "localhost",
+  "PGUSER": "postgres",
+  "PGPASSWORD": "1230123A",
+  "PGDATABASE": "Imenyaar-2",
+  "PGPORT": 5432,
+  "APP_KEY": "WI3lMi9FAs619zD3fjCwRmEKTEMwjKa6Zdvc9gPGUCwtwJk7JGQw5kRwerp178ywVHuKSs5kSHMKsKnaKhfxGkTFUMKFiBhTGccWZ0V12lsAIlaQGAW05E2iEQyAsZRxPMdtMes8Wq8kB777d8cFKKDZvRq8aXjZ",
+  "JWT_KEY": "fksdMGa4kKfuq61BpWVakogQiPhGfukKfRwooMOxm7teZKRELCQJqUvhYmR6LWKj9Lx1nS59hKoFPGQDDpNRIMgcEOELGrsvbLv5rWw2lY7K8VF3exBra6oWn66LDrj6bGYt7IMQtMbVg3PwxWBTEPVOCkdHYZWZ",
+  "SMS_API_KEY": "sss"
+}

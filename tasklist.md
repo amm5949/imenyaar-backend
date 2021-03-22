@@ -19,7 +19,7 @@ Tasks
 		 - 5 d
 	- [ ] get
 		- Zamanian
-		 - 3 d
+		 - 3 
 	- [ ] buy
 		- Zamanian
 		 - 4 d
