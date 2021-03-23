@@ -4,7 +4,7 @@ Tasks
 	- [ ] Database
 		- Ghoochanian
 		- 6 d
-	- [ ] Server
+	- [x] Server
 		- Zamanian
 		- 6 d
 - Subscription | total: 19  | start: 29
@@ -24,7 +24,7 @@ Tasks
 		- Zamanian
 		 - 4 d
 - Authentication | total: 16 | start: 12
-	 - [ ] login
+	 - [x] login
 		 - Zamanian
 		 - 3 d
 	- [ ] forget password
