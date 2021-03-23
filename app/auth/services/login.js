@@ -15,7 +15,7 @@ module.exports = async ({ username, password }) => {
 
     // Compare given password with the password hash
     const passwordCheckResult = auth.verifyPassword(password, record.password);
-    
+
     // Wrong password
     if (!passwordCheckResult) {
         return false;
