@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS users
 );
 
 
-CREATE TABLE IF NOT EXISTS incident_photos
+CREATE TABLE IF NOT EXISTS user_photos
 (
     id         SERIAL PRIMARY KEY,
     user_id    INT REFERENCES users,
