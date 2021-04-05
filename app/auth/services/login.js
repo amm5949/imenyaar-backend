@@ -4,7 +4,7 @@ const auth = require('../../../core/auth/auth');
 module.exports = async ({ username, password }) => {
     // Get the user record from the database by username
     const record = await db.fetch({
-        text: 'SELECT * FROM users WHERE username = $1 AND is_deleted = false AND is_active = true',
+        text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
         values: [username],
     });
 
@@ -24,14 +24,12 @@ module.exports = async ({ username, password }) => {
     // Return user data with a signed token
     const user = {
         ...Object.fromEntries(
-            Object.entries(record).filter(([field]) => {
-                return [
-                    'id',
-                    'username',
-                    'first_name',
-                    'last_name',
-                ].indexOf(field) > 0;
-            }),
+            Object.entries(record).filter(([field]) => [
+                'id',
+                'phone_number',
+                'first_name',
+                'last_name',
+            ].indexOf(field) > 0),
         ),
         token: auth.signToken({
             id: record.id,
