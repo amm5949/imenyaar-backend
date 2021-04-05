@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-console */
 const BASEDIR = `${__dirname}/..`;
 process.env.NODE_CONFIG_DIR = `${BASEDIR}/config`;
