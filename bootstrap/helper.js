@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 const BASEDIR = `${__dirname}/..`;
 process.env.NODE_CONFIG_DIR = `${BASEDIR}/config`;
@@ -14,14 +15,14 @@ program.version('0.0.1');
 
 // Create user
 
-program.command('create-user <username> <password> <role> [first_name] [last_name]')
+program.command('create-user <phone_number> <password> <role> [first_name] [last_name]')
     .description('Create a user')
-    .action(async (username, password, role, first_name, last_name) => {
+    .action(async (phone_number, password, role, first_name, last_name) => {
         const record = await db.insertQuery('users', {
-            username,
-            password,
-            first_name: first_name || username,
-            last_name: last_name || username,
+            phone_number,
+            password_hash: password,
+            first_name: first_name || phone_number,
+            last_name: last_name || phone_number,
             is_active: true,
             is_deleted: false,
         });
@@ -33,22 +34,22 @@ program.command('create-user <username> <password> <role> [first_name] [last_nam
 
         console.log(chalk.bgWhite.blackBright('User created successfully.'));
         console.log();
-        console.log(chalk.bgGreen.white('Token:') + ' ' + auth.signToken({
-            id: record.id
-        }));
+        console.log(`${chalk.bgGreen.white('Token:')} ${auth.signToken({
+            id: record.id,
+        })}`);
     });
 
-program.command('get-token <username>')
+program.command('get-token <phone_number>')
     .description('Get token for the user.')
-    .action(async (username) => {
+    .action(async (phone_number) => {
         const record = await db.fetch({
-            text: 'select * from users where username = $1',
-            values: [username],
+            text: 'select * from users where phone_number = $1',
+            values: [phone_number],
         });
 
-        console.log(chalk.bgWhiteBright.black('Token:') + ' ' + auth.signToken({
+        console.log(`${chalk.bgWhiteBright.black('Token:')} ${auth.signToken({
             id: record.id,
-        }));
+        })}`);
     });
 
 program.command('migration:table')
