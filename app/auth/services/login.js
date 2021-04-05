@@ -1,11 +1,12 @@
+/* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
-module.exports = async ({ username, password }) => {
+module.exports = async ({ phone_number, password }) => {
     // Get the user record from the database by username
     const record = await db.fetch({
         text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
-        values: [username],
+        values: [phone_number],
     });
 
     // Check if the user exists
@@ -14,7 +15,7 @@ module.exports = async ({ username, password }) => {
     }
 
     // Compare given password with the password hash
-    const passwordCheckResult = auth.verifyPassword(password, record.password);
+    const passwordCheckResult = auth.verifyPassword(password, record.password_hash);
 
     // Wrong password
     if (!passwordCheckResult) {

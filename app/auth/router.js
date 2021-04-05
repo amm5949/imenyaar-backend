@@ -1,6 +1,6 @@
 const controllers = require('./controllers');
 
+// eslint-disable-next-line no-unused-vars
 module.exports = (app, router) => {
-    // add routes here
-    router.post('/api/login', controllers.login);
+    app.post('/api/auth/login', controllers.login);
 };

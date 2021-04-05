@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const loginSchema = require('../schemas/login');
@@ -10,7 +11,7 @@ const loginService = require('../services/login');
  * @apiVersion 1.0.0
  * @apiDescription Logging in to system
  *
- * @apiParam {string} phone_number Phone number
+ * @apiParam {string{1..15}} phone_number Phone number
  * @apiParam {string} password Password
  *
  * @apiSuccess (200) {string} result.phone_number Phone number
@@ -22,7 +23,10 @@ const loginService = require('../services/login');
  * HTTP/1.1 200
  * {
  *   status: 'ok',
- *   message: { en: 'Request was successful', fa: 'درخواست موفقیت آمیز بود' },
+ *   message: {
+ *      en: 'Request was successful',
+ *      fa: 'درخواست موفقیت آمیز بود'
+ *   },
  *   result: {
  *     phone_number: '09120000000',
  *     first_name: 'first_name',
@@ -31,15 +35,19 @@ const loginService = require('../services/login');
  *   }
  * }
  *
- *
+ * @apiError (422) {Object} UnprocessableEntity Validation error
+ * @apiError (400) {Object} BadRequest Invalid credentials
  * @apiErrorExample {json} Validation error.
  *    HTTP/1.1 422
  * @apiErrorExample {json} Invalid credentials.
  *  HTTP/1.1 400
- *   {
- *   status: 'error',
- *   message: { en: 'invalid credentials.', fa: 'درخواست موفقیت آمیز نبود!' }
- *   }
+ *  {
+ *     "status": "error",
+ *     "message": {
+ *         "en": "invalid credentials.",
+ *         "fa": "درخواست موفقیت آمیز نبود!"
+ *     }
+ * }
  *
  */
 const login = async (request, response) => {
