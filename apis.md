@@ -1,0 +1,45 @@
+- Subscription
+	- [ ] create
+	- [ ] remove
+	- [ ] update
+	- [ ] get
+- Authentication
+	- [ ] login
+	- [ ] forget_password
+	- [ ] register
+- User
+	- [ ] get
+	- [ ] create
+	- [ ] update
+	- [ ] remove
+- Project
+	- [ ] create
+	- [ ] zone
+		- [ ] create
+		- [ ] update
+		- [ ] get
+		- [ ] remove
+	- [ ] add_people
+	- [ ] update
+	- [ ] get
+	- [ ] remove
+
+- Questions 
+	- [ ] update
+	- [ ] get
+	- [ ] create
+	- [ ] all
+	- [ ] delete
+- Report
+	- [ ] create
+	- [ ] get
+- Incident Report 
+	- [ ] create
+	- [ ] get
+- Activity
+	- [ ] create
+	- [ ] get
+	- [ ] update
+	- [ ] delay
+	- [ ] remove
+
