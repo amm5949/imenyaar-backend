@@ -1,4 +1,4 @@
 module.exports = {
     phone_number: 'string',
-    password: 'string',
+    code: ['string', 'length:min,6']
 };

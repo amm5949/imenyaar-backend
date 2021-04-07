@@ -19,7 +19,7 @@ program.command('create-user <phone_number> <password> <role> [first_name] [last
     .action(async (phone_number, password, role, first_name, last_name) => {
         const record = await db.insertQuery('users', {
             phone_number,
-            password_hash: password,
+            password: password,
             first_name: first_name || phone_number,
             last_name: last_name || phone_number,
             is_active: true,

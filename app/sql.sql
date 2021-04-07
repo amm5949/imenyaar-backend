@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users
     phone_number    VARCHAR(15) UNIQUE NOT NULL,
     first_name      VARCHAR(63)        NOT NULL,
     last_name       VARCHAR(63)        NOT NULL,
-    password_hash   VARCHAR(511)       NOT NULL,
+    password   VARCHAR(511)       NOT NULL,
     account_type_id INT     DEFAULT NULL,
     is_verified     BOOLEAN DEFAULT FALSE,
     is_active       BOOLEAN DEFAULT TRUE,
@@ -75,6 +75,16 @@ CREATE TABLE IF NOT EXISTS sms_data
     code          SERIAL PRIMARY KEY,
     creation_date TIMESTAMP DEFAULT NOW(),
     accepted      BOOLEAN   DEFAULT FALSE
+);
+
+
+create table IF NOT EXISTS activation_codes (
+    id bigserial primary key,
+    user_id bigint not null,
+    token varchar(8),
+    number_of_tries int default 0,
+    created_at varchar(100),
+    is_deleted boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS forget_password_tokens

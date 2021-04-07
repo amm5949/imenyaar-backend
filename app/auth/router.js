@@ -1,6 +1,8 @@
 const controllers = require('./controllers');
 
 module.exports = (app, router) => {
-    // add routes here
-    router.post('/api/login', controllers.login);
+    app.post('/api/auth/login', controllers.login);
+    app.post('/api/auth/register', controllers.register);
+    app.post('/api/auth/new-code', controllers.newCode);
+    app.post('/api/auth/activate', controllers.activate);
 };

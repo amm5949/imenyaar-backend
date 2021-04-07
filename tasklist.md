@@ -37,9 +37,6 @@ Tasks
 	- [ ] get
 		- Ghoochanian
 		- 4 d
-	- [ ] create
-		- Ghoochanian
-		- 4 d
 	- [ ] update
 		- Ghoochanian
 		- 3 d

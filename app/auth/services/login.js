@@ -1,11 +1,12 @@
+/* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
-module.exports = async ({ username, password }) => {
-    // Get the user record from the database by username
+module.exports = async ({ phone_number, password }) => {
+    // Get the user record from the database by phone number
     const record = await db.fetch({
-        text: 'SELECT * FROM users WHERE username = $1 AND is_deleted = false AND is_active = true',
-        values: [username],
+        text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
+        values: [phone_number],
     });
 
     // Check if the user exists
@@ -15,7 +16,7 @@ module.exports = async ({ username, password }) => {
 
     // Compare given password with the password hash
     const passwordCheckResult = auth.verifyPassword(password, record.password);
-    
+
     // Wrong password
     if (!passwordCheckResult) {
         return false;
@@ -24,14 +25,12 @@ module.exports = async ({ username, password }) => {
     // Return user data with a signed token
     const user = {
         ...Object.fromEntries(
-            Object.entries(record).filter(([field]) => {
-                return [
-                    'id',
-                    'username',
-                    'first_name',
-                    'last_name',
-                ].indexOf(field) > 0;
-            }),
+            Object.entries(record).filter(([field]) => [
+                'id',
+                'phone_number',
+                'first_name',
+                'last_name',
+            ].indexOf(field) > 0),
         ),
         token: auth.signToken({
             id: record.id,
