@@ -77,6 +77,16 @@ CREATE TABLE IF NOT EXISTS sms_data
     accepted      BOOLEAN   DEFAULT FALSE
 );
 
+
+create table IF NOT EXISTS activation_codes (
+    id bigserial primary key,
+    user_id bigint not null,
+    token varchar(8),
+    number_of_tries int default 0,
+    created_at varchar(100),
+    is_deleted boolean default false
+);
+
 CREATE TABLE IF NOT EXISTS forget_password_tokens
 (
     id           BIGSERIAL PRIMARY KEY,
