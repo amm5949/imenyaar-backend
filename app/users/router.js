@@ -1,6 +1,5 @@
-// const controllers = require('./controllers');
+const controllers = require('./controllers');
 
 module.exports = (app, router) => {
-    // add routes here
-    // router.get('/api/path', controllers.module);
+    router.post('/api/users', controllers.create);
 };
