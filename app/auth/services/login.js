@@ -3,7 +3,7 @@ const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
 module.exports = async ({ phone_number, password }) => {
-    // Get the user record from the database by username
+    // Get the user record from the database by phone number
     const record = await db.fetch({
         text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
         values: [phone_number],
