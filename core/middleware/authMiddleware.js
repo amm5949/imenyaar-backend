@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
 
     const user = await db.fetch({
         text: `
-            SELECT first_name, last_name, username, id, (
+            SELECT first_name, last_name, phone_number, id, (
                 select array_to_json(array_agg(row_to_json(d)))
                 from (
                     SELECT roles.name as name, roles.id, (
