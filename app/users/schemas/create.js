@@ -1,7 +1,7 @@
 module.exports = {
-    firstName: 'string',
-    lastName: 'string',
-    phoneNumber: 'string',
+    first_name: 'string',
+    last_name: 'string',
+    phone_number: 'string',
     password: 'string',
-    accountTypeID: 'integer',
+    account_type_id: 'integer',
 };
