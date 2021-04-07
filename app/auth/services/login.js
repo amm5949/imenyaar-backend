@@ -15,7 +15,7 @@ module.exports = async ({ phone_number, password }) => {
     }
 
     // Compare given password with the password hash
-    const passwordCheckResult = auth.verifyPassword(password, record.password_hash);
+    const passwordCheckResult = auth.verifyPassword(password, record.password);
 
     // Wrong password
     if (!passwordCheckResult) {

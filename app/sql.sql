@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users
     phone_number    VARCHAR(15) UNIQUE NOT NULL,
     first_name      VARCHAR(63)        NOT NULL,
     last_name       VARCHAR(63)        NOT NULL,
-    password_hash   VARCHAR(511)       NOT NULL,
+    password   VARCHAR(511)       NOT NULL,
     account_type_id INT     DEFAULT NULL,
     is_verified     BOOLEAN DEFAULT FALSE,
     is_active       BOOLEAN DEFAULT TRUE,
