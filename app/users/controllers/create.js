@@ -4,8 +4,8 @@ const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
 
 /**
- * @api {post} /api/users/activate Activate
- * @apiName createUser
+ * @api {post} /api/users create
+ * @apiName CreateUser
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Create a user
