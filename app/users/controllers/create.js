@@ -37,7 +37,7 @@ const create = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    if (!(await createService.getUser(body.phone_number))) {
+    if (!(await createService.fetchUser(body.phone_number))) {
         return error(response, 400, {
             en: 'phone number is already registered.',
         });
