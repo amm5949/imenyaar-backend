@@ -162,3 +162,5 @@ CREATE TABLE IF NOT EXISTS reports
     -- TODO add report details
     FOREIGN KEY (activity_id) REFERENCES activities
 );
+
+INSERT INTO account_types (id, name) values (1, 'basic');
