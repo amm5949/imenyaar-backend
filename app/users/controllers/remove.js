@@ -3,7 +3,7 @@ const { ok, error } = require('../../../core/util/response');
 
 
 /**
- * @api {delete} /api/users/:id
+ * @api {delete} /api/users/:id delete
  * @apiName DeleteUser
  * @apiGroup User
  * @apiVersion 1.0.0

@@ -2,7 +2,7 @@ const listService = require('../services/list');
 const { ok } = require('../../../core/util/response');
 
 /**
- * @api {get} /api/users
+ * @api {get} /api/users list
  * @apiName ListUsers
  * @apiGroup User
  * @apiVersion 1.0.0

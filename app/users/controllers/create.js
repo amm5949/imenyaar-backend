@@ -14,7 +14,6 @@ const createSchema = require('../schemas/create');
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
  * @apiParam {string} password password
- * @apiParam {Number} account_type_id Account type id
  *
  * @apiParamExample
  * {
@@ -42,11 +41,12 @@ const create = async (request, response) => {
             en: 'phone number is already registered.',
         });
     }
-    if (!(await createService.getAccountType(body.account_type_id))) {
-        return error(response, 400, {
-            en: 'invalid account type id',
-        });
-    }
+    // if (!(await createService.getAccountType(body.account_type_id))) {
+    //     return error(response, 400, {
+    //         en: 'invalid account type id',
+    //     });
+    // }
+    body.account_type_id = 1;
     const user = (await createService.createUser(body)).rows[0];
     return ok(response, user, { en: 'user created' }, 200);
 };
