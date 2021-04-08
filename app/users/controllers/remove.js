@@ -1,5 +1,14 @@
 const removeService = require('../services/remove');
-const { ok, error} = require('../../../core/util/response');
+const { ok, error } = require('../../../core/util/response');
+
+
+/**
+ * @api {delete} /api/users/:id
+ * @apiName DeleteUser
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ * @apiDescription Delete a user
+ */
 
 const remove = async (request, response) => {
     const { id } = request.params;

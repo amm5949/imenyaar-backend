@@ -2,7 +2,7 @@ const fetchService = require('../services/fetch');
 const { ok, error } = require('../../../core/util/response');
 
 /**
- * @api {post} /api/users/:id
+ * @api {get} /api/users/:id
  * @apiName FetchUser
  * @apiGroup User
  * @apiVersion 1.0.0
