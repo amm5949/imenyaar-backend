@@ -44,8 +44,8 @@ const loginService = require('../services/login');
  *  {
  *     "status": "error",
  *     "message": {
- *         "en": "invalid credentials.",
- *         "fa": "درخواست موفقیت آمیز نبود!"
+ *         "en": "Invalid credentials.",
+ *         "fa": "اطلاعات کاربری نادرست است."
  *     }
  * }
  *
@@ -65,7 +65,8 @@ const login = async (request, response) => {
     // Check the result (wrong combination/user does not exist)
     if (!user) {
         return error(response, 400, {
-            en: 'invalid credentials.',
+            en: 'Invalid credentials.',
+            fa: 'اطلاعات کاربری نادرست است.',
         });
     }
 
