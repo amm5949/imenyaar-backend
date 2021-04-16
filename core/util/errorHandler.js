@@ -1,3 +1,4 @@
+const debug = require('debug')('error');
 const fs = require('fs');
 const dateformat = require('dateformat');
 const { error } = require('./response');
@@ -8,12 +9,15 @@ exports.errorHandler = async (err, req, res, next) => {
     // console.log(err);
     let code = 500;
 
-    if (Object.prototype.hasOwnProperty.call(err, 'code') && Object.prototype.hasOwnProperty.call(err, 'error')) {
+    if (Object.prototype.hasOwnProperty.call(err, 'code')
+            && Object.prototype.hasOwnProperty.call(err, 'error')) {
         code = err.code;
         // eslint-disable-next-line no-param-reassign
         err = err.error;
     }
     const date = dateformat(new Date(), 'yyyy-mm-dd');
+    // eslint-disable-next-line no-console
+    debug(err);
     // Log the error
     fs.appendFileSync(`./logs/${date}.txt`,
         `${new Date()}: ${err.stack ? err.stack : err}\n`, 'utf8');

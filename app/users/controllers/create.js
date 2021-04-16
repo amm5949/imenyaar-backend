@@ -1,3 +1,4 @@
+const debug = require('debug')('user:create');
 const createService = require('../services/create');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
@@ -36,18 +37,25 @@ const create = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    if (await createService.fetchUser(body.phone_number)) {
+    const oldUser = await createService.fetchUser(body.phone_number);
+    debug(oldUser);
+    if (oldUser !== undefined) {
         return error(response, 400, {
             en: 'phone number is already registered.',
         });
     }
-    // if (!(await createService.getAccountType(body.account_type_id))) {
-    //     return error(response, 400, {
-    //         en: 'invalid account type id',
-    //     });
-    // }
+    const accountType = await createService.getAccountType(body.account_type_id);
+    if (accountType === undefined) {
+        return error(response, 400, {
+            en: 'invalid account type id',
+        });
+    }
     body.account_type_id = 1;
-    const user = (await createService.createUser(body)).rows[0];
+    const [user] = (await createService.createUser(body)).rows;
+    delete user.password;
+    delete user.is_verified;
+    delete user.is_active;
+    delete user.is_deleted;
     return ok(response, user, { en: 'user created' }, 200);
 };
 
