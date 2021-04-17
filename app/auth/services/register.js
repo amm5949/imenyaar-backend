@@ -5,7 +5,7 @@ const generateActivationCode = require('./generateActivationCode');
 module.exports = async (user) => {
     const insertData = {
         ...user,
-        is_active: false,
+        is_verified: false,
         is_deleted: false,
         password: auth.createHash(user.password).passwordHash,
     };
