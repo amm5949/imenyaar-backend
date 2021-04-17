@@ -163,4 +163,5 @@ CREATE TABLE IF NOT EXISTS reports
     FOREIGN KEY (activity_id) REFERENCES activities
 );
 
-INSERT INTO account_types (id, name) values (1, 'basic');
+INSERT INTO account_types (id, name, price) values (1, 'admin', 100) ON CONFLICT (id) DO UPDATE SET name = 'admin', price = 100;
+INSERT INTO account_types (id, name, price) values (2, 'member', 100) ON CONFLICT (id) DO UPDATE SET name = 'member', price = 100;
