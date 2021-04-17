@@ -1,22 +1,7 @@
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
+const fetchUser = require ('./fetch')
 
-const fetchUser = async (phoneNumber) => {
-    const user = await db.fetch({
-        text: `SELECT id,
-                      phone_number,
-                      first_name,
-                      last_name,
-                      is_active,
-                      is_verified,
-                      account_type_id
-               FROM users
-               WHERE is_deleted = False
-                 AND phone_number = $1`,
-        values: [phoneNumber],
-    });
-    return user;
-};
 
 const getAccountType = async (id) => db.fetch({
     text: 'SELECT * FROM account_types WHERE id=$1',
@@ -31,7 +16,6 @@ const createUser = async (userData) => db.insertOrUpdate({
 });
 
 module.exports = {
-    fetchUser,
     getAccountType,
     createUser,
 };

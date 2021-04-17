@@ -14,15 +14,12 @@ const createSchema = require('../schemas/create');
  * @apiParam {string} phone_number Phone number
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
- * @apiParam {string} password password
  *
  * @apiParamExample
  * {
  * "phone_number": "09220000000",
-    "first_name": "Abbas",
-    "last_name": "Mohammadzadeh",
-    "password": "mynameisabbas123",
-    "account_type_id": 2
+    "first_name": "John",
+    "last_name": "Doe"
  * }
  *
  * @apiSuccessExample {json} Success-Response
@@ -34,29 +31,26 @@ const createSchema = require('../schemas/create');
 const create = async (request, response) => {
     const { body } = request;
     const result = validator(createSchema, body);
+
     if (result.failed) {
         return result.response(response);
     }
-    const oldUser = await createService.fetchUser(body.phone_number);
-    debug(oldUser);
+
+    body.account_type_id = 2;
+    const record = await createService.fetchUser(body.phone_number);
     if (oldUser !== undefined) {
         return error(response, 400, {
             en: 'phone number is already registered.',
         });
     }
-    const accountType = await createService.getAccountType(body.account_type_id);
-    if (accountType === undefined) {
-        return error(response, 400, {
-            en: 'invalid account type id',
-        });
-    }
-    body.account_type_id = 1;
-    const [user] = (await createService.createUser(body)).rows;
-    delete user.password;
-    delete user.is_verified;
-    delete user.is_active;
-    delete user.is_deleted;
-    return ok(response, user, { en: 'user created' }, 200);
+    // const accountType = await createService.getAccountType(body.account_type_id);
+    // if (accountType === undefined) {
+    //     return error(response, 400, {
+    //         en: 'invalid account type id',
+    //     });
+    // }
+    
+    return ok(response, {}, { en: 'user created' }, 200);
 };
 
 module.exports = async (request, response, next) => {
