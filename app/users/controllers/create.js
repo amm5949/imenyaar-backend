@@ -1,4 +1,3 @@
-const debug = require('debug')('user:create');
 const createService = require('../services/create');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
@@ -29,18 +28,17 @@ const createSchema = require('../schemas/create');
  */
 
 const create = async (request, response) => {
-    const { body } = request;
-    const result = validator(createSchema, body);
+    const result = validator(createSchema, request.body);
 
     if (result.failed) {
         return result.response(response);
     }
 
-    body.account_type_id = 2;
-    const record = await createService.fetchUser(body.phone_number);
-    if (oldUser !== undefined) {
+    const user = await createService(request.body);
+    if (Object.prototype.hasOwnProperty.call(user, 'error')) {
         return error(response, 400, {
-            en: 'phone number is already registered.',
+            en: 'Mobile number exists in the database.',
+            fa: 'شماره موبایل قبلاً ثبت شده است.',
         });
     }
     // const accountType = await createService.getAccountType(body.account_type_id);
@@ -49,7 +47,6 @@ const create = async (request, response) => {
     //         en: 'invalid account type id',
     //     });
     // }
-    
     return ok(response, {}, { en: 'user created' }, 200);
 };
 
