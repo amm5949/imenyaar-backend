@@ -54,7 +54,7 @@ const register = async (request, response) => {
         });
     }
 
-    return ok(response, {});
+    return ok(response, user.rows);
 };
 
 module.exports = async (request, response, next) => {
