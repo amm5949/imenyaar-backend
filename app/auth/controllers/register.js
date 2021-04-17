@@ -13,7 +13,7 @@ const registerService = require('../services/register');
  * @apiParam {string{6..}} password Password
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
- * 
+ *
  * @apiParamExample
  * {
     "phone_number": "0922000000",
@@ -39,7 +39,7 @@ HTTP/1.1 400
  */
 const register = async (request, response) => {
     const validationResult = validator(registerSchema, request.body);
-    
+
     if (validationResult.failed) {
         return validationResult.response(response);
     }
@@ -54,7 +54,7 @@ const register = async (request, response) => {
         });
     }
 
-    return ok(response, {});
+    return ok(response, user.rows);
 };
 
 module.exports = async (request, response, next) => {

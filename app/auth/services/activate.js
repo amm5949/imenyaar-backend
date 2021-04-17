@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 
 module.exports = async ({ phone_number, code }) => {
