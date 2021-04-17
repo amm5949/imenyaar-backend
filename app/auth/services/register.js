@@ -54,7 +54,7 @@ module.exports = async (user) => {
     const record = await db.insertQuery('users', insertData);
     await db.insertQuery('user_roles', {
         user_id: record.id,
-        role_id: 2,
+        role_id: 1,
     });
 
     // Generate a random token
