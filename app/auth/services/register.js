@@ -9,7 +9,7 @@ module.exports = async (user) => {
         is_deleted: false,
         password: auth.createHash(user.password).passwordHash,
     };
-    
+
     // Check if the phone number already exists in the database.
     const phoneDuplicateCheck = await db.fetch({
         text: `
@@ -23,7 +23,7 @@ module.exports = async (user) => {
         `,
         values: [insertData.phone_number],
     });
-    
+
     const validRegisterTime = 24 * 60 * 60 * 1000; // 24 hours
     const stillCanActivate = phoneDuplicateCheck
         ? (new Date() - Date.parse(phoneDuplicateCheck.created_at)) < validRegisterTime

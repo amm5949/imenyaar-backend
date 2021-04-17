@@ -39,7 +39,7 @@ HTTP/1.1 400
  */
 const register = async (request, response) => {
     const validationResult = validator(registerSchema, request.body);
-    
+
     if (validationResult.failed) {
         return validationResult.response(response);
     }
