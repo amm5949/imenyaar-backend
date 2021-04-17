@@ -13,7 +13,7 @@ const registerService = require('../services/register');
  * @apiParam {string{6..}} password Password
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
- * 
+ *
  * @apiParamExample
  * {
     "phone_number": "0922000000",
