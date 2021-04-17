@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS account_types
 CREATE TABLE IF NOT EXISTS users
 (
     id              SERIAL PRIMARY KEY,
-    phone_number    VARCHAR(15) UNIQUE NOT NULL,
-    first_name      VARCHAR(63)        NOT NULL,
-    last_name       VARCHAR(63)        NOT NULL,
-    password   VARCHAR(511)       NOT NULL,
+    phone_number    VARCHAR(15)  NOT NULL,
+    first_name      VARCHAR(63)  NOT NULL,
+    last_name       VARCHAR(63)  NOT NULL,
+    password        VARCHAR(511) NOT NULL,
     account_type_id INT     DEFAULT NULL,
     is_verified     BOOLEAN DEFAULT FALSE,
     is_active       BOOLEAN DEFAULT TRUE,
@@ -78,13 +78,14 @@ CREATE TABLE IF NOT EXISTS sms_data
 );
 
 
-create table IF NOT EXISTS activation_codes (
-    id bigserial primary key,
-    user_id bigint not null,
-    token varchar(8),
-    number_of_tries int default 0,
-    created_at varchar(100),
-    is_deleted boolean default false
+create table IF NOT EXISTS activation_codes
+(
+    id              bigserial primary key,
+    user_id         bigint not null,
+    token           varchar(8),
+    number_of_tries int     default 0,
+    created_at      varchar(100),
+    is_deleted      boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS forget_password_tokens
@@ -163,5 +164,27 @@ CREATE TABLE IF NOT EXISTS reports
     FOREIGN KEY (activity_id) REFERENCES activities
 );
 
-INSERT INTO account_types (id, name, price) values (1, 'admin', 100) ON CONFLICT (id) DO UPDATE SET name = 'admin', price = 100;
-INSERT INTO account_types (id, name, price) values (2, 'member', 100) ON CONFLICT (id) DO UPDATE SET name = 'member', price = 100;
+INSERT INTO account_types (id, name, price) values (1, 'default', 100) 
+ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
+
+INSERT INTO roles (id, name)
+VALUES (1, 'admin'),
+        (2, 'refree')
+        ;
+INSERT INTO resources(id, url, method)
+VALUES (101, '/api/users', 'post'),
+       (102, '/api/users', 'get'),
+       (103, '/api/users/:id', 'get'),
+       (104, '/api/users/:id', 'put'),
+       (105, '/api/users/:id', 'delete');
+
+INSERT INTO accesses (resource_id, role_id)
+VALUES (101, 1),
+       (102, 1),
+       (103, 1),
+       (104, 1),
+       (105, 1),
+       (102, 2),
+       (103, 2),
+       (104, 2),
+       (105, 2);

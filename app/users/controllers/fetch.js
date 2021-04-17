@@ -22,14 +22,11 @@ const fetch = async (request, response) => {
     const user = await fetchService.fetchUser(id);
     if (!user) {
         return error(response, 404, {
-            en: 'user not found',
-            fa: 'کاربر یافت نشد',
+            en: 'User not found.',
+            fa: 'کاربر یافت نشد.',
         });
     }
-    return ok(response, user, {
-        en: 'user found',
-        fa: 'کاربر یافت شد',
-    }, 200);
+    return ok(response, user, { }, 200);
 };
 
 module.exports = async (request, response, next) => {
