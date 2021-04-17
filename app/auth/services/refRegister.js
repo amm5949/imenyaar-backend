@@ -1,13 +1,15 @@
+/* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 const generateActivationCode = require('./generateActivationCode');
+// const { phone } = require('faker');
 
 module.exports = async (user) => {
     const insertData = {
         ...user,
         is_verified: false,
         is_deleted: false,
-        account_type_id: 1,
+        account_type_id: 2,
         password: auth.createHash(user.password).passwordHash,
     };
 
@@ -20,7 +22,10 @@ module.exports = async (user) => {
             where
                 u.phone_number = $1
                 and u.is_deleted = false
-                and (ac.is_deleted IS NULL or ac.is_deleted = false)
+                and (
+                    (ac.is_deleted IS NULL or ac.is_deleted = false)
+                    or (account_type_id = 2 and password IS NULL)
+                )
         `,
         values: [insertData.phone_number],
     });
@@ -31,7 +36,7 @@ module.exports = async (user) => {
         : false;
     // Check record exists
     // ... and it is not a deleted user
-    // ... and it is verified or if it's not, it still has time to activate.
+    // ... and it is active or if it's not, it still has time to activate.
     if (phoneDuplicateCheck !== undefined
         && (
             phoneDuplicateCheck.is_verified === true
@@ -42,19 +47,19 @@ module.exports = async (user) => {
         )
     ) {
         return {
-            error: true,
+            duplicate: true,
+        };
+    }
+    if (phoneDuplicateCheck === undefined) {
+        return {
+            unknown: true,
         };
     }
 
-    // Delete user if it is inactive and activation time has passed.
-    // Also delete its activation code.
-    if (phoneDuplicateCheck) {
-        await db.updateQuery('users', { is_deleted: true }, { id: phoneDuplicateCheck.id });
-        await db.updateQuery('activation_codes', { is_deleted: true }, { id: phoneDuplicateCheck.code_id });
-    }
-    const record = await db.insertQuery('users', insertData);
+    const record = await db.updateQuery('users', insertData, { id: phoneDuplicateCheck.id });
+
     // Generate a random token
-    await generateActivationCode(record.id);
+    await generateActivationCode(phoneDuplicateCheck.id);
 
     return record;
 };

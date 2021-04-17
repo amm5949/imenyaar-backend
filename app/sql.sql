@@ -164,11 +164,8 @@ CREATE TABLE IF NOT EXISTS reports
     FOREIGN KEY (activity_id) REFERENCES activities
 );
 
-INSERT INTO roles(id, name)
-VALUES (2, 'default');
-
-INSERT INTO account_types (id, name, price)
-values (1, 'basic', 1000);
+INSERT INTO account_types (id, name, price) values (1, 'admin', 100) ON CONFLICT (id) DO UPDATE SET name = 'admin', price = 100;
+INSERT INTO account_types (id, name, price) values (2, 'member', 100) ON CONFLICT (id) DO UPDATE SET name = 'member', price = 100;
 
 INSERT INTO resources(id, url, method)
 VALUES (101, '/api/users', 'post'),
