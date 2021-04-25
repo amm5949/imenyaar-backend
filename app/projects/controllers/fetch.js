@@ -2,18 +2,19 @@ const fetchService = require('../services/fetch');
 const { ok, error } = require('../../../core/util/response');
 
 /**
- * @api {get} /api/users/:id fetch
- * @apiName FetchUser
- * @apiGroup User
+ * @api {get} /api/projects/:id fetch
+ * @apiName FetchProject
+ * @apiGroup Projects
  * @apiVersion 1.0.0
- * @apiDescription Fetch a user
+ * @apiDescription Fetch a project
  * @apiSuccess {Number} id
- * @apiSuccess {String} phone_number
- * @apiSuccess {String} last_name
- * @apiSuccess {String} first_name
- * @apiSuccess {Number} account_type_id
- * @apiSuccess {Boolean} is_active
- * @apiSuccess {Boolean} is_verified
+ * @apiSuccess {String} name
+ * @apiSuccess {Number} owner_id
+ * @apiSuccess {Date} start_date
+ * @apiSuccess {Date} scheduled_end
+ * @apiSuccess {String} address
+ * @apiSuccess {Number} area
+ * @apiSuccess {Boolean} is_multizoned
  *
  */
 
