@@ -25,10 +25,6 @@ const remove = async (request, response) => {
     }, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await remove(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await remove(request, response);
 };

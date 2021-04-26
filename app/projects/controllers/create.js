@@ -31,10 +31,6 @@ const create = async (request, response) => {
     return ok(response, project, {}, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await create(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await create(request, response);
 };

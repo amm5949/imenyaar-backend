@@ -48,10 +48,6 @@ const added_people = async (request, response) => {
     return ok(response, added_people_ret, { en: 'project updated' }, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await added_people(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await added_people(request, response);
 };

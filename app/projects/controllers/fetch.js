@@ -30,10 +30,6 @@ const fetch = async (request, response) => {
     return ok(response, project, { }, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await fetch(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await fetch(request, response);
 };

@@ -136,10 +136,6 @@ const list = async (request, response) => {
     return ok(response, projects, {}, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await list(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await list(request, response);
 };

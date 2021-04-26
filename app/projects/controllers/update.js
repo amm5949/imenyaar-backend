@@ -45,11 +45,6 @@ const update = async (request, response) => {
     return ok(response, updated_project, { en: 'project updated' }, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await update(request, response);
-    } catch (err) {
-        console.log(err);
-        return next(err);
-    }
+module.exports = async (request, response) => {
+    await update(request, response);
 };
