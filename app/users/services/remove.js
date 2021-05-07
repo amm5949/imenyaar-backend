@@ -8,12 +8,7 @@ const fetchUser = async (id) => db.fetch({
     values: [id],
 });
 
-const removeUser = async (id) => db.executeQuery({
-    text: `UPDATE users
-           SET is_deleted= true
-           WHERE id = $1`,
-    values: [id],
-});
+const removeUser = async (id) => db.updateQuery('users', {is_deleted: true}, {id : id});
 
 module.exports = {
     fetchUser,
