@@ -20,11 +20,12 @@ CREATE TABLE IF NOT EXISTS users
     phone_number    VARCHAR(15)  NOT NULL,
     first_name      VARCHAR(63)  NOT NULL,
     last_name       VARCHAR(63)  NOT NULL,
-    password        VARCHAR(511) NOT NULL,
+    password        VARCHAR(511),
     account_type_id INT     DEFAULT NULL,
     is_verified     BOOLEAN DEFAULT FALSE,
     is_active       BOOLEAN DEFAULT TRUE,
     is_deleted      BOOLEAN DEFAULT FALSE,
+    referer_id      INT DEFAULT NULL,
     FOREIGN KEY (account_type_id) REFERENCES account_types
 );
 
