@@ -5,5 +5,5 @@ module.exports = {
     'scheduled_end': 'string',
     'address': 'string',
     'area': 'number',
-    'is_multizoned': 'boolean',
+    'is_multizoned?': 'boolean',
 };
