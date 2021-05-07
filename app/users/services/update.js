@@ -16,6 +16,9 @@ const getAccountType = async (id) => db.fetch({
 });
 
 const updateUser = async (id, data) => {
+    if (data.password !== undefined){
+       data.password = auth.createHash(data.password).passwordHash;
+    }
     const res = await db.updateQuery('users', data, {id: id});
     return res.rows;
 };
