@@ -29,11 +29,14 @@ const createSchema = require('../schemas/create');
 
 const create = async (request, response) => {
     const result = validator(createSchema, request.body);
-
+    
     if (result.failed) {
         return result.response(response);
     }
-
+    const referer_id = request.user.id;
+    const body = request.body;
+    body.referer_id = referer_id;
+    
     const user = await createService(request.body);
     if (Object.prototype.hasOwnProperty.call(user, 'error')) {
         return error(response, 400, {
@@ -51,9 +54,7 @@ const create = async (request, response) => {
 };
 
 module.exports = async (request, response, next) => {
-    try {
-        return await create(request, response);
-    } catch (err) {
-        return next(err);
-    }
+
+    return await create(request, response);
+    
 };
