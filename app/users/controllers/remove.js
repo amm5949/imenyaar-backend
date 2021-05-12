@@ -7,6 +7,8 @@ const { ok, error } = require('../../../core/util/response');
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Delete a user
+ * 
+ * @apiParam {param} id User id
  */
 
 const remove = async (request, response) => {
@@ -26,8 +28,8 @@ const remove = async (request, response) => {
     }
     await removeService.removeUser(id);
     return ok(response, {}, {
-        en: 'User deleted',
-        fa: 'کاربر حذف شد',
+        en: 'User deleted.',
+        fa: 'کاربر حذف شد.',
     }, 200);
 };
 
