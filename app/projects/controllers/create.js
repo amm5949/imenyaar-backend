@@ -26,8 +26,10 @@ const create = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-
-    const project = await createService(request.body);
+    if (!Object.prototype.hasOwnProperty.call(result.data, 'owner_id')) {
+        result.data.owner_id = request.user.id;
+    }
+    const project = await createService(result.data);
     return ok(response, project, {}, 200);
 };
 

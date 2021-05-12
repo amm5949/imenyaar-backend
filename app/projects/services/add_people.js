@@ -11,12 +11,12 @@ const fetch_project = async (id) => db.fetch({
 /* eslint-disable */
 
 const fetch_user = async (users) => {
-    for(const user in users) {
+    for(const user of users) {
         const res = await db.fetch({
-            text: `SELECT id, phone_number, first_name, last_name, is_active, is_verified, account_type_id
+            text: `SELECT id as i
                    FROM users
                    WHERE is_deleted = FALSE
-                     AND id = $1`,
+                   AND id = $1`,
             values: [user.id],
         });
         if (res === undefined) {
@@ -32,7 +32,7 @@ const already_exist = async (project, id) => {
                FROM project_people
                WHERE project_id = $1
                AND user_id = $2`,
-        values: [project, user.id],
+        values: [project, id],
     });
     return res != undefined;
 };
@@ -40,8 +40,8 @@ const already_exist = async (project, id) => {
 const add_people = async (project, users) => {
     const return_val = {};
     let i = 0;
-    for(const user in users) {
-        if (already_exist(project, user.id)) continue;
+    for(const user of users) {
+        if (await already_exist(project, user.id)) continue;
         const insertData = {
             user_id: user.id,
             project_id: project,
