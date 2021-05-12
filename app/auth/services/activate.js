@@ -6,15 +6,15 @@ module.exports = async ({ phone_number, code }) => {
 
     const record = await db.fetch({
         text: `
-            select
-                u.id, ac.created_at, u.is_deleted, ac.id as code_id, u.is_active as is_active, ac.number_of_tries as tries, ac.token as code
-            from users u
-            inner join
-                activation_codes ac on ac.user_id = u.id
-            where
+            SELECT
+                u.id, ac.created_at, u.is_deleted, ac.id AS code_id, u.is_active AS is_active, ac.number_of_tries AS tries, ac.token AS code
+            FROM users u
+            INNER JOIN
+                activation_codes ac ON ac.user_id = u.id
+            WHERE
                 u.phone_number = $1
-                and u.is_deleted = false
-                and ac.is_deleted = false
+                AND u.is_deleted = false
+                AND ac.is_deleted = false
         `,
         values: [phone_number],
     });
