@@ -21,7 +21,7 @@ const remove = async (request, response) => {
         });
     }
 
-    if (user.id !== request.user.id && request.user.role != 'admin' && request.user.id != user.refree_id) {
+    if (user.id !== request.user.id && request.user.role != 'admin' && request.user.id != user.referer_id) {
         return error(response, 401, { 
             en: 'Unauthorized' 
         });
