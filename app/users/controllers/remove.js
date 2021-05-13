@@ -34,9 +34,5 @@ const remove = async (request, response) => {
 };
 
 module.exports = async (request, response, next) => {
-    try {
         return await remove(request, response);
-    } catch (err) {
-        return next(err);
-    }
 };
