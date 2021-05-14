@@ -7,8 +7,7 @@ const { ok, error } = require('../../../core/util/response');
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Delete a user
- * 
- * @apiParam {param} id User id
+ *
  */
 
 const remove = async (request, response) => {
