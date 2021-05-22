@@ -3,6 +3,8 @@ const register = require('./register');
 const activate = require('./activate');
 const newCode = require('./newCode');
 const refRegister = require('./refRegister');
+const refresh = require('./refresh');
+const logout = require('./logout');
 
 module.exports = {
     login,
@@ -10,4 +12,6 @@ module.exports = {
     activate,
     newCode,
     refRegister,
+    refresh,
+    logout,
 };

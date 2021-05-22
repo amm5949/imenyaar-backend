@@ -165,6 +165,16 @@ CREATE TABLE IF NOT EXISTS reports
     FOREIGN KEY (activity_id) REFERENCES activities
 );
 
+CREATE TABLE iF NOT EXISTS sessions
+(
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT,
+    token VARCHAR(32),
+    uuid UUID,
+
+    FOREIGN KEY (user_id) REFERENCES users
+);
+
 INSERT INTO account_types (id, name, price) values (1, 'default', 100) 
 ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
 
