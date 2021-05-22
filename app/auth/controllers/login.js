@@ -12,6 +12,7 @@ const loginService = require('../services/login');
  *
  * @apiParam {string{1..15}} phone_number Phone number
  * @apiParam {string} password Password
+ * @apiParam {boolean} [extend_session=false] Whether session token is extended
  *
  * @apiSuccess (200) {string} result.phone_number Phone number
  * @apiSuccess (200) {string} result.first_name First name

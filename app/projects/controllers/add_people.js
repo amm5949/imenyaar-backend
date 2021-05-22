@@ -39,7 +39,8 @@ const added_people = async (request, response) => {
             en: 'project not found',
         });
     }
-    if (!add_people_service.fetch_user(data.people)) {
+    add_people_service.fetch_user(data.people);
+    if (!(await add_people_service.fetch_user(data.people))) {
         return error(response, 404, {
             en: 'one or more the users were not found',
         });

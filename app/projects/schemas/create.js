@@ -1,6 +1,6 @@
 module.exports = {
     'name': 'string',
-    'owner_id': 'number',
+    'owner_id?': 'number',
     'start_date': 'string',
     'scheduled_end': 'string',
     'address': 'string',

@@ -16,15 +16,15 @@ module.exports = async (user) => {
     // Check if the phone number already exists in the database.
     const phoneDuplicateCheck = await db.fetch({
         text: `
-            select u.id, ac.created_at, u.is_deleted, ac.id as code_id, u.is_verified as is_verified from users u
-            left join
-                activation_codes ac on ac.user_id = u.id
-            where
+            SELECT u.id, ac.created_at, u.is_deleted, ac.id AS code_id, u.is_verified AS is_verified FROM users u
+            LEFT JOIN
+                activation_codes ac ON ac.user_id = u.id
+            WHERE
                 u.phone_number = $1
-                and u.is_deleted = false
-                and (
-                    (ac.is_deleted IS NULL or ac.is_deleted = false)
-                    or (password IS NULL)
+                AND u.is_deleted = false
+                AND (
+                    (ac.is_deleted IS NULL OR ac.is_deleted = false)
+                    OR (password IS NULL)
                 )
         `,
         values: [insertData.phone_number],
@@ -57,7 +57,8 @@ module.exports = async (user) => {
     }
 
     const record = await db.updateQuery('users', insertData, { id: phoneDuplicateCheck.id });
-    await db.insertQuery('user_roles', { user_id: record.user_id, role_id: 2 });
+    await db.insertQuery('user_roles', { user_id: record[0].id, role_id: 2 });
+
     // Generate a random token
     await generateActivationCode(phoneDuplicateCheck.id);
 

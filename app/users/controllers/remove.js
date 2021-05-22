@@ -7,6 +7,7 @@ const { ok, error } = require('../../../core/util/response');
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Delete a user
+ *
  */
 
 const remove = async (request, response) => {
@@ -19,22 +20,18 @@ const remove = async (request, response) => {
         });
     }
 
-    if (user.id !== request.user.id && request.user.role != 'admin' && request.user.id != user.refree_id) {
+    if (user.id !== request.user.id && request.user.role != 'admin' && request.user.id != user.referer_id) {
         return error(response, 401, { 
             en: 'Unauthorized' 
         });
     }
     await removeService.removeUser(id);
     return ok(response, {}, {
-        en: 'User deleted',
-        fa: 'کاربر حذف شد',
+        en: 'User deleted.',
+        fa: 'کاربر حذف شد.',
     }, 200);
 };
 
 module.exports = async (request, response, next) => {
-    try {
         return await remove(request, response);
-    } catch (err) {
-        return next(err);
-    }
 };
