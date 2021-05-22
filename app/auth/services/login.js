@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
-module.exports = async ({ phone_number, password }) => {
+module.exports = async ({ phone_number, password, extendSession }) => {
     // Get the user record from the database by phone number
     const record = await db.fetch({
         text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
@@ -24,7 +24,8 @@ module.exports = async ({ phone_number, password }) => {
     }
 
     // Return user data with a signed token
-
+    // set session duration (either 3 or 5) depending on extension
+    const refreshTokenExp = extendSession? auth.DAY * 5 : auth.DAY * 3;
     const refreshTokenVal = auth.genRandomString(32);
     const sessionId = uuidv4();
     await db.insertQuery('sessions', {
@@ -42,7 +43,7 @@ module.exports = async ({ phone_number, password }) => {
         id: record.id,
         session_id: sessionId,
         token: refreshTokenVal,
-    }, { exp: auth.YEAR });
+    }, { exp: refreshTokenExp });
 
     const user = {
         ...Object.fromEntries(

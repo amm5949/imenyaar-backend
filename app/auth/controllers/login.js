@@ -63,7 +63,10 @@ const login = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-
+    
+    if (result.data.extendSession === undefined){
+        result.data.extendSession = false;
+    }
     // Call the service
     const user = await loginService(result.data);
 
