@@ -1,3 +1,4 @@
+const debug = require('debug')('error');
 const fs = require('fs');
 const dateformat = require('dateformat');
 const { error } = require('./response');
@@ -13,6 +14,8 @@ exports.errorHandler = async (err, req, res, next) => {
         err = err.error;
     }
     const date = dateformat(new Date(), 'yyyy-mm-dd');
+    // eslint-disable-next-line no-console
+    debug(err);
     // Log the error
     fs.appendFileSync(`./logs/${date}.txt`,
         `${new Date()}: ${err.stack ? err.stack : err}\n`, 'utf8');

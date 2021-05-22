@@ -48,7 +48,7 @@ module.exports = async ({ phone_number, code }) => {
 
     // Activate user
     await db.updateQuery('users', {
-        is_active: true,
+        is_verified: true,
     }, {
         id: record.id,
     });

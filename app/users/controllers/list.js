@@ -7,13 +7,25 @@ const { ok } = require('../../../core/util/response');
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription List all users, output format is same as FetchUsers but users are in an array
- * @apiSuccess {Number} id
- * @apiSuccess {String} phone_number
- * @apiSuccess {String} last_name
- * @apiSuccess {String} first_name
- * @apiSuccess {Number} account_type_id
- * @apiSuccess {Boolean} is_active
- * @apiSuccess {Boolean} is_verified
+ * @apiSuccessExample
+ * {
+    "status": "ok",
+    "message": {
+        "en": "Request was successful",
+        "fa": "درخواست موفقیت آمیز بود"
+    },
+    "result": [
+        {
+            "id": 1,
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone_number": "09150000000",
+            "account_type_id": 1,
+            "role": "admin",
+            "is_verified": true
+        }
+    ]
+}
  *
  */
 

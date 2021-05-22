@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
 
     const user = await db.fetch({
         text: `
-            SELECT first_name, last_name, phone_number, id, (
+            SELECT users.first_name, users.last_name, users.phone_number, users.id, (
                 select array_to_json(array_agg(row_to_json(d)))
                 from (
                     SELECT roles.name as name, roles.id, (
@@ -29,9 +29,10 @@ module.exports = async (req, res, next) => {
                 ) d
             ) as roles
             from users
-            where users.id = $1
+            inner join sessions on sessions.user_id = users.id
+            where users.id = $1 and sessions.uuid = $2
         `,
-        values: [data.payload.id],
+        values: [data.payload.id, data.payload.session_id],
     });
     if (!user) {
         return next(

@@ -24,7 +24,7 @@ module.exports = async (user) => {
                 and u.is_deleted = false
                 and (
                     (ac.is_deleted IS NULL or ac.is_deleted = false)
-                    or (account_type_id = 2 and password IS NULL)
+                    or (password IS NULL)
                 )
         `,
         values: [insertData.phone_number],
@@ -57,7 +57,7 @@ module.exports = async (user) => {
     }
 
     const record = await db.updateQuery('users', insertData, { id: phoneDuplicateCheck.id });
-
+    await db.insertQuery('user_roles', { user_id: record.user_id, role_id: 2 });
     // Generate a random token
     await generateActivationCode(phoneDuplicateCheck.id);
 

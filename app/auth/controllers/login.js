@@ -3,7 +3,6 @@ const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const loginSchema = require('../schemas/login');
 const loginService = require('../services/login');
-
 /**
  * @api {post} /api/auth/login Login
  * @apiName login
@@ -17,7 +16,9 @@ const loginService = require('../services/login');
  * @apiSuccess (200) {string} result.phone_number Phone number
  * @apiSuccess (200) {string} result.first_name First name
  * @apiSuccess (200) {string} result.last_name Last name
- * @apiSuccess (200) {string} result.token Token
+ * @apiSuccess (200) {string} result.tokens Tokens list
+ * @apiSuccess (200) {string} result.tokens.access_token Acess token
+ * @apiSuccess (200) {string} result.tokens.refresh_token Refresh token
  *
  * @apiSuccessExample {json} Success-Response
  * HTTP/1.1 200
@@ -31,7 +32,10 @@ const loginService = require('../services/login');
  *     phone_number: '09120000000',
  *     first_name: 'first_name',
  *     last_name: 'last_name',
- *     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwMyIsImlhdCI6MTU5Nzc2NDI1MH0.nHqU0_-DHPmLcfBHEiXwe7nfpX2SjRBCr3iRhSSzO0Q'
+ *     "tokens": {
+ *       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwODQ5NjMxfQ.SBCY4UtHyF-DzM51F3pHBr3ZuK09T-DyMcuoCgDhbaU",
+ *       "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0b2tlbiI6ImRjNzVjYjU0MzU4NDhlMjhmMzA5YzRiMGE0Y2RjNjRiIiwiaWF0IjoxNjIwODQ5NjMxfQ.yPxnsIJhQl-X-D3zVsl3EBsXAJ9DEzDty7KEQksXep4"
+ *     }
  *   }
  * }
  *

@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const { v4: uuidv4 } = require('uuid');
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
@@ -23,6 +24,26 @@ module.exports = async ({ phone_number, password }) => {
     }
 
     // Return user data with a signed token
+
+    const refreshTokenVal = auth.genRandomString(32);
+    const sessionId = uuidv4();
+    await db.insertQuery('sessions', {
+        user_id: record.id,
+        token: refreshTokenVal,
+        uuid: sessionId,
+    });
+
+    const accessToken = auth.signToken({
+        id: record.id,
+        session_id: sessionId,
+    }, { exp: auth.MINUTE });
+
+    const refreshToken = auth.signToken({
+        id: record.id,
+        session_id: sessionId,
+        token: refreshTokenVal,
+    }, { exp: auth.YEAR });
+
     const user = {
         ...Object.fromEntries(
             Object.entries(record).filter(([field]) => [
@@ -32,9 +53,10 @@ module.exports = async ({ phone_number, password }) => {
                 'last_name',
             ].indexOf(field) > 0),
         ),
-        token: auth.signToken({
-            id: record.id,
-        }),
+        tokens: {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+        },
     };
     return user;
 };

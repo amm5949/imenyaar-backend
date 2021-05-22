@@ -3,6 +3,11 @@ const passwordSheriff = require('password-sheriff');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const MINUTE = 60;
+const HOUR = MINUTE * 60;
+const DAY = HOUR * 24;
+const YEAR = DAY * 365;
+
 const { PasswordPolicy } = passwordSheriff;
 
 const PRIVATEKEY = process.env.PRIVATEKEY ? process.env.PRIVATEKEY : config.get('JWT_KEY');
@@ -39,8 +44,13 @@ function verifyPassword(password, hash, salt) {
     return calcHash.passwordHash === hash;
 }
 
-function signToken(payload) {
-    return jwt.sign(payload, PRIVATEKEY);
+function signToken(payload, { exp = MINUTE }) {
+    const tokenPayload = { ...payload };
+    if (!Object.prototype.hasOwnProperty.call(tokenPayload, 'exp')) {
+        const currentTime = parseInt((new Date()).getTime() / 1000, 10);
+        tokenPayload.exp = currentTime + exp;
+    }
+    return jwt.sign(tokenPayload, PRIVATEKEY);
 }
 
 function hasAccess(request) {
@@ -50,33 +60,43 @@ function hasAccess(request) {
         const authType = authHeaderSplit[0];
         const authToken = authHeaderSplit[1];
         if (authType === 'Bearer') {
-            try {
-                const payload = jwt.verify(authToken, PRIVATEKEY);
-                return {
-                    payload,
-                    verify: true,
-                };
-            } catch (err) {
-                return {
-                    payload: null,
-                    verify: false,
-                };
-            }
-        } else {
-            return {
-                payload: null,
-                verify: false,
-            };
+            return validateToken(authToken);
         }
-    } else {
+    }
+    return {
+        payload: null,
+        verify: false,
+    };
+}
+
+function validateToken(token) {
+    try {
+        const payload = jwt.verify(token, PRIVATEKEY);
+        return {
+            payload,
+            verify: true,
+        };
+    } catch (err) {
         return {
             payload: null,
             verify: false,
         };
     }
 }
+
+/**
+ * Create an access token.
+ * @param {Object} payload Payload of token.
+ * @param {int} exp Expiration time in seconds.
+ */
+
 exports.createHash = createHash;
 exports.verifyPassword = verifyPassword;
 exports.signToken = signToken;
 exports.hasAccess = hasAccess;
 exports.genRandomString = genRandomString;
+exports.MINUTE = MINUTE;
+exports.HOUR = HOUR;
+exports.DAY = DAY;
+exports.YEAR = YEAR;
+exports.validateToken = validateToken;

@@ -1,30 +1,27 @@
+/* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
-const fetchUser = async (phoneNumber) => db.fetch({
-    text: `SELECT id, phone_number, first_name, last_name, is_active, is_verified, account_type_id
-           FROM users
-           WHERE is_deleted = true
-             AND phone_number = $1`,
-    values: [phoneNumber],
+
+const phoneDuplicateCheck = async (phone_number) => db.fetch({
+    text: 'SELECT id FROM users WHERE phone_number = $1 AND is_deleted = false',
+    values: [phone_number],
 });
 
+module.exports = async (user) => {
+    const insertData = {
+        ...user,
+        is_verified: false,
+        is_deleted: false,
+        account_type_id: 2,
+    };
 
-const getAccountType = async (id) => db.fetch({
-    text: 'SELECT * FROM account_types WHERE id=$1',
-    values: [id],
-});
+    if (await phoneDuplicateCheck(insertData.phone_number) !== undefined) {
+        return {
+            error: true,
+        };
+    }
 
-const createUser = async (userData) => db.insertOrUpdate({
-    text: `INSERT INTO users (phone_number, first_name, last_name, password, account_type_id)
-           VALUES ($1, $2, $3, $4, $5)
-           RETURNING id,phone_number,first_name,last_name,account_type_id`,
-    values: [userData.phone_number, userData.first_name, userData.last_name,
-        auth.createHash(userData.password).passwordHash, userData.account_type_id],
-});
-
-module.exports = {
-    fetchUser,
-    getAccountType,
-    createUser,
+    const record = await db.insertQuery('users', insertData);
+    return record;
 };
