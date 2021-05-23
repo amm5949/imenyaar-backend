@@ -160,9 +160,46 @@ CREATE TABLE IF NOT EXISTS activities
 CREATE TABLE IF NOT EXISTS reports
 (
     id          SERIAL PRIMARY KEY,
-    activity_id INT,
-    -- TODO add report details
-    FOREIGN KEY (activity_id) REFERENCES activities
+    activity_id BIGINT NOT NULL,
+    zone_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    creation_date  DATE NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (activity_id) REFERENCES activities,
+    FOREIGN KEY (zone_id) REFERENCES zones,
+    FOREIGN KEY (user_id) REFERENCES users
+);
+
+CREATE TABLE IF NOT EXISTS answers(
+    id BIGSERIAL PRIMARY KEY,
+    description TEXT DEFAULT NULL,
+    question_id BIGINT NOT NULL,
+    option_id BIGINT NOT NULL,
+    report_id BIGINT NOT NULL,
+    is_deleted BOOL DEFAULT FALSE,
+    FOREIGN KEY (option_id) REFERENCES options,
+    FOREIGN KEY (question_id) REFERENCES questions,
+    FOREIGN KEY (report_id) REFERENCES reports
+);
+
+
+CREATE TABLE IF NOT EXISTS report_images 
+(
+    id          SERIAL PRIMARY KEY,
+    answer_id BIGINT          NOT NULL,
+    path        varchar(250) NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (answer_id) REFERENCES answers
+
+);
+
+CREATE TABLE IF NOT EXISTS report_voices
+(
+    id         BIGSERIAL PRIMARY KEY,
+    answer_id  BIGINT       NOT NULL,
+    path       varchar(250) NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (answer_id) REFERENCES answers
 );
 
 CREATE TABLE iF NOT EXISTS sessions
