@@ -1,7 +1,7 @@
 Tasks
 =
 - Initial Setup | total: 12 | start: 0 
-	- [ ] Database
+	- [x] Database
 		- Ghoochanian
 		- 6 d
 	- [x] Server
@@ -30,24 +30,24 @@ Tasks
 	- [ ] forget password
 		- Zamanian
 		- 8 d
-	- [ ] register
+	- [x] register
 		- Zamanian
 		- 5 d
 - User | total: 17 | start: 22
-	- [ ] get
+	- [x] get
 		- Ghoochanian
 		- 4 d
-	- [ ] update
+	- [x] update
 		- Ghoochanian
 		- 3 d
 	- [ ] change profile picture
 		- Ghoochanian
 		- 4 d
-	- [ ] remove
+	- [x] remove
 		- Ghoochanian
 		- 2 d
 - Project | total: 22 | start: 22
-	- [ ] create:
+	- [x] create:
 		- Taraz
 		- 4 d
 	- [ ] zone
@@ -63,16 +63,16 @@ Tasks
 		- [ ] remove
 			- Taraz
 			- 1 d
-	- [ ] add people
+	- [x] add people
 		- Taraz
 		- 1 d
-	- [ ] update
+	- [x] update
 		- Taraz
 		-  4 d
-	- [ ] get
+	- [x] get
 		- Taraz
 		- 3 d
-	- [ ] remove
+	- [x] remove
 		- Taraz
 		- 2 d
 
