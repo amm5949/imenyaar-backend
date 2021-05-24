@@ -16,7 +16,7 @@ const fetch_project = async (id) => db.fetch({
 });
 
 const update_zone = async (id, zone_data) => {
-    const res = await db.updateQuery('users', zone_data, { id });
+    const res = await db.updateQuery('zones', zone_data, { id });
     return res.rows;
 };
 
