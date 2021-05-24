@@ -13,19 +13,19 @@ const fetch_zones_page_count = async (zone_data) => {
     const wheres = ['is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`name=$${zone_data.name}`);
+        wheres.push(`name=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
-        wheres.push(`project_id=$${zone_data.project_id}`);
+        wheres.push(`project_id=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`properties=$${zone_data.properties}`);
+        wheres.push(`properties=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`details=$${zone_data.details}`);
+        wheres.push(`details=$${values.length}`);
     }
 
     text += wheres.join(' AND ');
@@ -49,19 +49,19 @@ const fetch_zones = async (zone_data) => {
 
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`name=$${zone_data.name}`);
+        wheres.push(`name=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
-        wheres.push(`project_id=$${zone_data.project_id}`);
+        wheres.push(`project_id=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`properties=$${zone_data.properties}`);
+        wheres.push(`properties=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`details=$${zone_data.details}`);
+        wheres.push(`details=$${values.length}`);
     }
 
     text += wheres.join(' AND ');
