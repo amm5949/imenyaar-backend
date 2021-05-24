@@ -6,7 +6,7 @@ const fetch_zones_page_count = async (zone_data) => {
     const size = zone_data.size || 10;
     let text = `
         SELECT COUNT(*) AS count
-        FROM projects
+        FROM zones
         WHERE
     `;
     const values = [];
@@ -41,7 +41,7 @@ const fetch_zones = async (zone_data) => {
     const size = zone_data.size || 10;
     let text = `
         SELECT id, name, project_id, properties, details
-        FROM projects
+        FROM zones
         WHERE
     `;
     const values = [];

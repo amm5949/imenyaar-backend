@@ -11,11 +11,21 @@ const createSchema = require('../schemas/update');
  * @apiVersion 1.0.0
  * @apiDescription Update a zone
  *
- * @apiParam {String} name, provided in body
- * @apiParam {Number} project_id, provided in body
- * @apiParam {String} properties, provided in body
- * @apiParam {String} details,  provided in body
+ * @apiParam {String} name provided in body
+ * @apiParam {Number} project_id provided in body
+ * @apiParam {String} properties provided in body
+ * @apiParam {String} details  provided in body
  *
+ * @apiSuccessExample
+{
+    "status": "ok",
+    "message": {
+        "en": "zone updated",
+        "fa": "درخواست موفقیت آمیز بود"
+    }
+}
+ * @apiErrorExample {json} Validation error.
+HTTP/1.1 422
  *
  */
 
@@ -45,7 +55,6 @@ const update = async (request, response) => {
         }
     }
     const updated_zone = await updateService.update_zone(id, data);
-    delete updated_zone.is_deleted;
     return ok(response, updated_zone, { en: 'zone updated' }, 200);
 };
 

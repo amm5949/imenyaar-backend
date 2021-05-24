@@ -1,6 +1,6 @@
 module.exports = {
     'name?': 'string',
-    'projects_id?': 'number',
+    'project_id?': 'number',
     'properties?': 'string',
     'details?': 'string',
 };

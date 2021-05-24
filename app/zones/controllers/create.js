@@ -10,11 +10,37 @@ const createSchema = require('../schemas/create');
  * @apiVersion 1.0.0
  * @apiDescription Create a zone
  *
- * @apiParam {String} name, provided in body
- * @apiParam {Number} project_id, provided in body
- * @apiParam {String} properties, provided in body
- * @apiParam {String} details,  provided in body
+ * @apiParam {String} name provided in body
+ * @apiParam {Number} project_id provided in body
+ * @apiParam {String} properties provided in body
+ * @apiParam {String} details  provided in body
+ * @apiParamExample
+    {
+        "name": "test zone",
+        "project_id": 1,
+        "properties": "zone properties",
+        "details": "zone details"
+    }
  *
+ * @apiSuccessExample {json} Success-Response
+HTTP/1.1 200
+{
+    "status": "ok",
+    "message": {
+        "en": "Request was successful",
+        "fa": "درخواست موفقیت آمیز بود"
+    },
+    "result": {
+        "id": 1,
+        "project_id": 1,
+        "name": "test zone",
+        "properties": "zone properties",
+        "details": "zone details",
+        "is_deleted": false
+    }
+}
+ * @apiErrorExample {json} Validation error.
+HTTP/1.1 422
  */
 
 const create = async (request, response) => {
@@ -23,7 +49,8 @@ const create = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    if (await createService.fetch_project(result.data.project_id) === undefined) {
+    const project = await createService.fetch_project(result.data.project_id);
+    if (project === undefined) {
         return error(response, 404, {
             en: 'project not found',
         });
