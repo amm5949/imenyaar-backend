@@ -84,7 +84,7 @@ program.command('migration:refresh')
 program.command('migration:file <file>')
     .description('Create migrations table')
     .action((file) => {
-        fs.writeFileSync(`${BASEDIR}/migrations/${new Date()}_${file}.js`, `const db = require('../core/db/postgresql');
+        fs.writeFileSync(`${BASEDIR}/migrations/${Date.now()}_${file}.js`, `const db = require('../core/db/postgresql');
 
 const up = () => db.executeQuery('');
 const down = () => db.executeQuery('drop table table_name');
