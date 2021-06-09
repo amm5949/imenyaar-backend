@@ -216,8 +216,9 @@ INSERT INTO account_types (id, name, price) values (1, 'default', 100)
 ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
 
 INSERT INTO roles (id, name)
-VALUES (1, 'admin'),
-        (2, 'refree')
+VALUES  (1, 'admin'),
+        (2, 'project manager'),
+        (3, 'refree')
         ;
 INSERT INTO resources(id, url, method)
 VALUES (101, '/api/users', 'post'),
@@ -232,7 +233,12 @@ VALUES (101, 1),
        (103, 1),
        (104, 1),
        (105, 1),
+       (101, 2),
        (102, 2),
        (103, 2),
        (104, 2),
-       (105, 2);
+       (105, 2),
+       (102, 3),
+       (103, 3),
+       (104, 3),
+       (105, 3);
