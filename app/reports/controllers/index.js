@@ -2,7 +2,7 @@
 const create = require('./create');
 const fetch = require('./fetch');
 const list = require('./list');
-const list = require('./files');
+const files = require('./files');
 
 module.exports = {
     create,

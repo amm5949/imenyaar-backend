@@ -8,43 +8,128 @@ const accessCheck = require('../helpers/access');
  * @apiName GetReport
  * @apiVersion 1.0.0
  *
- * @apiParam (Path Param) id Report id
+ * @apiParam (Param) id Report id
  *
- * @apiSuccess {object[]} result Reprots data
- * @apiSuccess {number} result.id Id
- * @apiSuccess {string} result.address Address
- * @apiSuccess {string} result.description Description
- * @apiSuccess {number} result.items.category_id Category id
- * @apiSuccess {number} result.items.category_name category name
- * @apiSuccess {date} result.start_date Start date of report. Format is Date() in js.
- * @apiSuccess {date} result.end_date End date of report. Format is Date() in js.
- * @apiSuccess {string} result.first_name User first name
- * @apiSuccess {string} result.last_name User last name
- * @apiSuccess {object[]} result.answers Answers
- * @apiSuccess {string} result.answers.category Category name
- * @apiSuccess {number} result.answers.answers.id Answer id
- * @apiSuccess {number} result.answers.answers.question_id Question id
- * @apiSuccess {number} result.answers.answers.option_id Option id
- * @apiSuccess {number} result.answers.answers.report_id Report id
- * @apiSuccess {string} result.answers.answers.description Answer description
- * @apiSuccess {string} result.answers.answers.title Question title
- * @apiSuccess {string} result.answers.answers.paragraph Question paragraph
- * @apiSuccess {number} result.answers.answers.category_id Category id
- * @apiSuccess {string} result.answers.answers.option Option text
- * @apiSuccess {boolean} result.answers.answers.is_correct_choice Is correct choice
- * @apiSuccess {string} result.answers.answers.category Category
- * @apiSuccess {object[]} result.answers.answers.images Images
- * @apiSuccess {number} result.answers.answers.images.id Image id
- * @apiSuccess {string} result.answers.answers.images.path Image path
- * @apiSuccess {number} result.answers.answers.images.answer_id Answer id
- * @apiSuccess {object[]} result.answers.answers.voices Voices
- * @apiSuccess {number} result.answers.answers.voices.id Voice id
- * @apiSuccess {string} result.answers.answers.voices.path Voice path
- * @apiSuccess {number} result.answers.answers.voices.answer_id Answer id
  *
  * @apiSuccessExample
 HTTP/1.1 200
-
+{
+    {
+    "status": "ok",
+    "message": {
+        "en": "Request was successful",
+        "fa": "درخواست موفقیت آمیز بود"
+    },
+    "result": {
+        "id": 3,
+        "activity_id": 1,
+        "zone_id": "1",
+        "user_id": "1",
+        "creation_date": "2021-06-08T19:30:00.000Z",
+        "is_deleted": false,
+        "category_id": null,
+        "first_name": "Afarin",
+        "last_name": "Zamanian",
+        "answers": [
+            {
+                "category": "another cat",
+                "answers": [
+                    {
+                        "id": "7",
+                        "description": "",
+                        "question_id": "1",
+                        "option_id": "1",
+                        "report_id": "3",
+                        "is_deleted": false,
+                        "list_order": 0,
+                        "title": "Lorem Ipsum?",
+                        "paragraph": "adipiscing elit",
+                        "category_id": 2,
+                        "option": "Option A",
+                        "is_correct_choice": false,
+                        "category": "another cat",
+                        "images": [],
+                        "voices": []
+                    },
+                    {
+                        "id": "9",
+                        "description": "Well...",
+                        "question_id": "6",
+                        "option_id": "9",
+                        "report_id": "3",
+                        "is_deleted": false,
+                        "list_order": 400,
+                        "title": "آیا این سوال است؟",
+                        "paragraph": "",
+                        "category_id": 2,
+                        "option": "گزینه الف",
+                        "is_correct_choice": false,
+                        "category": "another cat",
+                        "images": [],
+                        "voices": []
+                    },
+                    {
+                        "id": "8",
+                        "description": "somewhat correct.",
+                        "question_id": "5",
+                        "option_id": "8",
+                        "report_id": "3",
+                        "is_deleted": false,
+                        "list_order": 2100,
+                        "title": "آیا این سوال است؟",
+                        "paragraph": "",
+                        "category_id": 2,
+                        "option": "گزینه ب",
+                        "is_correct_choice": false,
+                        "category": "another cat",
+                        "images": [],
+                        "voices": []
+                    }
+                ]
+            },
+            {
+                "category": "third cat",
+                "answers": [
+                    {
+                        "id": "11",
+                        "description": "",
+                        "question_id": "8",
+                        "option_id": "14",
+                        "report_id": "3",
+                        "is_deleted": false,
+                        "list_order": 400,
+                        "title": "Lorem Ipsum?",
+                        "paragraph": "dolor sit amet consectetur adipiscing elit, sed do.",
+                        "category_id": 3,
+                        "option": "Option B",
+                        "is_correct_choice": false,
+                        "category": "third cat",
+                        "images": [],
+                        "voices": []
+                    },
+                    {
+                        "id": "10",
+                        "description": "...",
+                        "question_id": "7",
+                        "option_id": "12",
+                        "report_id": "3",
+                        "is_deleted": false,
+                        "list_order": 500,
+                        "title": "A question?",
+                        "paragraph": "",
+                        "category_id": 3,
+                        "option": "Option B",
+                        "is_correct_choice": false,
+                        "category": "third cat",
+                        "images": [],
+                        "voices": []
+                    }
+                ]
+            }
+        ]
+    }
+}
+}
  */
 const get = async (request, response) => {
     const { id } = request.params;

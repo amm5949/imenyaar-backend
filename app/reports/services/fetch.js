@@ -8,19 +8,15 @@ const fetchReport = async (id) => {
             select
                 rp.*,
                 u.first_name,
-                u.last_name,
-                u.username,
-                c.name as category_name
+                u.last_name
             from reports rp
             inner join users u on u.id = rp.user_id
-            inner join categories c on c.id = rp.category_id
             where
                 rp.id = $1
                 and rp.is_deleted = false
         `,
         values: [id],
     });
-
     const answers = await fetchAll({
         text: `
             select
@@ -42,6 +38,7 @@ const fetchReport = async (id) => {
         values: [report.id],
     });
 
+    console.log(answers);
     const answerIds = answers.map((answer) => answer.id);
 
     const images = await fetchAll({
@@ -53,7 +50,6 @@ const fetchReport = async (id) => {
         text: 'select * from answer_voices where answer_id = ANY($1)',
         values: [answerIds],
     });
-
     const categoryNames = await getCategoryNames();
 
     const answerFullDetails = answers.map((answer) => ({

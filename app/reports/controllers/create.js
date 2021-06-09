@@ -16,40 +16,55 @@ const createSchema = require('../schemas/create');
  *
  * @apiParamExample
  * {
-    "address": "first added question",
-    "description": "some long text",
-    "start_date": "",
-    "end_date": "",
-    "category_id": "2",
+	"creation_date": "2021-06-09T18:36:27.083Z",
+    "activity_id": 1,
+    "zone_id": 1,
+    "category_id": 2,
     "answers": [
         {
-            "question_id": 4,
+            "question_id": 1,
             "option_id": 1,
-            "description": "somsmo"
+            "description": "I suppose this is correct."
         },
         {
             "question_id": 5,
-            "option_id": 4,
-            "description": "descriptiondescriptiondescription"
+            "option_id": 8,
+            "description": "This is somewhat correct."
+        },
+        
+        {
+            "question_id": 6,
+            "option_id": 9,
+            "description": "Well..."
+        },        
+        {
+            "question_id": 7,
+            "option_id": 12,
+            "description": "..."
+        },        
+        {
+            "question_id": 8,
+            "option_id": 14,
+            "description": ""
         }
     ]
 }
  */
-
 const create = async (request, response) => {
-    const result = validator(createSchema, request.body);
+    const { user } = request;
+    const validatorResult = validator(createSchema, request.body);
+    const data = {
+        ...validatorResult.data,
+        user_id: user.id,
+    };
 
-    if (result.failed) {
-        return result.response(response);
+    if (validatorResult.failed) {
+        validatorResult.response(response);
     }
-    result = {
-        ...result.data,
-        user_id: request.user.id,
-    }
-    const report = await createService(result.data);
-    return ok(response, report, {}, 200);
+
+    const report = await createService(data);
+
+    return ok(response, report);
 };
 
-module.exports = async (request, response) => {
-    await create(request, response);
-};
+module.exports = create;

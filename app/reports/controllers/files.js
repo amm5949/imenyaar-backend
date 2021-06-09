@@ -1,4 +1,4 @@
-const getService = require('../services/get');
+const fetchService = require('../services/fetch');
 const filesService = require('../services/files');
 const { ok, error } = require('../../../core/util/response');
 const accessCheck = require('../helpers/access');
@@ -14,11 +14,11 @@ const accessCheck = require('../helpers/access');
  *  Use this endpoint to send files of the report.<br>
  *  File's field name should be: image-{questionId} or voice-{questionId} based on whether it is a image or voice.
  */
-module.exports = async (request, response) => {
+const get = async (request, response) => {
     const { id } = request.params;
     const { user } = request;
 
-    const report = await getService(id);
+    const report = await fetchService(id);
     const files = Object.entries(request.files || {});
 
     const voiceFiles = files.filter(([name]) => name.substr(0, 5) === 'voice');
@@ -66,3 +66,5 @@ module.exports = async (request, response) => {
 
     return ok(response, {});
 };
+
+module.exports = get;
