@@ -17,68 +17,24 @@ const listService = require('../services/list');
     "result": [
         {
             "id": 1,
-            "name": "1st",
+            "name": "a cat",
             "children": [
+                {
+                    "id": 2,
+                    "name": "another cat",
+                    "children": []
+                },
                 {
                     "id": 4,
-                    "name": "4th",
-                    "children": [
-                        {
-                            "id": 10,
-                            "name": "10th",
-                            "children": []
-                        },
-                        {
-                            "id": 11,
-                            "name": "11th",
-                            "children": []
-                        }
-                    ]
-                },
-                {
-                    "id": 5,
-                    "name": "5th",
-                    "children": []
-                },
-                {
-                    "id": 6,
-                    "name": "6th",
-                    "children": []
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "2nd",
-            "children": [
-                {
-                    "id": 7,
-                    "name": "7th",
-                    "children": []
-                },
-                {
-                    "id": 8,
-                    "name": "8th",
+                    "name": "some cat",
                     "children": []
                 }
             ]
         },
         {
             "id": 3,
-            "name": "3rd",
-            "children": [
-                {
-                    "id": 9,
-                    "name": "9th",
-                    "children": [
-                        {
-                            "id": 12,
-                            "name": "12th",
-                            "children": []
-                        }
-                    ]
-                }
-            ]
+            "name": "third cat",
+            "children": []
         }
     ]
 }

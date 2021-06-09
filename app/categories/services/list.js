@@ -11,3 +11,8 @@ const getCategoryNames = async () => {
         text: 'SELECT id, name FROM categories'
     })).rows;
 }
+
+module.exports = {
+    get,
+    getCategoryNames,
+}
