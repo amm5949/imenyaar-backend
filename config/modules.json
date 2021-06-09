@@ -3,5 +3,6 @@
     "auth",
     "users",
     "projects",
-    "zones"
+    "zones",
+    "questions"
 ]
