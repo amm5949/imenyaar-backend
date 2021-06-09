@@ -53,7 +53,7 @@ module.exports = async (user) => {
         await db.updateQuery('activation_codes', { is_deleted: true }, { id: phoneDuplicateCheck.code_id });
     }
     const record = await db.insertQuery('users', insertData);
-    await db.insertQuery('user_roles', { role_id: 1, user_id: record.id });
+    await db.insertQuery('user_roles', { role_id: 2, user_id: record.id });
     // Generate a random token
     await generateActivationCode(record.id);
 
