@@ -1,33 +1,28 @@
 const listService = require('../services/list');
 const { ok } = require('../../../core/util/response');
 /**
- * @api {get} /api/reports/ Get all
+ * @api {get} /api/reports/ List
  * @apiGroup Reports
- * @apiName GetAll
+ * @apiName ListReports
  * @apiVersion 1.0.0
  *
- * @apiParam (Query string) [page] Page, default is 1.
- * @apiParam (Query string) [size] Size, default is 10.
- * @apiParam (Query string) [from] Date.
- * @apiParam (Query string) [to] Date.
- * @apiParam (Query string) [category_id] filter based on category_id.
+ * @apiParam (Query string) [page=1] Page number
+ * @apiParam (Query string) [size=10] Entries per page
+ * @apiParam (Query string) [from] Date (from) fromat new Date() in js
+ * @apiParam (Query string) [to] Date (to) fromat new Date() in js
  *
- * @apiSuccess {object[]} result.items Reprots list
+ * @apiSuccess {object[]} result.items Reprots list in descending order (latest first)
  * @apiSuccess {number} result.items.id Id
- * @apiSuccess {number} result.items.category_id Category id
- * @apiSuccess {number} result.items.category_name category name
- * @apiSuccess {string} result.items.address Address
- * @apiSuccess {string} result.items.description Description
- * @apiSuccess {float} result.items.correctness_percent Report correctness percent
- * @apiSuccess {date} result.items.start_date Start date of report. Format is`yyyy/mm/dd hh:ii:ss in jalali.
- * @apiSuccess {date} result.items.end_date End date of report. Format is`yyyy/mm/dd hh:ii:ss in jalali.
+ * @apiSuccess {number} result.items.activity_id Activity id
+ * @apiSuccess {number} result.items.zone_id Zone id
+ * @apiSuccess {date} result.items.creation_date Creation date of report. Format is `new Date()` of js.
+ * @apiSuccess {string} result.items.user_id User id
  * @apiSuccess {string} result.items.first_name User first name
  * @apiSuccess {string} result.items.last_name User last name
- * @apiSuccess {string} result.items.username User username
  * @apiSuccess {number} result.pageCount Number of pages
  *
+ * @apiSampleRequest /api/reports/?to=2021-06-09T23:59:00.000Z&from=2021-01-09T23:59:00.000Z&size=2
  * @apiSuccessExample
-HTTP/1.1 200
 {
     "status": "ok",
     "message": {
@@ -37,22 +32,25 @@ HTTP/1.1 200
     "result": {
         "items": [
             {
-                "id": "9",
-                "user_id": 1,
-                "address": "first added question",
-                "description": "some long text",
-                "correctness_percent": 0.5,
-                "start_date": "1399/01/01 21:01:33",
-                "end_date": "1399/01/0122:00:30",
-                "is_deleted": false,
-                "category_id": "2",
-                "first_name": "svv",
-                "last_name": "svv",
-                "username": "svv",
-                "category_name": "ضوابط طراحی و متناسب سازی ساختمان های عمومی"
+                "id": 3,
+                "activity_id": 1,
+                "zone_id": "1",
+                "creation_date": "2021-06-08T19:30:00.000Z",
+                "user_id": "5",
+                "first_name": "John",
+                "last_name": "Wick"
+            },
+            {
+                "id": 1,
+                "activity_id": 1,
+                "zone_id": "1",
+                "creation_date": "2021-06-08T19:30:00.000Z",
+                "user_id": "1",
+                "first_name": "John",
+                "last_name": "Doe"
             }
         ],
-        "pageCount": "1"
+        "pageCount": 2
     }
 }
  */
@@ -70,7 +68,6 @@ const list = async (request, response) => {
         ...filter,
         user_id: user.roles[0].id === 2 ? user.id : undefined,
     });
-    console.log(count)
     return ok(response, {
         items: reports,
         pageCount: Math.ceil(count / size),
