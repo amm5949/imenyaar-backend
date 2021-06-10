@@ -170,6 +170,47 @@ CREATE TABLE IF NOT EXISTS reports
     FOREIGN KEY (user_id) REFERENCES users
 );
 
+
+CREATE TABLE iF NOT EXISTS sessions
+(
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT,
+    token VARCHAR(32),
+    uuid UUID,
+
+    FOREIGN KEY (user_id) REFERENCES users
+);
+
+CREATE TABLE IF NOT EXISTS categories
+(
+    id        SERIAL PRIMARY KEY,
+    name      varchar(100) NOT NULL,
+    parent_id INT DEFAULT NULL,
+    FOREIGN KEY (parent_id) REFERENCES categories (id)
+);
+
+CREATE TABLE IF NOT EXISTS questions
+(
+    id                  SERIAL PRIMARY KEY,
+    list_order          INT DEFAULT 0,
+    title               TEXT NOT NULL,
+    paragraph           TEXT DEFAULT NULL,
+    category_id         INT  NOT NULL,
+    is_base             BOOLEAN      DEFAULT TRUE,
+    has_correct_choice  BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (category_id) REFERENCES categories (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS options
+(
+    id                SERIAL PRIMARY KEY,
+    option            TEXT NOT NULL,
+    question_id       INT  NOT NULL,
+    is_correct_choice BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (question_id) REFERENCES questions (id)
+);
+
 CREATE TABLE IF NOT EXISTS answers(
     id BIGSERIAL PRIMARY KEY,
     description TEXT DEFAULT NULL,
@@ -182,37 +223,51 @@ CREATE TABLE IF NOT EXISTS answers(
     FOREIGN KEY (report_id) REFERENCES reports
 );
 
-
-CREATE TABLE IF NOT EXISTS report_images 
+CREATE TABLE IF NOT EXISTS links
 (
     id          SERIAL PRIMARY KEY,
-    answer_id BIGINT          NOT NULL,
-    path        varchar(250) NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (answer_id) REFERENCES answers
-
+    option_id   INT NOT NULL,
+    question_id INT NOT NULL,
+    FOREIGN KEY (option_id) REFERENCES options (id),
+    FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
-CREATE TABLE IF NOT EXISTS report_voices
+CREATE TABLE IF NOT EXISTS question_images
+(
+    id          SERIAL PRIMARY KEY,
+    question_id INT          NOT NULL,
+    path        varchar(250) NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions (id)
+);
+
+CREATE TABLE IF NOT EXISTS definitions
+(
+    id          SERIAL PRIMARY KEY,
+    question_id INT          NOT NULL,
+    title       varchar(250) NOT NULL,
+    text        TEXT         NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions (id)
+);
+
+CREATE TABLE IF NOT EXISTS answer_images
 (
     id         BIGSERIAL PRIMARY KEY,
     answer_id  BIGINT       NOT NULL,
     path       varchar(250) NOT NULL,
     is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (answer_id) REFERENCES answers
+    FOREIGN KEY (answer_id) REFERENCES answers (id)
 );
 
-CREATE TABLE iF NOT EXISTS sessions
+CREATE TABLE IF NOT EXISTS answer_voices
 (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT,
-    token VARCHAR(32),
-    uuid UUID,
-
-    FOREIGN KEY (user_id) REFERENCES users
+    id         BIGSERIAL PRIMARY KEY,
+    answer_id  BIGINT       NOT NULL,
+    path       varchar(250) NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (answer_id) REFERENCES answers (id)
 );
 
-INSERT INTO account_types (id, name, price) values (1, 'default', 100) 
+INSERT INTO account_types (id, name, price) values (1, 'default', 100)
 ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
 
 INSERT INTO roles (id, name)
