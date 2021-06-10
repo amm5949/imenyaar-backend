@@ -27,7 +27,7 @@
     "kavenegar": "^1.1.4",
     "moment-duration-format": "^2.3.2",
     "password-sheriff": "^1.1.0",
-    "pg": "^7.12.1",
+    "pg": "^8.6.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
