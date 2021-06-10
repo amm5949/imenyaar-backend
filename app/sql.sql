@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS incident_photos
 CREATE TABLE IF NOT EXISTS activities
 (
     id                 SERIAL PRIMARY KEY,
-    star_date          DATE,
+    start_date          DATE,
     scheduled_end_date DATE,
     person_id          INT,
     status             VARCHAR(255),
