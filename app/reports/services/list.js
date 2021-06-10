@@ -58,13 +58,11 @@ exports.count = (filter) => {
     }
 
     if (filter.hasOwnProperty('from')) {
-        // date = filter.from.getYear()+"-"+filter.from.getMonth()+"-"+filter.from.getDate();
         values = [...values, filter.from];
         where = [...where, `r.creation_date >= $${values.length}`];
     }
 
     if (filter.hasOwnProperty('to')) {
-        // date = filter.to.getYear()+"-"+filter.to.getMonth()+"-"+filter.to.getDate();
         values = [...values, filter.to];
         where = [...where, `r.creation_date <= $${values.length}`];
     }
