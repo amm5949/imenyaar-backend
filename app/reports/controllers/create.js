@@ -10,7 +10,7 @@ const createSchema = require('../schemas/create');
  * @apiVersion 1.0.0
  * @apiDescription Create a report
  *
- * @apiParam {Date} creation_date acceptable format is "new Date()"
+ * @apiParam {Date} creation_date acceptable format is `new Date()` in js.
  * @apiParam {Number} zone_id Zone id
  * @apiParam {Number} activity_id Activity id
  *

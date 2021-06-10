@@ -38,7 +38,6 @@ const fetchReport = async (id) => {
         values: [report.id],
     });
 
-    console.log(answers);
     const answerIds = answers.map((answer) => answer.id);
 
     const images = await fetchAll({
