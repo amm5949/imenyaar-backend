@@ -19,9 +19,6 @@ const createService = require('../services/create');
  * @apiParam {object[]} options An array of options
  * @apiParam {string} options.option  Title of options
  * @apiParam {boolean} options.is_correct_choice Is correct choice
- * @apiParam {object[]} definitions An array of definitions
- * @apiParam {string} definitions.title  Title of definition
- * @apiParam {string} definitions.text Text of definition
  * @apiParam {number[]} links Option ids that link to this question.
  * @apiSuccessExample success-example:{
     "status": "ok",
@@ -59,12 +56,6 @@ const createService = require('../services/create');
     "links": [
         23,
         44
-    ],
-    "definitions": [
-        {
-            "title": "Def-1",
-            "text": "Def-1-Text"
-        }
     ]
 }
  */

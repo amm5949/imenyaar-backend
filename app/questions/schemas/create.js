@@ -8,9 +8,6 @@ module.exports = {
     'options': 'array',
     'options.*.option': 'string',
     'options.*.is_correct_choice': 'boolean',
-    'definitions': 'array',
-    'definitions.*.title': 'string',
-    'definitions.*.text': 'string',
     'links': 'array',
     'links.*': 'integer',
 };
