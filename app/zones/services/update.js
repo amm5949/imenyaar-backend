@@ -1,6 +1,12 @@
 /* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
 
+const fetch_zone = async (id) => db.fetch({
+    text: `SELECT id, name, project_id, properties, details
+           FROM zones
+           WHERE is_deleted = false AND id = $1`,
+    values: [id],
+});
 
 const fetch_project = async (id) => db.fetch({
     text: `SELECT id, name, owner_id, start_date, scheduled_end, address, area, is_multizoned
@@ -9,12 +15,13 @@ const fetch_project = async (id) => db.fetch({
     values: [id],
 });
 
-const update_project = async (id, project_data) => {
-    const res = await db.updateQuery('projects', project_data, { id });
+const update_zone = async (id, zone_data) => {
+    const res = await db.updateQuery('zones', zone_data, { id });
     return res.rows;
 };
 
 module.exports = {
     fetch_project,
-    update_project,
+    fetch_zone,
+    update_zone,
 };
