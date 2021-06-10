@@ -35,15 +35,9 @@ const insertLinks = async (questionID, links) => {
     return db.insertQuery('links', linksWithQuestionId);
 };
 
-const insertDefinitions = async (questionID, definitions) => {
-    // eslint-disable-next-line no-param-reassign,no-return-assign
-    definitions.forEach((d) => d.question_id = questionID);
-    return db.insertQuery('definitions', definitions);
-};
-
 const createQuestion = async (data) => {
     if (data.list_order === undefined) {
-        const count = (await fetchQuestionCountInCategory(data.category_id)).count;
+        const { count } = await fetchQuestionCountInCategory(data.category_id);
         // eslint-disable-next-line no-param-reassign
         data.list_order = (parseInt(count, 10) + 1) * 100;
     }
@@ -51,9 +45,6 @@ const createQuestion = async (data) => {
     await insertOptions(question.id, data.options);
     if (!data.isBase) {
         await insertLinks(question.id, data.links);
-    }
-    if (data.definitions.length) {
-        await insertDefinitions(question.id, data.definitions);
     }
     return question;
 };
