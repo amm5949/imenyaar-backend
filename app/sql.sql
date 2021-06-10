@@ -284,6 +284,14 @@ VALUES (101, '/api/users', 'post'),
        (104, '/api/users/:id', 'put'),
        (105, '/api/users/:id', 'delete');
 
+INSERT INTO resources(id, url, method)
+VALUES (502,'/api/questions', 'get');
+
+INSERT INTO accesses (resource_id, role_id)
+VALUES (502,1),
+       (502,2);
+
+
 INSERT INTO accesses (resource_id, role_id)
 VALUES (101, 1),
        (102, 1),
