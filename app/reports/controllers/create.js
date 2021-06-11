@@ -10,44 +10,81 @@ const createSchema = require('../schemas/create');
  * @apiVersion 1.0.0
  * @apiDescription Create a report
  *
- * @apiParam {Date} creation_date acceptable format is `new Date()` in js.
+ * @apiParam {String} creation_date Creation date, format is `new Date()` in js.
  * @apiParam {Number} zone_id Zone id
  * @apiParam {Number} activity_id Activity id
+ * @apiParam {Number} answers.*.question_id Question id
+ * @apiParam {Number} answers.*.option_id Chosen option id
+ * @apiParam {String} answers.*.description Answer description
  *
  * @apiParamExample
  * {
-	"creation_date": "2021-06-09T18:36:27.083Z",
+	"creation_date": "2021-06-11T18:30:55.442+04:30",
     "activity_id": 1,
     "zone_id": 1,
-    "category_id": 2,
     "answers": [
         {
             "question_id": 1,
             "option_id": 1,
-            "description": "I suppose this is correct."
+            "description": ""
         },
         {
-            "question_id": 5,
-            "option_id": 8,
-            "description": "This is somewhat correct."
+            "question_id": 10,
+            "option_id": 17,
+            "description": "For these reasons."
         },
         
         {
-            "question_id": 6,
-            "option_id": 9,
-            "description": "Well..."
-        },        
-        {
-            "question_id": 7,
-            "option_id": 12,
-            "description": "..."
-        },        
-        {
-            "question_id": 8,
-            "option_id": 14,
+            "question_id": 12,
+            "option_id": 21,
             "description": ""
         }
     ]
+}
+ * @apiSuccessExample 
+    HTTP/1.1 200 
+    {
+    "status": "ok",
+    "message": {
+        "en": "Request was successful",
+        "fa": "درخواست موفقیت آمیز بود"
+    },
+    "result": {
+        "report": {
+            "id": 23,
+            "activity_id": 1,
+            "zone_id": "1",
+            "user_id": "1",
+            "creation_date": "2021-06-11T18:30:55.442+04:30",
+            "is_deleted": false
+        },
+        "answers": [
+            {
+                "id": "71",
+                "description": "",
+                "question_id": "1",
+                "option_id": "1",
+                "report_id": "23",
+                "is_deleted": false
+            },
+            {
+                "id": "72",
+                "description": "For these reasons.",
+                "question_id": "10",
+                "option_id": "17",
+                "report_id": "23",
+                "is_deleted": false
+            },
+            {
+                "id": "73",
+                "description": "",
+                "question_id": "12",
+                "option_id": "21",
+                "report_id": "23",
+                "is_deleted": false
+            }
+        ]
+    }
 }
  */
 const create = async (request, response) => {

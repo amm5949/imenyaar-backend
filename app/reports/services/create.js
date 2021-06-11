@@ -13,9 +13,11 @@ const create = async (data) => {
         report_id: report.id,
     }));
 
-    await db.insertQuery('answers', answersData);
-
-    return report;
+    const answers_res = await db.insertQuery('answers', answersData);
+    return {
+        report,
+        answers: answers_res
+    };
 };
 
 module.exports = create;
