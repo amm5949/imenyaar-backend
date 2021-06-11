@@ -62,11 +62,11 @@ const list = async (request, response) => {
         page,
         size,
         ...filter,
-        user_id: user.roles[0].id === 2 ? user.id : undefined,
+        user_id: (user.roles[0].id === 2 || user.roles[0].id === 1) ? user.id : undefined,
     });
     const { count } = await listService.count({
         ...filter,
-        user_id: user.roles[0].id === 2 ? user.id : undefined,
+        user_id: (user.roles[0].id === 2 || user.roles[0].id === 1)  ? user.id : undefined,
     });
     return ok(response, {
         items: reports,
