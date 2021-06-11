@@ -285,14 +285,23 @@ VALUES (101, '/api/users', 'post'),
        (105, '/api/users/:id', 'delete');
 
 INSERT INTO resources(id, url, method)
-VALUES (502,'/api/questions', 'get'),
-       (503, '/api/questions/:id/images', 'post');
+VALUES (601, '/api/questions', 'post'),
+       (602,'/api/questions', 'get'),
+       (603, '/api/questions/:id/images', 'post'),
+       (604, '/api/questions/order/:category_id', 'get'),
+       (605 ,'/api/questions/:id', 'put');
 
 INSERT INTO accesses (resource_id, role_id)
-VALUES (502,1),
-       (502,2),
-       (503,1),
-       (503,2);
+VALUES (601, 1),
+       (601, 2),
+       (602, 1),
+       (602, 2),
+       (603, 1),
+       (603, 2),
+       (604, 1),
+       (604, 2),
+       (605, 1),
+       (605, 2);
 
 
 INSERT INTO accesses (resource_id, role_id)

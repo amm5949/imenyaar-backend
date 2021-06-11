@@ -1,20 +1,22 @@
+const { v4: uuidv4 } = require('uuid');
 const { ok } = require('../../../core/util/response');
 const imageService = require('../services/image');
+
 /**
- * @api {post} /api/questions/:id/images AddImage
+ * @api {post} /api/questions/:id/images Add images
  * @apiGroup Questions
- * @apiName AddImage
+ * @apiName AddImages
  * @apiVersion 1.0.0
- * @apiDescription Add an image to a question.
- * 
- * @apiParam (file) images Image files to upload.
+ * @apiDescription Add images to questions
+ * @apiParam (Path param) {number} id Id
+ * @apiParam {files[]} images Images
  */
 const addImage = async (request, response) => {
     const { id } = request.params;
     const images = Array.isArray(request.files.images) ? request.files.images
         : [request.files.images];
     const paths = images.map((i) => {
-        const path = `uploads/${id}-${i.name}`;
+        const path = `uploads/${id}-${uuidv4()}-${i.name}`;
         i.mv(path);
         return path;
     });
