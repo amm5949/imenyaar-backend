@@ -1,10 +1,5 @@
 const db = require('../../../core/db/postgresql');
 
-const fetchCategories = async (id) => db.fetch({
-    text: 'SELECT * FROM categories WHERE id=$1',
-    values: [id],
-});
-
 const fetchQuestionCountInCategory = async (id) => db.fetch({
     text: `SELECT count(q.*)
            FROM questions q
@@ -50,6 +45,5 @@ const createQuestion = async (data) => {
 };
 
 module.exports = {
-    fetchCategories,
     createQuestion,
 };

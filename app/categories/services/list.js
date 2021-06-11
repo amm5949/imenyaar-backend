@@ -12,7 +12,18 @@ const getCategoryNames = async () => {
     })).rows;
 }
 
+
+const getCategory = async (id) => {
+    return (await db.executeQuery ({
+        text: `SELECT id, name 
+            FROM categories
+             WHERE id = $1`,
+        values: [id]
+    })).rows;
+}
+
 module.exports = {
     get,
     getCategoryNames,
+    getCategory
 }
