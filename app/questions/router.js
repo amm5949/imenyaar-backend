@@ -5,4 +5,5 @@ module.exports = (app, router) => {
     router.get('/api/questions', controllers.list);
     router.post('/api/questions/:id/images', controllers.image);
     router.get('/api/questions/order/:category_id', controllers.order);
+    router.put('/api/questions/:id', controllers.update);
 };
