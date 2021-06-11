@@ -17,7 +17,9 @@ const updateService = require('../services/update');
  * @apiParam {boolean} [has_correct_choice] Defines that the question has correct choice.
  * default is true. send `options.is_correct_choice` in any case.
  *
- * @apiSuccessExample success-example: {
+ * @apiSuccessExample success-example: 
+ * HTTP/1.1 200 
+ * {
     "status": "ok",
     "message": {
         "en": "Request was successful",
@@ -25,51 +27,22 @@ const updateService = require('../services/update');
     },
     "result": [
         {
-            "id": 12,
-            "list_order": 250,
-            "title": "ایا حتی الامکان از نصب هرگونه درپوش و دریچه بازدید در مسیر غالب عبور و مرور جلوگیری به عمل امده است؟ (بند 1-1-2-4)",
-            "paragraph": "",
-            "category_id": 43,
+            "id": 9,
+            "list_order": 350,
+            "title": "Brand new question",
+            "paragraph": "Sphinx of Black Quartz",
+            "category_id": 2,
             "is_base": true,
             "has_correct_choice": true
         }
     ]
 }
- * @apiParamExample {json} request-example:{
-    "title": "first added question",
-    "paragraph": "some long text",
-    "category_id": 1,
-    "order": 525,
-    "options": [
-        {
-            "option": "option 1",
-            "is_correct_choice": false
-        },
-        {
-            "option": "option 2",
-            "is_correct_choice": false
-        },
-        {
-            "option": "option 3",
-            "is_correct_choice": true,
-        }
-    ],
-    "links": [
-        23,
-        44
-    ],
-    "definitions": [
-        {
-            "title": "Def-1",
-            "text": "Def-1-Text"
-        }
-    ]
+ * @apiParamExample {json} request-example:
+{
+    "title": "Brand new question",
+    "list_order": 350
 }
  * @apiErrorExample
- {
- "list_order": 250,
-    "title": "آیا حتی الامکان از نصب هرگونه درپوش و دریچه بازدید در مسیر غالب عبور و مرور جلوگیری به عمل امده است؟ (بند 1-1-2-4)"
-}
  */
 
 module.exports = async (request, response) => {
