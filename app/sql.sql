@@ -271,7 +271,8 @@ VALUES (601, '/api/questions', 'post'),
        (603, '/api/questions/:id/images', 'post'),
        (604, '/api/questions/order/:category_id', 'get'),
        (605 ,'/api/questions/:id', 'put'),
-       (606, '/api/questions/:id', 'delete');
+       (606, '/api/questions/:id', 'delete'),
+       (607, '/api/questions/:id', 'get');
 
 INSERT INTO accesses (resource_id, role_id)
 VALUES (601, 1),
@@ -281,7 +282,9 @@ VALUES (601, 1),
        (604, 1),
        (604, 2),
        (605, 1),
-       (606,1);
+       (606, 1),
+       (607, 1),
+       (607, 2);
 
 
 INSERT INTO accesses (resource_id, role_id)
