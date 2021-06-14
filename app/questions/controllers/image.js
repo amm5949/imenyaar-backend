@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const { ok } = require('../../../core/util/response');
+const { ok, error } = require('../../../core/util/response');
 const imageService = require('../services/image');
 
 /**
@@ -13,6 +13,10 @@ const imageService = require('../services/image');
  */
 const addImage = async (request, response) => {
     const { id } = request.params;
+    const question = await imageService.fetchQuestion(id);
+    if (!question) {
+        return error(response, 404, { en: 'question does not exist' });
+    }
     const images = Array.isArray(request.files.images) ? request.files.images
         : [request.files.images];
     const paths = images.map((i) => {

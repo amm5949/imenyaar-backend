@@ -240,30 +240,11 @@ CREATE TABLE IF NOT EXISTS question_images
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
-CREATE TABLE IF NOT EXISTS definitions
-(
-    id          SERIAL PRIMARY KEY,
-    question_id INT          NOT NULL,
-    title       varchar(250) NOT NULL,
-    text        TEXT         NOT NULL,
-    FOREIGN KEY (question_id) REFERENCES questions (id)
-);
-
 CREATE TABLE IF NOT EXISTS answer_images
 (
     id         BIGSERIAL PRIMARY KEY,
     answer_id  BIGINT       NOT NULL,
     path       varchar(250) NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (answer_id) REFERENCES answers (id)
-);
-
-CREATE TABLE IF NOT EXISTS answer_voices
-(
-    id         BIGSERIAL PRIMARY KEY,
-    answer_id  BIGINT       NOT NULL,
-    path       varchar(250) NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (answer_id) REFERENCES answers (id)
 );
 
@@ -289,19 +270,21 @@ VALUES (601, '/api/questions', 'post'),
        (602,'/api/questions', 'get'),
        (603, '/api/questions/:id/images', 'post'),
        (604, '/api/questions/order/:category_id', 'get'),
-       (605 ,'/api/questions/:id', 'put');
+       (605 ,'/api/questions/:id', 'put'),
+       (606, '/api/questions/:id', 'delete'),
+       (607, '/api/questions/:id', 'get');
 
 INSERT INTO accesses (resource_id, role_id)
 VALUES (601, 1),
-       (601, 2),
        (602, 1),
        (602, 2),
        (603, 1),
-       (603, 2),
        (604, 1),
        (604, 2),
        (605, 1),
-       (605, 2);
+       (606, 1),
+       (607, 1),
+       (607, 2);
 
 
 INSERT INTO accesses (resource_id, role_id)

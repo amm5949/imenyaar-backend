@@ -1,5 +1,10 @@
 const db = require('../../../core/db/postgresql');
 
+const fetchQuestion = async (id) => db.fetch({
+    text: 'SELECT * FROM questions WHERE id=$1',
+    values: [id],
+});
+
 /**
  * @param {Number} id
  * @param {Array} paths
@@ -16,4 +21,5 @@ const save = (id, paths) => {
 
 module.exports = {
     save,
+    fetchQuestion,
 };

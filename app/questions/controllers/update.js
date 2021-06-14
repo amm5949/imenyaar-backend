@@ -9,7 +9,7 @@ const updateService = require('../services/update');
  * @apiName UpdateQuestion
  * @apiVersion 1.0.0
  * @apiDescription Create a new question and its options
- *
+ * @apiParam (Path param) {number} id Id
  * @apiParam {string} [title] Title
  * @apiParam {string} [paragraph] Paragraph
  * @apiParam {number} [list_order] order (priority) among category questions,
