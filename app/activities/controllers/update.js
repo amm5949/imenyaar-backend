@@ -39,7 +39,6 @@ const update = async (request, response) => {
         });
     }
     const updated_project = await updateService.update_activity(id, data);
-    delete updated_project.is_deleted;
     return ok(response, updated_project, { en: 'activity updated' }, 200);
 };
 
