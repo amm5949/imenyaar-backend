@@ -45,7 +45,7 @@ const fetch_activities = async (activity_data) => {
     const page = activity_data.page || 1;
     const size = activity_data.size || 10;
     let text = `
-        SELECT id, start_date, scheduled_end_date, person_id, status, is_done,
+        SELECT id, start_date, scheduled_end_date, person_id, status, is_done
         FROM activities
         WHERE
     `;
