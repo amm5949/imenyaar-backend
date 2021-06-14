@@ -19,7 +19,6 @@ VALUES (401, '/api/projects', 'post'),
        (403, '/api/projects/:id', 'get'),
        (404, '/api/projects/:id', 'put'),
        (405, '/api/projects/:id', 'delete'),
-       (406, '/api/activities/expires', 'get');
 
 INSERT INTO accesses (resource_id, role_id)
 VALUES (401, 1),
@@ -27,11 +26,9 @@ VALUES (401, 1),
        (403, 1),
        (404, 1),
        (405, 1),
-       (406, 1),
        (401, 2),
        (402, 2),
        (403, 2),
        (404, 2),
        (405, 2),
-       (406, 2);
 
