@@ -1,4 +1,4 @@
-/*adding is_done boolean*/
+/*adding is_done boolean and is_deleted boolean*/
 DROP TABLE IF EXISTS activities;
 CREATE TABLE IF NOT EXISTS activities
 (
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS activities
     person_id          INT,
     status             VARCHAR(255),
     is_done            BOOLEAN,
+    is_deleted         BOOLEAN,
     FOREIGN KEY (person_id) REFERENCES users
 );
 
