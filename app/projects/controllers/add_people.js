@@ -3,7 +3,7 @@ const add_people_service = require('../services/add_people');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const add_people_schema = require('../schemas/add_people');
-
+const subscriptionService = require('../../payment/services/verify');
 /**
  * @api {post} /api/projects/addpeople/:id add people
  * @apiName AddPeopleToProject
@@ -23,7 +23,16 @@ const add_people_schema = require('../schemas/add_people');
         ]
  }
  *
- *
+ * @apiError (403) {Object} maximumMembersReached Owner not allowed to add more people.
+ * @apiErrorExample {json} maximumMembersReached
+ * HTTP/1.1 400
+ *  {
+ *     "status": "error",
+ *     "message": {
+ *          "en": "Maximum allowed project members reached.",
+            "fa": "از سقف اعضای مجاز این پروژه عبور کرده‌اید."
+ *     }
+ * }
  */
 
 const added_people = async (request, response) => {
@@ -31,6 +40,12 @@ const added_people = async (request, response) => {
     const result = validator(add_people_schema, request.body);
     if (result.failed) {
         return result.response(response);
+    }
+    if (!subscriptionService.checkPeople(request.user.id, id)){
+        return error(response, 403, {
+            en: 'Maximum allowed project members reached.',
+            fa: 'از سقف اعضای مجاز این پروژه عبور کرده‌اید.'
+        });
     }
     const { data } = result;
     const project = await add_people_service.fetch_project(id);

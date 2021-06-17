@@ -1,7 +1,8 @@
 const createService = require('../services/create');
 const validator = require('../../../core/util/validator');
-const { ok } = require('../../../core/util/response');
+const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
+const subscriptionService = require('../../payment/services/verify');
 
 /**
  * @api {post} /api/projects create
@@ -17,7 +18,17 @@ const createSchema = require('../schemas/create');
  * @apiParam {String} address, provided in body
  * @apiParam {Number} area, provided in body
  * @apiParam {Boolean} is_multizoned, provided in body
- *
+ * 
+ * @apiError (403) {Object} maximumProjectsReached Owner not allowed to create more projects.
+ * @apiErrorExample {json} maximumMembersReached
+ * HTTP/1.1 400
+ *  {
+ *     "status": "error",
+ *     "message": {
+ *          "en": "Maximum allowed projects reached.",
+            "fa": "از سقف پروژه‌های مجاز عبور کرده‌اید."
+ *     }
+ * }
  */
 
 const create = async (request, response) => {
@@ -25,6 +36,12 @@ const create = async (request, response) => {
 
     if (result.failed) {
         return result.response(response);
+    }
+    if (request.user.role != 'admin' && !subscriptionService.checkProjects(request.user.id)){
+        return error(response, 403, {
+            en: 'Maximum allowed projects reached.',
+            fa: 'از سقف پروژه‌های مجاز عبور کرده‌اید.'
+        });
     }
     if (!Object.prototype.hasOwnProperty.call(result.data, 'owner_id')) {
         result.data.owner_id = request.user.id;
