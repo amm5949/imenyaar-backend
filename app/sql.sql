@@ -149,11 +149,13 @@ CREATE TABLE IF NOT EXISTS incident_photos
 
 CREATE TABLE IF NOT EXISTS activities
 (
-    id                 SERIAL PRIMARY KEY,
+    id                  SERIAL PRIMARY KEY,
     start_date          DATE,
-    scheduled_end_date DATE,
-    person_id          INT,
-    status             VARCHAR(255),
+    scheduled_end_date  DATE,
+    person_id           INT,
+    status              VARCHAR(255),
+    is_done             BOOLEAN default false,
+    is_deleted          BOOLEAN default false,
     FOREIGN KEY (person_id) REFERENCES users
 );
 
