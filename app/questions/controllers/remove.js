@@ -19,7 +19,7 @@ const remove = async (request, response) => {
             fa: 'سوالی با این شماره وجود ندارد',
         });
     }
-    const answerCount = await deleteService.getAnswerCount(questionsID);
+    const answerCount = (await deleteService.getAnswerCount(questionsID)).count;
     if (answerCount > 0) {
         return error(response, 400, {
             en: 'this question has been answered and cannot be deleted',

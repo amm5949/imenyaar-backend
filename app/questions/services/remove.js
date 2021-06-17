@@ -5,7 +5,7 @@ const fetchQuestion = async (id) => db.fetch({
     values: [id],
 });
 
-const getAnswerCount = async (id) => db.executeQuery({
+const getAnswerCount = async (id) => db.fetch({
     text: `SELECT COUNT(a.id)
            from questions q
                     join answers a on q.id = a.question_id
