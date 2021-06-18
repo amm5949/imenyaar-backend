@@ -2,7 +2,7 @@ const createService = require('../services/create');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
-const subscriptionService = require('../../payment/services/verify');
+const subscriptionService = require('../../subscription/services/verify');
 
 /**
  * @api {post} /api/projects create

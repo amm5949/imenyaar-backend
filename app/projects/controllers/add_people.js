@@ -3,7 +3,7 @@ const add_people_service = require('../services/add_people');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const add_people_schema = require('../schemas/add_people');
-const subscriptionService = require('../../payment/services/verify');
+const subscriptionService = require('../../subscription/services/verify');
 /**
  * @api {post} /api/projects/addpeople/:id add people
  * @apiName AddPeopleToProject
