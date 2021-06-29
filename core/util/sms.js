@@ -7,7 +7,7 @@ const api = kavenegar.KavenegarApi({
 });
 
 exports.send = (template, token, receptor) => {
-    api.VerifyLookup({
+    api.Send({
         template,
         token,
         receptor,

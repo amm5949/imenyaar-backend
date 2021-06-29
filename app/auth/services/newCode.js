@@ -37,6 +37,12 @@ module.exports = async ({ phone_number }) => {
     });
 
     await generateActivationCode(record.id);
+    // const token = (await db.fetch({
+    //     text: `SELECT token FROM activation_codes WHERE user_id = $1 && is_deleted = false`,
+    //     values: [record.id]
+    // })).token;
+    // console.log(token, record.phone_number);
+    // sms.send({template: 'verify', token: token, receptor: record.phone_number});
 
     return true;
 };

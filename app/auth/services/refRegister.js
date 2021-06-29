@@ -61,6 +61,12 @@ module.exports = async (user) => {
 
     // Generate a random token
     await generateActivationCode(phoneDuplicateCheck.id);
-
+    // const token = (await db.fetch({
+    //     text: `SELECT token FROM activation_codes WHERE user_id = $1`,
+    //     values: [record.id]
+    // })).token;
+    // console.log(token, record.phone_number);
+    // sms.send({template: 'verify', token: token, receptor: record.phone_number});
+    
     return record;
 };
