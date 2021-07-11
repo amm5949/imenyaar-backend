@@ -1,23 +1,23 @@
 const db = require('../../../core/db/postgresql');
 
-module.exports = async (reportId, images, voices) => {
-    const answers = await db.fetchAll({
-        text: 'SELECT id, question_id FROM answers WHERE report_id = $1',
-        values: [reportId],
-    });
+module.exports = async (images, voices) => {
+
     if (images.length > 0) {
-        db.insertQuery('answer_images', images.map(
-            ({ path, questionId }) => ({
-                path,
-                answer_id: answers.find((answer) => answer.question_id === parseInt(questionId, 10)).id,
+        imageRes = await db.insertQuery('answer_images', images.map(
+            ({ path }) => ({
+                path
             }),
         ));
     }
 
     if (voices.length > 0) {
-        db.insertQuery('answer_voices', voices.map(({ path, questionId }) => ({
-            path,
-            answer_id: answers.find((answer) => answer.question_id === parseInt(questionId, 10)).id,
+        voiceRes = await db.insertQuery('answer_voices', voices.map(({ path }) => ({
+            path
         })));
     }
+
+    return {
+        imageRes,
+        voiceRes
+    };
 };
