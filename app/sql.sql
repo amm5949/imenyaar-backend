@@ -166,10 +166,13 @@ CREATE TABLE IF NOT EXISTS reports
     zone_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     creation_date  DATE NOT NULL,
+    correctness_percent FLOAT   DEFAULt 0,
+    arent_id BIGINT DEFAULT NULL,
     is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (activity_id) REFERENCES activities,
     FOREIGN KEY (zone_id) REFERENCES zones,
-    FOREIGN KEY (user_id) REFERENCES users
+    FOREIGN KEY (user_id) REFERENCES users,
+    FOREIGN KEY (parent_id) REFERENCES reports ON DELETE SET NULL
 );
 
 
