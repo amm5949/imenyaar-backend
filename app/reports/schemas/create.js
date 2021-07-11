@@ -6,4 +6,8 @@ module.exports = {
     'answers.*.question_id': 'integer',
     'answers.*.option_id': 'integer',
     'answers.*.description': 'string',
+    'answers.*.voice_ids': 'array',
+    'answers.*.voice_ids.*': 'integer',
+    'answers.*.image_ids': 'array',
+    'answers.*.image_ids.*': 'integer',
 };
