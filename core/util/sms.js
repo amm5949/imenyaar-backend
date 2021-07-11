@@ -7,10 +7,13 @@ const api = kavenegar.KavenegarApi({
 });
 
 exports.send = (template, token, receptor) => {
+    message = `ایمن یار
+    \nکد اعتبارسنجی: ${token}`;
     api.Send({
-        template,
-        token,
-        receptor,
+        receptor: receptor,
+        message: message,
+        token: "0000000",
+        // template: "verify",
         sender: '1000596446',
     },
     (response, status) => {
