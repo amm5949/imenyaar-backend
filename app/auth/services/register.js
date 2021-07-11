@@ -57,12 +57,12 @@ module.exports = async (user) => {
     await db.insertQuery('user_roles', { role_id: 2, user_id: record.id });
     // Generate a random token
     await generateActivationCode(record.id);
-    // const token = (await db.fetch({
-    //     text: `SELECT token FROM activation_codes WHERE user_id = $1`,
-    //     values: [record.id]
-    // })).token;
-    // console.log(token, record.phone_number);
-    // sms.send({template: 'verify', token: token, receptor: record.phone_number});
+    const token = (await db.fetch({
+        text: `SELECT token FROM activation_codes WHERE user_id = $1`,
+        values: [record.id]
+    })).token;
+    console.log(token, parseInt(record.phone_number,10));
+    sms.send('verify', token, parseInt(record.phone_number,10));
 
     return record;
 };
