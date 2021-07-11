@@ -24,7 +24,7 @@ INSERT INTO resources(id, url, method)
 VALUES (301, '/api/reports', 'post'),
        (302, '/api/reports', 'get'),
        (303, '/api/reports/:id', 'get'),
-       (304, '/api/reports/:id/files', 'post'),
+       (304, '/api/reports/files', 'post'),
        (305, '/api/reports/:id', 'put');
 
 INSERT INTO accesses (resource_id, role_id)
@@ -44,3 +44,4 @@ VALUES (301, 1),
        (305, 2),
        (305, 3)
        ;
+UPDATE TABLE resources set url='/api/reports/files' WHERE id = 304;
