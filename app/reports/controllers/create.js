@@ -12,7 +12,15 @@ const { activity_id } = require('../schemas/create');
  * @apiVersion 1.0.0
  * @apiDescription Create a report, note that this creates a 'parent' i.e. new report,
  * if you want to update a report, use `update` api to create a new report record while
- * saving the parent. To update a record, always use the original report id (the one this API returns).
+ * saving the parent. To update a record, you can use two approaches (up to front dev, but stick with one):
+ * 1. link every subsequent update to the original report
+ * 2. link every subsequent update to its previous version 
+ * 
+ * Regardless of approach, you can get all logs by fetching the original id,
+ * however, with the second approach, calling fetch on the id of updated records
+ * will give you its subsequent updates, while the first approach will give you single
+ * records unless you call the original (parent/first) version of the report.
+ * > See `GetReport` for further details.
  *
  * @apiParam {String} creation_date Creation date, format is `new Date()` in js.
  * @apiParam {Number} zone_id Zone id
