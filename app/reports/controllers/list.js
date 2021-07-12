@@ -20,6 +20,7 @@ const { ok } = require('../../../core/util/response');
  * @apiSuccess {string} result.items.first_name User first name
  * @apiSuccess {string} result.items.last_name User last name
  * @apiSuccess {number} result.pageCount Number of pages
+ * @apiSuccess {number} result.count Number of all records with filter
  *
  * @apiSampleRequest /api/reports/?to=2021-06-09T23:59:00.000Z&from=2021-01-09T23:59:00.000Z&size=2
  * @apiSuccessExample
