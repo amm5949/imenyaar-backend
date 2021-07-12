@@ -70,6 +70,7 @@ const list = async (request, response) => {
     });
     return ok(response, {
         items: reports,
+        count: count,
         pageCount: Math.ceil(count / size),
     });
 };
