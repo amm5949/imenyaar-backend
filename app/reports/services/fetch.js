@@ -2,21 +2,18 @@ const _ = require('lodash');
 const { fetch, fetchAll } = require('../../../core/db/postgresql');
 const  {getCategoryNames } = require('../../categories/services/list');
 
-const fetchReport = async (id) => {
+
+const fetchReportById = async (id) => {
     const report = await fetch({
-        text: `
-            select
-                rp.*,
-                u.first_name,
-                u.last_name
-            from reports rp
-            inner join users u on u.id = rp.user_id
-            where
-                rp.id = $1
-                and rp.is_deleted = false
-        `,
-        values: [id],
+        text: `SELECT id, user_id
+        FROM reports
+        WHERE id = $1 AND is_deleted = FALSE `,
+        values: [id]
     });
+    return report;
+};
+
+const getReportDetails = async (id) => {
     const answers = await fetchAll({
         text: `
             select
@@ -35,7 +32,7 @@ const fetchReport = async (id) => {
                 report_id = $1
             order by c.id, q.list_order, q.id asc
         `,
-        values: [report.id],
+        values: [id],
     });
 
     const answerIds = answers.map((answer) => answer.id);
@@ -64,11 +61,42 @@ const fetchReport = async (id) => {
             category: key,
             answers: value,
         }));
-
-    return {
-        ...report,
-        answers: groupedAnswer,
-    };
+    return {answers: groupedAnswer}
 };
 
-module.exports = fetchReport;
+const fetchReport = async (id) => {
+    const reports = (await fetchAll({
+        text: `
+        WITH RECURSIVE reports_temp AS (
+            SELECT reports.*
+            FROM reports
+            WHERE reports.id = $1
+            UNION ALL
+            SELECT r.*
+            FROM reports r
+                INNER JOIN reports_temp rt
+                ON rt.id = r.parent_id
+        )
+        SELECT *
+        from reports_temp
+        ORDER BY creation_date DESC
+        `,
+        values: [id],
+    }));
+    
+    reportRecords = Promise.all(reports.map(myfunc = async (report) =>{
+        const answers = await getReportDetails(report.id);
+        return {
+            ...report,
+            ...answers
+        };
+    }));
+
+    
+    return reportRecords;
+};
+
+module.exports = {
+    fetchReportById,
+    fetchReport
+};
