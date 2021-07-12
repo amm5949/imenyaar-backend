@@ -6,7 +6,12 @@ const { ok } = require('../../../core/util/response');
  * @apiName ListUsers
  * @apiGroup User
  * @apiVersion 1.0.0
- * @apiDescription List all users, output format is same as FetchUsers but users are in an array
+ * @apiDescription List all users. For filtering (simple search) options see
+ * https://www.postgresqltutorial.com/postgresql-like/ to pass strings. Using filter
+ * param will pass the string to a `LIKE` operator.
+ * Filters search within role names, first/last names and phone numbers.
+ * 
+ * @apiParam (Query String) [filter=null] Optional string to filter usernames.
  * @apiSuccessExample
  * {
     "status": "ok",
@@ -25,19 +30,13 @@ const { ok } = require('../../../core/util/response');
             "is_verified": true
         }
     ]
-}
- *
+    }
  */
 
 const list = async (request, response) => {
-    const users = await listService.fetchUsers();
+    const { filter } = request.query;
+    const users = await listService.fetchUsers(filter);
     return ok(response, users, {}, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await list(request, response);
-    } catch (err) {
-        return next(err);
-    }
-};
+module.exports = list;
