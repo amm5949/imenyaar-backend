@@ -136,7 +136,9 @@ CREATE TABLE IF NOT EXISTS incidents
     description      VARCHAR(2047) NOT NULL,
     hour             INT           NOT NULL,
     reason           VARCHAR(255)  NOT NULL,
-    FOREIGN KEY (zone_id) REFERENCES zones
+    previous_version INT DEFAULT NULL,
+    FOREIGN KEY (zone_id) REFERENCES zones,
+    FOREIGN KEY (previous_version) REFERENCES incidents
 );
 
 CREATE TABLE IF NOT EXISTS incident_photos
