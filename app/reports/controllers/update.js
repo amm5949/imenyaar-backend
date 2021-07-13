@@ -11,7 +11,10 @@ const updateSchema = require('../schemas/update');
  * @apiVersion 1.0.0
  * @apiDescription Update a report (creates a new record and links to the first version,
  * you can re-link the previous files to the new version to keep them on the latest report,
- * or don't include to leave them on a previously linked version -- essentially deleting them but keeping them on log.)
+ * or don't include to leave them on a previously linked version -- essentially deleting them
+ *  but keeping them on log.)
+ * > See `createReport` for details on how to use.
+ * > Output is similar to `createReport`.
  *
  * @apiParam {String} creation_date Creation date, format is `new Date()` in js.
  * @apiParam {Number} zone_id Zone id

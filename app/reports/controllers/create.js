@@ -61,6 +61,9 @@ const { activity_id } = require('../schemas/create');
         }
     ]
 }
+ * @apiSuccess {Object} result.report  Report details
+ * @apiSuccess {Array} result.answers  Array of answer details (image and voice lins not included)
+ * 
  * @apiSuccessExample 
     HTTP/1.1 200 
     {
@@ -77,7 +80,7 @@ const { activity_id } = require('../schemas/create');
             "user_id": "1",
             "creation_date": "2021-06-11T14:30:55.442+04:30",
             "is_deleted": false,
-            "previous_version_id": null
+            "parent_id": null
         },
         "answers": [
             {
