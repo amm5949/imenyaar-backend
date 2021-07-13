@@ -6,7 +6,8 @@ const listService = require('../services/list');
  * @apiName ListCategories
  * @apiGroup Categories
  * @apiVersion 1.0.0
- * @apiDescription returns all top categories and their children in a recursive manner
+ * @apiDescription returns *all* top categories and their children in a recursive manner.
+ * 
  * @apiSuccessExample successExample:
  * {
     "status": "ok",
@@ -16,16 +17,16 @@ const listService = require('../services/list');
     },
     "result": [
         {
-            "id": 1,
+            "id": 12,
             "name": "a cat",
             "children": [
                 {
-                    "id": 2,
+                    "id": 22,
                     "name": "another cat",
                     "children": []
                 },
                 {
-                    "id": 4,
+                    "id": 24,
                     "name": "some cat",
                     "children": []
                 }
@@ -41,6 +42,7 @@ const listService = require('../services/list');
  */
 
 module.exports = async (request, response, next) => {
+
     let allCategories = await listService.get();
     let categories = getTop(allCategories);
     for (let i = 0; i < categories.length; i++) {

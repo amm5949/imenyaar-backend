@@ -7,9 +7,11 @@ const listService = require('../services/list');
  * @apiName GetQuestions
  * @apiVersion 1.0.0
  * @apiDescription Get list of questions based on a category or an option.
- * @apiParam (Query string) {number} categoryID Questions based on category seprate
- * diffrent categories with dash (-). ?category_id=5-4-32
- * @apiParam (Query string) {number} optionID Questions based on links of the option.
+ * In case you want all questions, give 1 as categoryId (`id=1` is a wrapper category).
+ * 
+ * @apiParam (Query string) {number} categoryId Questions based on category,
+ * seperate categories with dash (-). `?category_id=5-4-32`
+ * @apiParam (Query string) {number} optionId Questions based on links of the option.
  *
  * @apiSuccess {object[]} result List of questions
  * @apiSuccess {number} result.id Question Id
@@ -124,9 +126,9 @@ const listService = require('../services/list');
 }
  */
 const list = async (request, response) => {
-    const { categoryID, optionID } = request.query;
-    const categoryIDs = categoryID.split('-');
-    const questions = await listService.getQuestions(categoryIDs, optionID);
+    const { categoryId, optionId } = request.query;
+    const categoryIds = categoryId.split('-');
+    const questions = await listService.getQuestions(categoryIds, optionId);
     return ok(response, questions);
 };
 
