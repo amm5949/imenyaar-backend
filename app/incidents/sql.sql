@@ -1,3 +1,4 @@
+-- FIXME: change id prefix to 80x
 INSERT INTO resources (id, url, method)
 VALUES (701, '/api/incidents', 'post'),
        (702, '/api/incidents/list/:zone_id', 'get'),
