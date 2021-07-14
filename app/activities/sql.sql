@@ -1,9 +1,25 @@
-alter table activities 
-add column is_done boolean;
+alter table activities add column people INT[];
 
-alter table activities 
-add column is_deleted boolean;
+alter table activities add column zones INT[];
 
+alter table activities add column project_id int;
+
+alter table activities add constraint project_id FOREIGN KEY (project_id) REFERENCES projects;
+
+
+CREATE TABLE activities
+(
+    id                  SERIAL PRIMARY KEY,
+    project_id          INT,
+    start_date          DATE,
+    scheduled_end_date  DATE,
+    people              INT[],
+    zones               INT[],
+    status              VARCHAR(255),
+    is_done             BOOLEAN default false,
+    is_deleted          BOOLEAN default false,
+    FOREIGN KEY (project_id) REFERENCES projects
+);
 
 INSERT INTO resources(id, url, method)
 VALUES (401, '/api/activities', 'post'),
