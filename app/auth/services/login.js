@@ -10,6 +10,7 @@ module.exports = async ({ phone_number, password, extendSession }) => {
         values: [phone_number],
     });
 
+
     // Check if the user exists
     if (record === undefined) {
         return false;
@@ -45,19 +46,19 @@ module.exports = async ({ phone_number, password, extendSession }) => {
         token: refreshTokenVal,
     }, { exp: refreshTokenExp });
 
-    const user = {
+    return {
         ...Object.fromEntries(
-            Object.entries(record).filter(([field]) => [
-                'id',
-                'phone_number',
-                'first_name',
-                'last_name',
-            ].indexOf(field) > 0),
+            Object.entries(record)
+                .filter(([field]) => [
+                    'id',
+                    'phone_number',
+                    'first_name',
+                    'last_name',
+                ].indexOf(field) > 0),
         ),
         tokens: {
             access_token: accessToken,
             refresh_token: refreshToken,
         },
     };
-    return user;
 };
