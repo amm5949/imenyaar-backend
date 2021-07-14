@@ -21,7 +21,7 @@ exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefin
         where = [...where, `r.creation_date <= $${values.length}`];
     }
 
-    const whereString = where.join(' AND ');
+    const whereString = ' AND ' + where.join(' AND ');
     const text = `
         SELECT
             r.id,
@@ -33,7 +33,7 @@ exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefin
             u.last_name
         FROM reports r
         INNER JOIN users u ON u.id = r.user_id
-        WHERE ${whereString}
+        WHERE parent_id IS NULL ${whereString}
         ORDER BY id DESC
         OFFSET $1
         LIMIT $2
@@ -67,12 +67,12 @@ exports.count = (filter) => {
         where = [...where, `r.creation_date <= $${values.length}`];
     }
 
-    const whereString = where.join(' and ');
+    const whereString = 'AND ' + where.join(' and ');
     return fetch({
         text: `
             SELECT COUNT(*) FROM reports r
 	        INNER JOIN users u ON u.id = r.user_id
-            WHERE ${whereString}
+            WHERE parent_id IS NULL ${whereString}
         `,
         values,
     });

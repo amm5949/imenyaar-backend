@@ -37,7 +37,7 @@ const { ok } = require('../../../core/util/response');
                 "activity_id": 1,
                 "zone_id": "1",
                 "creation_date": "2021-06-08T19:30:00.000Z",
-                "parent_id": 1,
+                "parent_id": null,
                 "user_id": "5",
                 "first_name": "John",
                 "last_name": "Wick"
