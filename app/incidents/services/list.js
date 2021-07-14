@@ -57,17 +57,17 @@ exports.all = async ({ page, size, ...filter } = { page: 1, size: 10, user_id: u
 
 
 // count entries with current filter
-exports.count = (filter) => {
+exports.count = async (filter) => {
     let values = [];
     let where = [];
 
     // return only authored incidents for a supervisor
-    if (filter.hasOwnProperty('user_id') && filter.user_role !== 1 && filter.user_role !== 2) {
+    if ((filter.user_role !== 1 && filter.user_role !== 2)) {
         values = [...values, filter.user_id];
         where = [...where, `i.user_id = $${values.length}`];
     }
     // return all relevant project incidents for a project manager
-    else if (filter.hasOwnProperty('user_id') && filter.user_role !== 1) {
+    else if (filter.user_role !== 1) {
         values = [...values, filter.user_id];
         where = [...where, `p.owner_id = $${values.length}`];
     }
@@ -87,10 +87,10 @@ exports.count = (filter) => {
         where = [...where, `i.date <= $${values.length}`];
     }
 
-    const whereString = (where.length > 0)? 'WHERE ' + where.join(' AND ') : '';
-    return fetch({
+    const whereString = (where.length > 0)? ' WHERE ' + where.join(' AND ') : '';
+    const count =  await fetch({
         text: `
-            SELECT COUNT(*) FROM incidents i
+            SELECT COUNT(i.*) FROM incidents i
 	        INNER JOIN users u ON u.id = i.user_id
             INNER JOIN zones z ON z.id = i.zone_id
             INNER JOIN projects p ON p.id = z.project_id
@@ -98,5 +98,6 @@ exports.count = (filter) => {
         `,
         values,
     });
+    return count;
 };
 

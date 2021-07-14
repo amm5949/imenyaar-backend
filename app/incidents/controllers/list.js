@@ -76,28 +76,23 @@ const listService = require('../services/list');
  */
 
 const list = async (request, response) => {
-    // const { zone_id: zoneID } = request.params;
     const { page = 1, size = 10, ...filter } = request.query;
     const { user } = request;
-
-    // const zone = await listService.getZone(zoneID);
-    // if (!zone) {
-    //     return error(response, 404, { 
-    //         en: 'invalid zone id' });
-    // }
 
     const incidents = await listService.all( {
         page,
         size,
         ...filter,
-        // return only that users' records unless there's higher clearance
+        // return only that users' records 
+        // unless there's higher clearance
         user_id: user.id,
         user_role: user.roles[0].id
     });
 
     const { count } = await listService.count({
         ...filter,
-        user_id: (user.roles[0].id != 1) ? user.id : undefined,
+        user_id: user.id,        
+        user_role: user.roles[0].id
     });
     return ok(response, {
         items: incidents,
