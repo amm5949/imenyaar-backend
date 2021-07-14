@@ -44,4 +44,4 @@ VALUES (301, 1),
        (305, 2),
        (305, 3)
        ;
-UPDATE TABLE resources set url='/api/reports/files' WHERE id = 304;
+UPDATE resources set url='/api/reports/files' WHERE id = 304;
