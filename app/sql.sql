@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS projects
     id            SERIAL PRIMARY KEY,
     name          varchar(255),
     owner_id      INT,
-    start_date    DATE,
-    scheduled_end DATE,
+    start_date    VARCHAR(28),
+    scheduled_end VARCHAR(28),
     address       VARCHAR(1023),
     area          FLOAT,
     is_multizoned BOOLEAN DEFAULT FALSE,
@@ -129,15 +129,17 @@ CREATE TABLE IF NOT EXISTS incidents
 (
     id               SERIAL PRIMARY KEY,
     zone_id          INT,
+    user_id          BIGINT,
     type             VARCHAR(127)  NOT NULL,
     financial_damage INT DEFAULT 0 NOT NULL,
     human_damage     INT DEFAULT 0 NOT NULL,
-    date             DATE          NOT NULL,
+    date             VARCHAR(28)          NOT NULL,
     description      VARCHAR(2047) NOT NULL,
     hour             INT           NOT NULL,
     reason           VARCHAR(255)  NOT NULL,
     previous_version INT DEFAULT NULL,
     FOREIGN KEY (zone_id) REFERENCES zones,
+    FOREIGN KEY (user_id) REFERENCES users,
     FOREIGN KEY (previous_version) REFERENCES incidents
 );
 
@@ -152,8 +154,8 @@ CREATE TABLE IF NOT EXISTS incident_photos
 CREATE TABLE IF NOT EXISTS activities
 (
     id                  SERIAL PRIMARY KEY,
-    start_date          DATE,
-    scheduled_end_date  DATE,
+    start_date          VARCHAR(28),
+    scheduled_end_date  VARCHAR(28),
     person_id           INT,
     status              VARCHAR(255),
     is_done             BOOLEAN default false,
@@ -167,7 +169,7 @@ CREATE TABLE IF NOT EXISTS reports
     activity_id BIGINT NOT NULL,
     zone_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
-    creation_date  DATE NOT NULL,
+    creation_date  VARCHAR(28) NOT NULL,
     correctness_percent FLOAT   DEFAULt 0,
     parent_id BIGINT DEFAULT NULL,
     is_deleted BOOLEAN DEFAULT FALSE,
@@ -256,7 +258,7 @@ CREATE TABLE IF NOT EXISTS answer_images
 );
 
 INSERT INTO account_types (id, name, price) values (1, 'default', 100)
-ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
+ON CONFLICT (id) DO UPVARCHAR(28) SET name = 'default', price = 100;
 
 INSERT INTO categories(id, name, parent_id) VALUES (1,'test',null);
 

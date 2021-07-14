@@ -1,4 +1,10 @@
 -- FIXME: change id prefix to 80x
+ALTER TABLE incidents ADD user_id bigint;
+ALTER TABLE incidents add constraint user_id_fkey
+		foreign key (user_id) references users;
+ALTER TABLE incidents alter column date type 
+    varchar(28) using date::varchar(28);
+
 INSERT INTO resources (id, url, method)
 VALUES (701, '/api/incidents', 'post'),
        (702, '/api/incidents/list/:zone_id', 'get'),

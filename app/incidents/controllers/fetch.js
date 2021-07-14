@@ -6,7 +6,7 @@ const fetchService = require('../services/fetch');
  * @apiGroup Incidents
  * @apiName FetchIncidents
  * @apiVersion 1.0.0
- * @apiDescription Fetch a report and all it's updates
+ * @apiDescription Fetch a report and all its updates
  * @apiSuccessExample
  HTTP/1.1 200
  {
