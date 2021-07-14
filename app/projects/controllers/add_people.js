@@ -4,6 +4,7 @@ const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const add_people_schema = require('../schemas/add_people');
 const subscriptionService = require('../../subscription/services/verify');
+const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {post} /api/projects/addpeople/:id add people
  * @apiName AddPeopleToProject
@@ -48,13 +49,17 @@ const added_people = async (request, response) => {
         });
     }
     const { data } = result;
+    if (!(await accessCheck(request.user, id))) {
+        return error(response, 403, {
+            en: 'you don\'t have access to this project',
+        });
+    }
     const project = await add_people_service.fetch_project(id);
     if (project === undefined) {
         return error(response, 404, {
             en: 'project not found',
         });
     }
-    add_people_service.fetch_user(data.people);
     if (!(await add_people_service.fetch_user(data.people))) {
         return error(response, 404, {
             en: 'one or more the users were not found',

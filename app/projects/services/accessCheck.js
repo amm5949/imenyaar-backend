@@ -2,15 +2,19 @@
 const db = require('../../../core/db/postgresql');
 
 
-const fetch_project = async (id) => db.fetch({
-    text: `SELECT id, name, owner_id, start_date, scheduled_end, address, area, is_multizoned
-           FROM projects
-           WHERE is_deleted = false AND id = $1`,
-    values: [id],
-});
-/* eslint-disable */
-
-const fetch_user_role = async (user) => {
+const owns_project = async (id, user) => {
+    const check = db.fetch({
+        text: `SELECT id as i
+               FROM projects
+               WHERE is_deleted = false AND id = $1 AND owner_id = $2`,
+        values: [id, user.id],
+    });
+    if (check) {
+        return true;
+    }
+    return false;
+};
+const check_user_role = async (user) => {
     const res = await db.fetch({
         text: `SELECT account_type_id as i
                FROM users
@@ -19,39 +23,14 @@ const fetch_user_role = async (user) => {
         values: [user.id],
     });
     if (res === undefined) {
-        return null;
+        return false;
     }
-    return user['i'] == 1;
-};
-
-const already_exist = async (project, id) => {
-    const res = await db.fetch({
-        text: `SELECT user_id, project_id
-               FROM project_people
-               WHERE project_id = $1
-               AND user_id = $2`,
-        values: [project, id],
-    });
-    return res != undefined;
-};
-
-const add_people = async (project, users) => {
-    const return_val = {};
-    let i = 0;
-    for(const user of users) {
-        if (await already_exist(project, user.id)) continue;
-        const insertData = {
-            user_id: user.id,
-            project_id: project,
-        };
-        await db.insertQuery('project_people', insertData);
-        i += 1;
-    }
-    return_val.added_people_count = i;
-    return return_val;
+    return res[0].i === 1;
 };
 
 module.exports = async (user, project) => {
-
+    if (await check_user_role(user) || await owns_project(project, user)) {
+        return true;
+    }
     return false;
 };
