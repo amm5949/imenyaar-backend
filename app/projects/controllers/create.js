@@ -37,12 +37,12 @@ const create = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    if (request.user.role != 'admin' && !subscriptionService.checkProjects(request.user.id)){
-        return error(response, 403, {
-            en: 'Maximum allowed projects reached.',
-            fa: 'از سقف پروژه‌های مجاز عبور کرده‌اید.'
-        });
-    }
+    // if (request.user.role != 'admin' && !subscriptionService.checkProjects(request.user.id)){
+    //     return error(response, 403, {
+    //         en: 'Maximum allowed projects reached.',
+    //         fa: 'از سقف پروژه‌های مجاز عبور کرده‌اید.'
+    //     });
+    // }
     if (!Object.prototype.hasOwnProperty.call(result.data, 'owner_id')) {
         result.data.owner_id = request.user.id;
     }

@@ -15,11 +15,12 @@ const { ok } = require('../../../core/util/response');
  * @apiSuccess {number} result.items.id Id
  * @apiSuccess {number} result.items.activity_id Activity id
  * @apiSuccess {number} result.items.zone_id Zone id
- * @apiSuccess {date} result.items.creation_date Creation date of report. Format is `new Date()` of js.
+ * @apiSuccess {String}   result.items.creation_date Creation date of report. Format is `new Date()` of js.
  * @apiSuccess {string} result.items.user_id User id
  * @apiSuccess {string} result.items.first_name User first name
  * @apiSuccess {string} result.items.last_name User last name
- * @apiSuccess {number} result.pageCount Number of pages
+ * @apiSuccess {number} result.pageCount Number of pages with current filter
+ * @apiSuccess {number} result.count Number of all records (with current filter)
  *
  * @apiSampleRequest /api/reports/?to=2021-06-09T23:59:00.000Z&from=2021-01-09T23:59:00.000Z&size=2
  * @apiSuccessExample
@@ -36,6 +37,7 @@ const { ok } = require('../../../core/util/response');
                 "activity_id": 1,
                 "zone_id": "1",
                 "creation_date": "2021-06-08T19:30:00.000Z",
+                "parent_id": 1,
                 "user_id": "5",
                 "first_name": "John",
                 "last_name": "Wick"
@@ -45,12 +47,14 @@ const { ok } = require('../../../core/util/response');
                 "activity_id": 1,
                 "zone_id": "1",
                 "creation_date": "2021-06-08T19:30:00.000Z",
+                "parent_id": null,
                 "user_id": "1",
                 "first_name": "John",
                 "last_name": "Doe"
             }
         ],
-        "pageCount": 2
+        "pageCount": 2,
+        "count": 4
     }
 }
  */
@@ -70,6 +74,7 @@ const list = async (request, response) => {
     });
     return ok(response, {
         items: reports,
+        count: count,
         pageCount: Math.ceil(count / size),
     });
 };

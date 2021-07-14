@@ -1,6 +1,6 @@
 const db = require('../../../core/db/postgresql');
 
-const create = async (data) => {
+const update = async (data, parent_id) => {
     const { answers, ...reportData } = data;
 
     const optionIds = answers.map((answer) => answer.option_id);
@@ -27,7 +27,8 @@ const create = async (data) => {
 
     const report = await db.insertQuery('reports', {
         ...reportData,
-        correctness_percent: reportCorrectness
+        correctness_percent: reportCorrectness,
+        parent_id: parent_id
     });
 
     const answersData = answers.map((answer) => ({
@@ -58,7 +59,7 @@ const create = async (data) => {
             };        
         })
     ));
-
+    // update linked image and voice answer ids
     await Promise.all(imageData.map((image) => {
         db.updateQuery('answer_images', 
         {answer_id: image.answer_id},
@@ -77,4 +78,4 @@ const create = async (data) => {
     };
 };
 
-module.exports = create;
+module.exports = update;

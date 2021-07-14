@@ -42,12 +42,12 @@ const added_people = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    if (!subscriptionService.checkPeople(request.user.id, id)){
-        return error(response, 403, {
-            en: 'Maximum allowed project members reached.',
-            fa: 'از سقف اعضای مجاز این پروژه عبور کرده‌اید.'
-        });
-    }
+    // if (!subscriptionService.checkPeople(request.user.id, id)){
+    //     return error(response, 403, {
+    //         en: 'Maximum allowed project members reached.',
+    //         fa: 'از سقف اعضای مجاز این پروژه عبور کرده‌اید.'
+    //     });
+    // }
     const { data } = result;
     if (!(await accessCheck(request.user, id))) {
         return error(response, 403, {

@@ -6,7 +6,10 @@ const { ok } = require('../../../core/util/response');
  * @apiName ListSubscriptionTypes
  * @apiGroup subscription
  * @apiVersion 1.0.0
- * @apiDescription List all account subscription types.
+ * @apiDescription List all account subscription types. Currently the subscription
+ * options are not fully implemented. There are commented blocks in projects and 
+ * project people that can be used in later versions. See database schemas or modify
+ * to suit needs.
  * 
  * @apiSuccessExample
  * HTTP/1.1 200
