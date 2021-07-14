@@ -6,18 +6,22 @@ ALTER TABLE incidents alter column date type
     varchar(28) using date::varchar(28);
 
 INSERT INTO resources (id, url, method)
-VALUES (701, '/api/incidents', 'post'),
-       (702, '/api/incidents/list/:zone_id', 'get'),
-       (703, '/api/incidents/fetch/:incident_id', 'get'),
-       (704, '/api/incidents/:incident_id', 'put');
-
+VALUES (801, '/api/incidents', 'post'),
+       (802, '/api/incidents/list/:zone_id', 'get'),
+       (803, '/api/incidents/fetch/:incident_id', 'get'),
+       (804, '/api/incidents/:incident_id', 'put');
+       
 INSERT INTO accesses(resource_id, role_id)
-VALUES (701, 1),
-       (702, 1),
-       (703, 1),
-       (704, 1),
-       (701, 2),
-       (702, 2),
-       (703, 2),
-       (704, 2);
+VALUES (801, 1),
+       (802, 1),
+       (803, 1),
+       (804, 1),
+       (801, 2),
+       (802, 2),
+       (803, 2),
+       (804, 2),
+       (801, 3),
+       (802, 3),
+       (803, 3),
+       (804, 3);
 
