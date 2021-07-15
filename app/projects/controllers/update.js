@@ -3,7 +3,7 @@ const updateService = require('../services/update');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/update');
-
+const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {put} /api/projects/:id Update
  * @apiName UpdateProject
@@ -27,6 +27,11 @@ const update = async (request, response) => {
     const result = validator(createSchema, request.body);
     if (result.failed) {
         return result.response(response);
+    }
+    if (!(await accessCheck(request.user, id))) {
+        return error(response, 403, {
+            en: 'you don\'t have access to this project',
+        });
     }
     const { data } = result;
     const project = await updateService.fetch_project(id);

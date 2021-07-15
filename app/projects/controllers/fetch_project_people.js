@@ -1,12 +1,12 @@
-const fetchService = require('../services/fetch');
+const fetchService = require('../services/fetch_project_people.js');
 const { ok, error } = require('../../../core/util/response');
 const accessCheck = require('../services/accessCheck.js');
 /**
- * @api {get} /api/projects/:id fetch
- * @apiName FetchProject
+ * @api {get} /api/projects/people/:id fetch people
+ * @apiName FetchPeople
  * @apiGroup Projects
  * @apiVersion 1.0.0
- * @apiDescription Fetch a project
+ * @apiDescription Fetch project people
  * @apiSuccess {Number} id
  * @apiSuccess {String} name
  * @apiSuccess {Number} owner_id
@@ -15,7 +15,7 @@ const accessCheck = require('../services/accessCheck.js');
  * @apiSuccess {String} address
  * @apiSuccess {Number} area
  * @apiSuccess {Boolean} is_multizoned
- *
+ * @apiSuccess {Array} people you can see the structure in example
  * @apiSuccessExample
 {
     "status": "ok",
@@ -31,9 +31,22 @@ const accessCheck = require('../services/accessCheck.js');
         "scheduled_end": "2020-12-30T20:30:00.000Z",
         "address": "addres",
         "area": 12345,
-        "is_multizoned": true
+        "is_multizoned": true,
+        "people": [
+            {
+                "user_id": 1,
+                "first_name": "t",
+                "last_name": "t"
+            },
+            {
+                "user_id": 2,
+                "first_name": "t",
+                "last_name": "t"
+            }
+        ]
     }
 }
+ *
  */
 
 const fetch = async (request, response) => {
@@ -50,7 +63,8 @@ const fetch = async (request, response) => {
             fa: 'پروژه یافت نشد.',
         });
     }
-    return ok(response, project, { }, 200);
+    const people = await fetchService.fetch_people(id);
+    return ok(response, people, { }, 200);
 };
 
 module.exports = async (request, response) => {

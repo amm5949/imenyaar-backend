@@ -3,7 +3,7 @@ const db = require('../../../core/db/postgresql');
 
 
 const owns_project = async (id, user) => {
-    const check = db.fetch({
+    const check = await db.fetch({
         text: `SELECT id as i
                FROM projects
                WHERE is_deleted = false AND id = $1 AND owner_id = $2`,
@@ -25,11 +25,11 @@ const check_user_role = async (user) => {
     if (res === undefined) {
         return false;
     }
-    return res[0].i === 1;
+    return res.i === 1;
 };
 
 module.exports = async (user, project) => {
-    if (await check_user_role(user) || await owns_project(project, user)) {
+    if (await owns_project(project, user) || await check_user_role(user)) {
         return true;
     }
     return false;

@@ -2,7 +2,21 @@
 const db = require('../../../core/db/postgresql');
 
 
-const fetch_projects_page_count = async (project_data) => {
+const check_user_role = async (user) => {
+    const res = await db.fetch({
+        text: `SELECT account_type_id as i
+               FROM users
+               WHERE is_deleted = FALSE
+               AND id = $1`,
+        values: [user.id],
+    });
+    if (res === undefined) {
+        return false;
+    }
+    return res.i === 1;
+};
+
+const fetch_projects_page_count = async (project_data, user) => {
     const size = project_data.size || 10;
     let text = `
         SELECT COUNT(*) AS count
@@ -11,6 +25,11 @@ const fetch_projects_page_count = async (project_data) => {
     `;
     const values = [];
     const wheres = ['is_deleted = false'];
+    if (!(await check_user_role(user))) {
+        values.push(user.id);
+        wheres.push(`owner_id=$${values.length}`);
+    }
+
     if (Object.prototype.hasOwnProperty.call(project_data, 'name')) {
         values.push(project_data.name);
         wheres.push(`name=$${values.length}`);
@@ -19,13 +38,21 @@ const fetch_projects_page_count = async (project_data) => {
         values.push(project_data.owner_id);
         wheres.push(`owner_id=$${values.length}`);
     }
-    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date')) {
-        values.push(project_data.start_date);
-        wheres.push(`start_date=$${values.length}`);
+    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date_from')) {
+        values.push(project_data.start_date_from);
+        wheres.push(`start_date>=$${values.length}`);
     }
-    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end')) {
-        values.push(project_data.scheduled_end);
-        wheres.push(`scheduled_end=$${values.length}`);
+    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end_date_from')) {
+        values.push(project_data.scheduled_end_date_from);
+        wheres.push(`scheduled_end>=$${values.length}`);
+    }
+    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date_to')) {
+        values.push(project_data.start_date_to);
+        wheres.push(`start_date<=$${values.length}`);
+    }
+    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end_date_to')) {
+        values.push(project_data.scheduled_end_date_to);
+        wheres.push(`scheduled_end<=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(project_data, 'address')) {
         values.push(project_data.address);
@@ -47,7 +74,8 @@ const fetch_projects_page_count = async (project_data) => {
     });
     return Math.ceil(pages.rows[0].count / size);
 };
-const fetch_projects = async (project_data) => {
+
+const fetch_projects = async (project_data, user) => {
     const page = project_data.page || 1;
     const size = project_data.size || 10;
     let text = `
@@ -57,6 +85,11 @@ const fetch_projects = async (project_data) => {
     `;
     const values = [];
     const wheres = ['is_deleted = false'];
+    if (!(await check_user_role(user))) {
+        values.push(user.id);
+        wheres.push(`owner_id=$${values.length}`);
+    }
+
     if (Object.prototype.hasOwnProperty.call(project_data, 'name')) {
         values.push(project_data.name);
         wheres.push(`name=$${values.length}`);
@@ -65,13 +98,21 @@ const fetch_projects = async (project_data) => {
         values.push(project_data.owner_id);
         wheres.push(`owner_id=$${values.length}`);
     }
-    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date')) {
-        values.push(project_data.start_date);
-        wheres.push(`start_date=$${values.length}`);
+    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date_from')) {
+        values.push(project_data.start_date_from);
+        wheres.push(`start_date>=$${values.length}`);
     }
-    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end')) {
-        values.push(project_data.scheduled_end);
-        wheres.push(`scheduled_end=$${values.length}`);
+    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end_date_from')) {
+        values.push(project_data.scheduled_end_date_from);
+        wheres.push(`scheduled_end>=$${values.length}`);
+    }
+    if (Object.prototype.hasOwnProperty.call(project_data, 'start_date_to')) {
+        values.push(project_data.start_date_to);
+        wheres.push(`start_date<=$${values.length}`);
+    }
+    if (Object.prototype.hasOwnProperty.call(project_data, 'scheduled_end_date_to')) {
+        values.push(project_data.scheduled_end_date_to);
+        wheres.push(`scheduled_end<=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(project_data, 'address')) {
         values.push(project_data.address);
@@ -95,7 +136,7 @@ const fetch_projects = async (project_data) => {
         text,
         values,
     });
-    const page_count = await fetch_projects_page_count(project_data);
+    const page_count = await fetch_projects_page_count(project_data, user);
     const ret_val = {
         values: res.rows,
         page_count,
