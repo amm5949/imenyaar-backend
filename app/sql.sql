@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS reports
     zone_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     creation_date  VARCHAR(28) NOT NULL,
-    correctness_percent FLOAT   DEFAULt 0,
+    correctness_percent FLOAT DEFAULT Null,
     parent_id BIGINT DEFAULT NULL,
     is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (activity_id) REFERENCES activities,
@@ -252,9 +252,18 @@ CREATE TABLE IF NOT EXISTS question_images
 CREATE TABLE IF NOT EXISTS answer_images
 (
     id         BIGSERIAL PRIMARY KEY,
-    answer_id  BIGINT       NOT NULL,
+    answer_id  BIGINT       DEFAULT NULL,
     path       varchar(250) NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answers (id)
+    FOREIGN KEY (answer_id) REFERENCES answers (id) 
+        ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS answer_voices
+(
+    id         BIGSERIAL PRIMARY KEY,
+    answer_id  BIGINT       DEFAULT NULL,
+    path       varchar(250) NOT NULL,
+    FOREIGN KEY (answer_id) REFERENCES answers (id) 
+        ON DELETE CASCADE
 );
 
 INSERT INTO account_types (id, name, price) values (1, 'default', 100)
