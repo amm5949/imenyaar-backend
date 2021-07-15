@@ -2,31 +2,36 @@
 const db = require('../../../core/db/postgresql');
 
 
-const fetch_zones_page_count = async (zone_data) => {
+const fetch_zones_page_count = async (zone_data, user) => {
     const size = zone_data.size || 10;
     let text = `
-        SELECT COUNT(*) AS count
-        FROM zones
+        SELECT COUNT(z.*) AS count
+        FROM zones z
+        INNER JOIN projects pp ON pp.id = z.project_id 
         WHERE
     `;
     const values = [];
-    const wheres = ['is_deleted = false'];
+    const wheres = ['z.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`name=$${values.length}`);
+        wheres.push(`z.name=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
-        wheres.push(`project_id=$${values.length}`);
+        wheres.push(`z.project_id=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`properties=$${values.length}`);
+        wheres.push(`z.properties=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`details=$${values.length}`);
+        wheres.push(`z.details=$${values.length}`);
     }
+
+
+    values.push(user.id);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
 
     text += wheres.join(' AND ');
     const pages = await db.executeQuery({
@@ -36,33 +41,37 @@ const fetch_zones_page_count = async (zone_data) => {
     return Math.ceil(pages.rows[0].count / size);
 };
 
-const fetch_zones = async (zone_data) => {
+const fetch_zones = async (zone_data, user) => {
     const page = zone_data.page || 1;
     const size = zone_data.size || 10;
     let text = `
-        SELECT id, name, project_id, properties, details
-        FROM zones
+        SELECT z.id, z.name, z.project_id, z.properties, z.details
+        FROM zones z
+        INNER JOIN projects pp ON pp.id = z.project_id 
         WHERE
     `;
     const values = [];
-    const wheres = ['is_deleted = false'];
+    const wheres = ['z.is_deleted = false'];
 
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`name=$${values.length}`);
+        wheres.push(`z.name=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
-        wheres.push(`project_id=$${values.length}`);
+        wheres.push(`z.project_id=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`properties=$${values.length}`);
+        wheres.push(`z.properties=$${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`details=$${values.length}`);
+        wheres.push(`z.details=$${values.length}`);
     }
+
+    values.push(user.id);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
 
     text += wheres.join(' AND ');
     const offset = (parseInt(page, 10) - 1) * parseInt(size, 10);
@@ -72,7 +81,7 @@ const fetch_zones = async (zone_data) => {
         text,
         values,
     });
-    const page_count = await fetch_zones_page_count(zone_data);
+    const page_count = await fetch_zones_page_count(zone_data, user);
     const ret_val = {
         values: res.rows,
         page_count,

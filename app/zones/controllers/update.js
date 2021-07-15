@@ -3,7 +3,7 @@ const updateService = require('../services/update');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/update');
-
+const accessCheck = require('../../projects/services/accessCheck.js');
 /**
  * @api {put} /api/zones/:id Update
  * @apiName UpdateZone
@@ -41,6 +41,18 @@ const update = async (request, response) => {
         return error(response, 404, {
             en: 'zone not found',
         });
+    }
+    if (!(await accessCheck(request.user, zone.project_id))) {
+        return error(response, 403, {
+            en: 'you don\'t have access to this project',
+        });
+    }
+    if (Object.prototype.hasOwnProperty.call(data, 'project_id')) {
+        if (!(await accessCheck(request.user, data.project_id))) {
+            return error(response, 403, {
+                en: 'you don\'t have access to this project',
+            });
+        }
     }
     if (Object.keys(data).length === 0) {
         return error(response, 400, {
