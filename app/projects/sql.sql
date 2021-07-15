@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS project_people
     id            SERIAL PRIMARY KEY,
     user_id      INT,
     project_id   INT,
+    is_deleted   BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES users,
     FOREIGN KEY (project_id) REFERENCES projects
 );
