@@ -15,7 +15,7 @@ CREATE TABLE activities
     scheduled_end_date  DATE,
     people              INT[],
     zones               INT[],
-    status              VARCHAR(255),
+    status              INT,
     is_done             BOOLEAN default false,
     is_deleted          BOOLEAN default false,
     FOREIGN KEY (project_id) REFERENCES projects
