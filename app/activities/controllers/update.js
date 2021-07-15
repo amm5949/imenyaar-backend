@@ -42,6 +42,13 @@ const update = async (request, response) => {
             en: 'you don\'t have access to this project',
         });
     }
+    if (Object.prototype.hasOwnProperty.call(activity_details, 'project_id')) {
+        if (!(await accessCheck(request.user, data.project_id))) {
+            return error(response, 403, {
+                en: 'you don\'t have access to this project',
+            });
+        }
+    }
     if (Object.prototype.hasOwnProperty.call(activity_details, 'zones')) {
         const len = activity_details.zones.length;
         activity_details.zones = await createService.test_zones(activity_details.zones);
