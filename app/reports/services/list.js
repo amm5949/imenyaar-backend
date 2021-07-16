@@ -3,27 +3,28 @@ const { fetchAll } = require('../../../core/db/postgresql');
 const { fetch } = require('../../../core/db/postgresql');
 
 exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefined }) => {
-    let values = [(parseInt(page, 10) - 1) * size, parseInt(size, 10)];
+    const values = [];
+    values.push((parseInt(page, 10) - 1) * size, parseInt(size, 10));
     let where = ['r.is_deleted = false', 'u.is_deleted = false'];
 
     if (filter.hasOwnProperty('user_id') && filter.user_id !== undefined) {
-        values = [...values, filter.user_id];
-        where = [...where, `r.user_id = $${values.length}`];
+        values.push(filter.user_id);
+        where.push(`r.user_id = $${values.length}`);
     }
 
     if (filter.hasOwnProperty('from')) {
-        values = [...values, filter.from];
-        where = [...where, `r.creation_date >= $${values.length}`];
+        values.push(filter.from);
+        where.push(`r.creation_date >= $${values.length}`);
     }
 
     if (filter.hasOwnProperty('to')) {
-        values = [...values, filter.to];
-        where = [...where, `r.creation_date <= $${values.length}`];
+        values = values.push(filter.to);
+        where = where.push(`r.creation_date <= $${values.length}`);
     }
 
     if (filter.hasOwnProperty('project_id')) {
-        values = [...values, filter.project_id];
-        where = [...where, `p.id = $${values.length}`];
+        values.push(filter.project_id);
+        where.push(`p.id = $${values.length}`);
     }
 
     const whereString = ' AND ' + where.join(' AND ');
@@ -60,23 +61,23 @@ exports.count = (filter) => {
     let where = ['r.is_deleted = false', 'u.is_deleted = false'];
 
     if (filter.hasOwnProperty('user_id') && filter.user_id !== undefined) {
-        values = [...values, filter.user_id];
-        where = [...where, `r.user_id = $${values.length}`];
+        values.push(filter.user_id);
+        where.push(`r.user_id = $${values.length}`);
     }
 
     if (filter.hasOwnProperty('from')) {
-        values = [...values, filter.from];
-        where = [...where, `r.creation_date >= $${values.length}`];
+        values.push(filter.from);
+        where.push(`r.creation_date >= $${values.length}`);
     }
 
     if (filter.hasOwnProperty('to')) {
-        values = [...values, filter.to];
-        where = [...where, `r.creation_date <= $${values.length}`];
+        values.push(filter.to);
+        where.push(`r.creation_date <= $${values.length}`);
     }
 
     if (filter.hasOwnProperty('project_id')) {
-        values = [...values, filter.project_id];
-        where = [...where, `p.id = $${values.length}`];
+        values.push(filter.project_id);
+        where.push(`p.id = $${values.length}`);
     }
 
     const whereString = 'AND ' + where.join(' and ');
