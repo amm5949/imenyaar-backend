@@ -105,14 +105,25 @@ CREATE TABLE IF NOT EXISTS projects
     id            SERIAL PRIMARY KEY,
     name          varchar(255),
     owner_id      INT,
-    start_date    VARCHAR(28),
-    scheduled_end VARCHAR(28),
+    start_date    DATE,
+    scheduled_end DATE,
     address       VARCHAR(1023),
     area          FLOAT,
     is_multizoned BOOLEAN DEFAULT FALSE,
     is_deleted    BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (owner_id) REFERENCES users
 );
+
+CREATE TABLE IF NOT EXISTS project_people
+(
+    id            SERIAL PRIMARY KEY,
+    user_id      INT,
+    project_id   INT,
+    is_deleted   BOOLEAN,
+    FOREIGN KEY (user_id) REFERENCES users,
+    FOREIGN KEY (project_id) REFERENCES projects
+);
+
 
 CREATE TABLE IF NOT EXISTS zones
 (
@@ -151,16 +162,18 @@ CREATE TABLE IF NOT EXISTS incident_photos
     FOREIGN KEY (incident_id) REFERENCES incidents
 );
 
-CREATE TABLE IF NOT EXISTS activities
+CREATE TABLE activities
 (
     id                  SERIAL PRIMARY KEY,
-    start_date          VARCHAR(28),
-    scheduled_end_date  VARCHAR(28),
-    person_id           INT,
-    status              VARCHAR(255),
+    project_id          INT,
+    start_date          DATE,
+    scheduled_end_date  DATE,
+    people              INT[],
+    zones               INT[],
+    status              INT,
     is_done             BOOLEAN default false,
     is_deleted          BOOLEAN default false,
-    FOREIGN KEY (person_id) REFERENCES users
+    FOREIGN KEY (project_id) REFERENCES projects
 );
 
 CREATE TABLE IF NOT EXISTS reports
@@ -276,13 +289,85 @@ VALUES  (1, 'admin'),
         (2, 'project manager'),
         (3, 'refree')
         ;
+
+-- USER MANAGEMENTS
 INSERT INTO resources(id, url, method)
 VALUES (101, '/api/users', 'post'),
        (102, '/api/users', 'get'),
        (103, '/api/users/:id', 'get'),
        (104, '/api/users/:id', 'put'),
        (105, '/api/users/:id', 'delete');
+INSERT INTO accesses (resource_id, role_id)
+VALUES (101, 1),
+       (102, 1),
+       (103, 1),
+       (104, 1),
+       (105, 1),
+       (101, 2),
+       (102, 2),
+       (103, 2),
+       (104, 2),
+       (105, 2),
+       (102, 3),
+       (103, 3),
+       (104, 3),
+       (105, 3);
 
+-- PROJECTS
+INSERT INTO resources(id, url, method)
+VALUES (201, '/api/projects', 'post'),
+       (202, '/api/projects', 'get'),
+       (203, '/api/projects/:id', 'get'),
+       (204, '/api/projects/:id', 'put'),
+       (205, '/api/projects/:id', 'delete'),
+       (206, '/api/projects/people/:id', 'post'),
+       (207, '/api/projects/people/:id', 'get'),
+       (208, '/api/projects/people/:id', 'delete');
+
+INSERT INTO accesses (resource_id, role_id)
+VALUES (201, 1),
+       (202, 1),
+       (203, 1),
+       (204, 1),
+       (205, 1),
+       (206, 1),
+       (201, 2),
+       (202, 2),
+       (203, 2),
+       (204, 2),
+       (205, 2),
+       (206, 2),
+       (207, 1),
+       (207, 2),
+       (208, 2),
+       (208, 1);
+
+-- REPORTS (30x)
+
+-- ACTIVITIES (40x)
+INSERT INTO resources(id, url, method)
+VALUES (401, '/api/activities', 'post'),
+       (402, '/api/activities', 'get'),
+       (403, '/api/activities/:id', 'get'),
+       (404, '/api/activities/:id', 'put'),
+       (405, '/api/activities/:id', 'delete');
+
+INSERT INTO accesses (resource_id, role_id)
+VALUES (401, 1),
+       (402, 1),
+       (403, 1),
+       (404, 1),
+       (405, 1),
+       (401, 2),
+       (402, 2),
+       (403, 2),
+       (404, 2),
+       (405, 2);
+
+-- CATEGORIES (50x)
+
+
+-- QUESTIONS (60x)
 INSERT INTO resources(id, url, method)
 VALUES (601, '/api/questions', 'post'),
        (602,'/api/questions', 'get'),
@@ -304,20 +389,50 @@ VALUES (601, 1),
        (607, 1),
        (607, 2);
 
+-- SUBSCRIPTIONS (70x)
+
+-- ZONES (80x)
+INSERT INTO resources(id, url, method)
+VALUES (801, '/api/zones', 'post'),
+       (802, '/api/zones', 'get'),
+       (803, '/api/zones/:id', 'get'),
+       (804, '/api/zones/:id', 'put'),
+       (805, '/api/zones/:id', 'delete');
 
 INSERT INTO accesses (resource_id, role_id)
-VALUES (101, 1),
-       (102, 1),
-       (103, 1),
-       (104, 1),
-       (105, 1),
-       (101, 2),
-       (102, 2),
-       (103, 2),
-       (104, 2),
-       (105, 2),
-       (102, 3),
-       (103, 3),
-       (104, 3),
-       (105, 3);
+VALUES (801, 1),
+       (802, 1),
+       (803, 1),
+       (804, 1),
+       (805, 1),
+       (801, 2),
+       (802, 2),
+       (803, 2),
+       (804, 2),
+       (805, 2);
+
+
+-- INCIDENTS (90x)
+INSERT INTO resources (id, url, method)
+VALUES (901, '/api/incidents', 'post'),
+       (902, '/api/incidents/list/:zone_id', 'get'),
+       (903, '/api/incidents/fetch/:incident_id', 'get'),
+       (904, '/api/incidents/:incident_id', 'put');
+       
+INSERT INTO accesses(resource_id, role_id)
+VALUES (901, 1),
+       (902, 1),
+       (903, 1),
+       (904, 1),
+       (901, 2),
+       (902, 2),
+       (903, 2),
+       (904, 2),
+       (901, 3),
+       (902, 3),
+       (903, 3),
+       (904, 3);
+
+
+
 
