@@ -6,7 +6,7 @@ const add_people_schema = require('../schemas/add_people');
 const subscriptionService = require('../../subscription/services/verify');
 const accessCheck = require('../services/accessCheck.js');
 /**
- * @api {post} /api/projects/addpeople/:id add people
+ * @api {post} /api/projects/people/:id add people
  * @apiName AddPeopleToProject
  * @apiGroup Projects
  * @apiVersion 1.0.0
