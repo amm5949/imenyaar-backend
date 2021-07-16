@@ -139,8 +139,8 @@ CREATE TABLE IF NOT EXISTS zones
 CREATE TABLE IF NOT EXISTS incidents
 (
     id               SERIAL PRIMARY KEY,
-    zone_id          INT,
-    user_id          BIGINT,
+    zone_id          INT NOT NULL,
+    user_id          BIGINT NOT NULL ,
     type             VARCHAR(127)  NOT NULL,
     financial_damage INT DEFAULT 0 NOT NULL,
     human_damage     INT DEFAULT 0 NOT NULL,
@@ -427,7 +427,7 @@ VALUES (801, 1),
 -- INCIDENTS (90x)
 INSERT INTO resources (id, url, method)
 VALUES (901, '/api/incidents', 'post'),
-       (902, '/api/incidents/list/:zone_id', 'get'),
+       (902, '/api/incidents/list/:project_id', 'get'),
        (903, '/api/incidents/fetch/:incident_id', 'get'),
        (904, '/api/incidents/:incident_id', 'put');
 

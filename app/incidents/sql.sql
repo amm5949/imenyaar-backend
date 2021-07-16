@@ -1,6 +1,6 @@
 INSERT INTO resources (id, url, method)
 VALUES (901, '/api/incidents', 'post'),
-       (902, '/api/incidents/list/:zone_id', 'get'),
+       (902, '/api/incidents/list/:project_id', 'get'),
        (903, '/api/incidents/fetch/:incident_id', 'get'),
        (904, '/api/incidents/:incident_id', 'put'),
        (905, '/api/incidents/files', 'post');

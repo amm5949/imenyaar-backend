@@ -26,16 +26,16 @@ const updateService = require('../services/update');
         "fa": "درخواست موفقیت آمیز بود"
     },
     "result": {
-        "id": 16,
+        "id": 6,
         "zone_id": 1,
-        "type": "some brand new type",
+        "user_id": "1",
+        "type": "some new type",
         "financial_damage": 1000,
         "human_damage": 1500,
-        "date": "2021-07-12T19:30:00.000Z",
+        "date": "2021-07-13T12:35:34.659Z",
         "description": "some info",
-        "hour": 21,
-        "reason": "someone was eating",
-        "previous_version": 15
+        "reason": "someone was super tired",
+        "previous_version": 5
     }
 }
  * @apiParamExample {json} request-example:
@@ -48,7 +48,7 @@ const updateService = require('../services/update');
 
 const update = async (request, response) => {
     const updateValidator = validator(updateSchema, request.body);
-    const { id } = request.params;
+    const { incident_id: id } = request.params;
     if (updateValidator.failed) {
         return updateValidator.response(response);
     }
@@ -56,6 +56,12 @@ const update = async (request, response) => {
     const incident = await updateService.getIncident(id);
     if (!incident) {
         return error(response, 404, { en: 'invalid id' });
+    }
+
+    if (!(await updateService.checkAccess(request.user, incident.id))) {
+        return error(response, 403, {
+            en: 'you do not have access to this project',
+        });
     }
 
     if ((await updateService.isUpdated(incident.id))) {
@@ -71,11 +77,11 @@ const update = async (request, response) => {
         type: data.type || incident.type,
         financial_damage: data.financial_damage || incident.financial_damage,
         human_damage: data.human_damage || incident.human_damage,
-        hour: data.hour || incident.hour,
         reason: data.reason || incident.reason,
         date: data.date || incident.date,
         description: data.description || incident.description,
         previous_version: incident.id,
+        user_id: request.user.id,
     };
     const updateIncident = await updateService.updateIncident(newData);
     return ok(response, updateIncident);

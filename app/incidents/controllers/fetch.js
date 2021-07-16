@@ -24,7 +24,6 @@ const fetchService = require('../services/fetch');
             "human_damage": 1500,
             "date": "2021-07-12T19:30:00.000Z",
             "description": "some info",
-            "hour": 20,
             "reason": "someone was tired",
             "previous_version": null
         },
@@ -36,7 +35,6 @@ const fetchService = require('../services/fetch');
             "human_damage": 1500,
             "date": "2021-07-12T19:30:00.000Z",
             "description": "some info",
-            "hour": 20,
             "reason": "someone was super tired",
             "previous_version": 2
         },

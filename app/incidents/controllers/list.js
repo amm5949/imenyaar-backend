@@ -1,21 +1,23 @@
 const { ok, error } = require('../../../core/util/response');
 const listService = require('../services/list');
+const accessCheck = require('../../projects/services/accessCheck');
+
 
 /**
- * @api {get} /api/incidents/list/:zone_id Get incident reports of a zone
+ * @api {get} /api/incidents/list/:project_id Get incident reports of a project
  * @apiGroup Incidents
  * @apiName ListIncidents
  * @apiVersion 1.0.0
- * @apiDescription Get list of incidents, can be filtered by zone and date (to/from).
- * If user is admin, all incidents are returned, for project admins all relevant incidents are returned,
- * and for supervisors only incidents with their id as author is returned.
- * 
+ * @apiDescription Get list of incidents for a project
+ *
  * @apiParam (Query string) [page=1] Page number
  * @apiParam (Query string) [size=10] Entries per page
- * @apiParam (Query string) [zone_id] Zone Id of the incidents. 
- * @apiParam (Query string) [from] Date (from) fromat new Date() in js, can be truncated to date only (e.g. `2021-06-15`).
- * @apiParam (Query string) [to] Date (to) fromat new Date() in js, can be truncated to date only (e.g. `2021-06-15`).
- * 
+ * @apiParam (Query string) [zone_id] Zone Id of the incidents.
+ * @apiParam (Query string) [from] Date (from) format new Date() in js, can be truncated to date only
+ *  (e.g. `2021-06-15`).
+ * @apiParam (Query string) [to] Date (to) format new Date() in js, can be truncated to date only
+ *  (e.g. `2021-06-15`).
+ *
  * @apiSuccessExample
  HTTP/1.1 200
  {
@@ -25,78 +27,75 @@ const listService = require('../services/list');
         "fa": "درخواست موفقیت آمیز بود"
     },
     "result": {
-        "items": [
-            {
-                "id": 3,
-                "zone_id": 1,
-                "type": "minor",
-                "financial_damage": 1000,
-                "human_damage": 1500,
-                "date": "2021-07-15T19:05:34.659Z",
-                "description": "info",
-                "hour": 19,
-                "reason": "still investigating",
-                "user_id": "1",
-                "first_name": "Admin",
-                "last_name": "Admin"
-            },
+        "incidents": [
             {
                 "id": 1,
                 "zone_id": 1,
+                "user_id": null,
                 "type": "some type",
                 "financial_damage": 1000,
                 "human_damage": 1500,
-                "date": "2021-07-14T08:35:34.258Z",
+                "date": "2021-07-13T12:35:34.659Z",
                 "description": "some info",
-                "hour": 20,
                 "reason": "someone was tired",
-                "user_id": "1",
-                "first_name": "Admin",
-                "last_name": "Admin"
+                "previous_version": null
             },
             {
                 "id": 2,
                 "zone_id": 1,
-                "type": "some type 2",
+                "user_id": null,
+                "type": "some type",
                 "financial_damage": 1000,
                 "human_damage": 1500,
-                "date": "2021-06-15T21:05:34.659Z",
-                "description": "info",
-                "hour": 19,
-                "reason": "someone was done",
-                "user_id": "2",
-                "first_name": "John",
-                "last_name": "Silver"
+                "date": "2021-07-13T12:35:34.659Z",
+                "description": "some info",
+                "reason": "someone was tired",
+                "previous_version": null
+            },
+            {
+                "id": 3,
+                "zone_id": 1,
+                "user_id": null,
+                "type": "some type",
+                "financial_damage": 1000,
+                "human_damage": 1500,
+                "date": "2021-07-13T12:35:34.659Z",
+                "description": "some info",
+                "reason": "someone was tired",
+                "previous_version": null
+            },
+            {
+                "id": 4,
+                "zone_id": 1,
+                "user_id": "1",
+                "type": "some type",
+                "financial_damage": 1000,
+                "human_damage": 1500,
+                "date": "2021-07-13T12:35:34.659Z",
+                "description": "some info",
+                "reason": "someone was tired",
+                "previous_version": null
             }
         ],
-        "count": "3",
-        "pageCount": 1
+        "pageCount": null
     }
 }
  */
 
 const list = async (request, response) => {
-    const { page = 1, size = 10, ...filter } = request.query;
     const { user } = request;
+    const { project_id: projectID } = request.params;
 
-    const incidents = await listService.all( {
-        page,
-        size,
-        ...filter,
-        // return only that users' records 
-        // unless there's higher clearance
-        user_id: user.id,
-        user_role: user.roles[0].id
-    });
-
-    const { count } = await listService.count({
-        ...filter,
-        user_id: user.id,        
-        user_role: user.roles[0].id
-    });
+    if (!(await accessCheck(user, projectID))) {
+        return error(response, 403, {
+            en: 'you do not have access to this project',
+        });
+    }
+    const { zone_id: zoneID, to, from, page = 1, size = 10 } = request.query;
+    const incidents = await listService.listIncidents(projectID, zoneID, page, size, to, from);
+    const { count } = await listService.count(projectID, zoneID, to, from);
     return ok(response, {
-        items: incidents,
-        count: count,
+        incidents,
         pageCount: Math.ceil(count / size),
     });
 };

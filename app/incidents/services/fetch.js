@@ -13,13 +13,12 @@ const fetchIncident = async (incidentID) => db.fetchAll(
                                               i.human_damage,
                                               i.date,
                                               i.description,
-                                              i.hour,
                                               i.reason,
                                               i.previous_version
                                        FROM incidents i
                                                 INNER JOIN incidents p ON i.previous_version = p.id)
                SELECT *
-               FROM incs`,
+               FROM incs ORDER BY date`,
         values: [incidentID],
     },
 );
