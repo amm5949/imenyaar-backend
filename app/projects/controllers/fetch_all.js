@@ -10,14 +10,14 @@ const { ok } = require('../../../core/util/response');
  * owner_id filter also returns a count of active projects. To search in project name or address,
  * use filter parameter (but the process is slow, don't chain it!) It uses LIKE operator on the db.
  * 
- * @apiParam {Number} owner_id Id of project owner, also counts active projects (returning activeCount along count).
- * @apiParam {Date} start_date_from acceptable Acceptable format js' date.
- * @apiParam {Date} start_date_to acceptable Acceptable format js' date.
- * @apiParam {Date} scheduled_end_date_from Acceptable format js' date.
- * @apiParam {Date} scheduled_end_date_to Acceptable format js' date.
- * @apiParam {Boolean} is_multizoned Whether to filter multi-zoned projects (for stats)
- * @apiParam {String} filter Search filter, acceptable format is argument to a postgres `LIKE` operator.
- * @apiParam {Boolean} check_active If `true`, filter all active projects.
+ * @apiParam (Query String) {Number} [owner_id] Id of project owner, also counts active projects (returning activeCount along count).
+ * @apiParam (Query String) {Date} [start_date_from] acceptable Acceptable format js' date.
+ * @apiParam (Query String) {Date} [start_date_to] acceptable Acceptable format js' date.
+ * @apiParam (Query String) {Date} [scheduled_end_date_from] Acceptable format js' date.
+ * @apiParam (Query String) {Date} [scheduled_end_date_to] Acceptable format js' date.
+ * @apiParam (Query String) {Boolean} [is_multizoned] Whether to filter multi-zoned projects (for stats)
+ * @apiParam (Query String) {String} [filter] Search filter, acceptable format is argument to a postgres `LIKE` operator.
+ * @apiParam (Query String) {Boolean} [check_active] If `true`, filter all active projects.
 
  * @apiSuccessExample
 {
