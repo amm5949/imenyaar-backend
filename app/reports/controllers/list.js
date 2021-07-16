@@ -10,6 +10,7 @@ const { ok } = require('../../../core/util/response');
  * @apiParam (Query string) [size=10] Entries per page
  * @apiParam (Query string) [from] Date (from) fromat new Date() in js
  * @apiParam (Query string) [to] Date (to) fromat new Date() in js
+ * @apiParam (Query string) [project_id] Project Id of the report.
  *
  * @apiSuccess {object[]} result.items Reprots list in descending order (latest first)
  * @apiSuccess {number} result.items.id Id

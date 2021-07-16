@@ -21,6 +21,11 @@ exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefin
         where = [...where, `r.creation_date <= $${values.length}`];
     }
 
+    if (filter.hasOwnProperty('project_id')) {
+        values = [...values, filter.project_id];
+        where = [...where, `p.id = $${values.length}`];
+    }
+
     const whereString = ' AND ' + where.join(' AND ');
     const text = `
         SELECT
@@ -33,6 +38,8 @@ exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefin
             u.last_name
         FROM reports r
         INNER JOIN users u ON u.id = r.user_id
+        INNER JOIN zones z ON z.id = r.zone_id
+        INNER JOIN projects p ON p.id = z.project_id
         WHERE parent_id IS NULL ${whereString}
         ORDER BY id DESC
         OFFSET $1
@@ -67,11 +74,18 @@ exports.count = (filter) => {
         where = [...where, `r.creation_date <= $${values.length}`];
     }
 
+    if (filter.hasOwnProperty('project_id')) {
+        values = [...values, filter.project_id];
+        where = [...where, `p.id = $${values.length}`];
+    }
+
     const whereString = 'AND ' + where.join(' and ');
     return fetch({
         text: `
             SELECT COUNT(*) FROM reports r
 	        INNER JOIN users u ON u.id = r.user_id
+            INNER JOIN zones z ON z.id = r.zone_id
+            INNER JOIN projects p ON p.id = z.project_id            
             WHERE parent_id IS NULL ${whereString}
         `,
         values,
