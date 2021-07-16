@@ -1,6 +1,6 @@
 const removeService = require('../services/remove');
 const { ok, error } = require('../../../core/util/response');
-
+const accessCheck = require('../../projects/services/accessCheck.js');
 /**
  * @api {delete} /api/zones/:id delete
  * @apiName DeleteZone
@@ -31,6 +31,11 @@ const remove = async (request, response) => {
         return error(request, 404, {
             en: 'zone not found',
             fa: 'زون یافت نشد',
+        });
+    }
+    if (!(await accessCheck(request.user, zone.project_id))) {
+        return error(response, 403, {
+            en: 'you don\'t have access to this project',
         });
     }
     await removeService.remove_zones(id);

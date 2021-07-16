@@ -1,6 +1,6 @@
 const fetchService = require('../services/fetch');
 const { ok, error } = require('../../../core/util/response');
-
+const accessCheck = require('../../projects/services/accessCheck.js');
 /**
  * @api {get} /api/zones/:id fetch
  * @apiName FetchZones
@@ -13,6 +13,21 @@ const { ok, error } = require('../../../core/util/response');
  * @apiSuccess {String} properties
  * @apiSuccess {String} details
  *
+ * @apiSuccessExample 
+{
+    "status": "ok",
+    "message": {
+        "en": "Request was successful",
+        "fa": "درخواست موفقیت آمیز بود"
+    },
+    "result": {
+        "id": 3,
+        "name": "test zone",
+        "project_id": 1,
+        "properties": "special",
+        "details": "very important detail"
+    }
+}
  */
 
 const fetch = async (request, response) => {
@@ -22,6 +37,11 @@ const fetch = async (request, response) => {
         return error(response, 404, {
             en: 'Zone not found.',
             fa: 'زون یافت نشد.',
+        });
+    }
+    if (!(await accessCheck(request.user, zone.project_id))) {
+        return error(response, 403, {
+            en: 'you don\'t have access to this project',
         });
     }
     return ok(response, zone, { }, 200);
