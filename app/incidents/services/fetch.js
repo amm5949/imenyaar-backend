@@ -6,7 +6,7 @@ const fetchIncident = async (incidentID) => db.fetchAll(
                                        FROM incidents
                                        WHERE id = $1
                                        UNION
-                                       SELECT *
+                                       SELECT i.*
                                        FROM incidents i
                                                 INNER JOIN incidents p ON i.previous_version = p.id)
                SELECT *
