@@ -12,7 +12,7 @@ const check_user_role = async (user) => {
     if (res === undefined) {
         return false;
     }
-    return res.role_id === 1;
+    return res.role_id == 1;
 };
 
 const count = async (data, user) => {
