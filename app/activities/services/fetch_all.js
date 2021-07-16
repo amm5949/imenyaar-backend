@@ -15,11 +15,11 @@ const fetch_activities_page_count = async (activity_data, user) => {
     const wheres = ['a.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
         values.push(activity_data.zones);
-        wheres.push(`zones@>$${values.length}`);
+        wheres.push(`$${values.length} = ANY(zones)`);
     }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'people')) {
         values.push(activity_data.people);
-        wheres.push(`people@>$${values.length}`);
+        wheres.push(`$${values.length} = ANY(people)`);
     }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'start_date_from')) {
         values.push(activity_data.start_date_from);
@@ -47,8 +47,9 @@ const fetch_activities_page_count = async (activity_data, user) => {
     }
 
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR people@> $${values.length + 1})`);
-    values.push(temp);
+    wheres.push(`(pp.owner_id = $${values.length} 
+        OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) 
+        OR $${values.length} = ANY(people))`);
 
     text += wheres.join(' AND ');
     const pages = await db.executeQuery({
@@ -72,11 +73,11 @@ const fetch_activities = async (activity_data, user) => {
     const wheres = ['a.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
         values.push(activity_data.zones);
-        wheres.push(`zones@>$${values.length}`);
+        wheres.push(`$${values.length} = ANY(zones)`);
     }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'people')) {
         values.push(activity_data.people);
-        wheres.push(`people@>$${values.length}`);
+        wheres.push(`$${values.length} = ANY(people)`);
     }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'start_date_from')) {
         values.push(activity_data.start_date_from);
@@ -104,8 +105,9 @@ const fetch_activities = async (activity_data, user) => {
     }
 
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR people@> $${values.length + 1})`);
-    values.push(temp);
+    wheres.push(`(pp.owner_id = $${values.length} 
+        OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) 
+        OR $${values.length} = ANY(people))`);
 
     text += wheres.join(' AND ');
     const offset = (parseInt(page, 10) - 1) * parseInt(size, 10);
