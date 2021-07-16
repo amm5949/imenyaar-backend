@@ -44,4 +44,3 @@ VALUES (301, 1),
        (304, 3),
        (305, 3)
        ;
-UPDATE resources set url='/api/reports/files' WHERE id = 304;
