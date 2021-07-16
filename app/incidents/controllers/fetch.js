@@ -63,7 +63,7 @@ const fetch = async (request, response) => {
         return error(response, 404, { en: 'invalid incident id' });
     }
     // Check access
-    if (!(await accessCheck.byIncident(user, incident[0]))) {
+    if (!(await accessCheck.byIncident(user, incidents[0]))) {
         return error(response, 403, {});
     }
     return ok(response, incidents);

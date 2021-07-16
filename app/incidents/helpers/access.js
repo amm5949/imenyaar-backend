@@ -1,3 +1,4 @@
+const db = require('../../../core/db/postgresql');
 exports.byIncident = async (user, incident) => {
     const project = await db.fetch({
         text: `
