@@ -3,7 +3,7 @@ const { fetchAll } = require('../../../core/db/postgresql');
 const { fetch } = require('../../../core/db/postgresql');
 
 exports.all = ({ page, size, ...filter } = { page: 1, size: 10, user_id: undefined }) => {
-    const values = [];
+    let values = [];
     values.push((parseInt(page, 10) - 1) * size, parseInt(size, 10));
     let where = ['r.is_deleted = false', 'u.is_deleted = false'];
 
