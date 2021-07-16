@@ -267,15 +267,26 @@ HTTP/1.1 200
         }
     ]
 }
+ * @apiError (404) NotFound Report not found
+ * @apiError (403) ForbiddenAccess Access denied.
  */
 const get = async (request, response) => {
     const { id } = request.params;
     const { user } = request;
 
     const report = await fetchService.fetchReport(id);
+    if(!report.length){
+        return error(response, 404, {
+            en: 'Report not found.',
+            fa: 'گزارش یافت نشد.'
+        });
+    }
     // Check access
     if (!(await accessCheck.byReport(user, report[0]))) {
-        return error(response, 403, {});
+        return error(response, 403, {
+            en: 'Access to report is denied.',
+            fa: 'دسترسی به گزارش وجود ندارد.'
+        });
     }
     return ok(response, report);
 };
