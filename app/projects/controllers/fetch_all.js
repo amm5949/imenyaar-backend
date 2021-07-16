@@ -6,16 +6,18 @@ const { ok } = require('../../../core/util/response');
  * @apiName ListProjects
  * @apiGroup Projects
  * @apiVersion 1.0.0
- * @apiDescription List all projects, output format is same as FetchProject but projects are in an array
- * @apiParam {String} name, provided in query
- * @apiParam {Number} owner_id, provided in query
- * @apiParam {Date} start_date_from acceptable format is "new Date()" provided in query
- * @apiParam {Date} start_date_to acceptable format is "new Date()" provided in query
- * @apiParam {Date} scheduled_end_date_from acceptable format is "new Date()" provided in query
- * @apiParam {Date} scheduled_end_date_to acceptable format is "new Date()" provided in query
- * @apiParam {String} address, provided in query
- * @apiParam {Number} area, provided in query
- * @apiParam {Boolean} is_multizoned, provided in query
+ * @apiDescription List all projects. There are filters available for returned array,
+ * owner_id filter also returns a count of active projects. To search in project name or address,
+ * use filter parameter (but the process is slow, don't chain it!) It uses LIKE operator on the db.
+ * 
+ * @apiParam {Number} owner_id Id of project owner, also counts active projects (returning activeCount along count).
+ * @apiParam {Date} start_date_from acceptable Acceptable format js' date.
+ * @apiParam {Date} start_date_to acceptable Acceptable format js' date.
+ * @apiParam {Date} scheduled_end_date_from Acceptable format js' date.
+ * @apiParam {Date} scheduled_end_date_to Acceptable format js' date.
+ * @apiParam {Boolean} is_multizoned Whether to filter multi-zoned projects (for stats)
+ * @apiParam {String} filter Search filter, acceptable format is argument to a postgres `LIKE` operator.
+ * @apiParam {Boolean} check_active If `true`, filter all active projects.
 
  * @apiSuccessExample
 {
@@ -25,27 +27,37 @@ const { ok } = require('../../../core/util/response');
         "fa": "درخواست موفقیت آمیز بود"
     },
     "result": {
-        "values": [
-            {
-                "id": 1,
-                "name": "project",
-                "owner_id": 3,
-                "start_date": "2020-12-30T20:30:00.000Z",
-                "scheduled_end": "2020-12-30T20:30:00.000Z",
-                "address": "addres",
-                "area": 12345,
-                "is_multizoned": true
-            }
-        ],
-        "page_count": 1
-    }
+       "items": [
+			{
+				"id": 1,
+				"name": "Clerckenwell",
+				"owner_id": 12,
+				"first_name": "Tuesday",
+				"last_name": "Weld",
+				"start_date": "2021-06-08T19:30:00.000Z",
+				"scheduled_end": "2021-06-29T19:30:00.000Z",
+				"address": "Somewhere in the middle of nowhere",
+				"area": 4009,
+				"is_multizoned": false
+			}
+		],
+		"count": "1",
+		"pageCount": 1
+	}
 }
  *
  */
 
 const list = async (request, response) => {
-    const projects = await listService.fetch_projects(request.query, request.user);
-    return ok(response, projects, {}, 200);
+    const { page = 1, size = 10, ...data} = request.query;
+    const { user } = request;
+    const projects = await listService.fetch_projects(data, user);
+    const count = await listService.count(data, user);
+    return ok(response, {
+        items: projects,
+        count: count,
+        pageCount: Math.ceil(count / size)
+    }, {}, 200);
 };
 
 module.exports = async (request, response) => {
