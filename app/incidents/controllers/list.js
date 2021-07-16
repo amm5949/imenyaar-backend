@@ -86,7 +86,7 @@ const list = async (request, response) => {
     const { user } = request;
     const { project_id: projectID } = request.params;
 
-    if (!(await accessCheck(user, projectID))) {
+    if (!(await accessCheck(user, projectID, 'fetch'))) {
         return error(response, 403, {
             en: 'you do not have access to this project',
         });
