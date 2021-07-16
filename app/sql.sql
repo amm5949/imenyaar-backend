@@ -290,7 +290,6 @@ CREATE TABLE IF NOT EXISTS answer_voices
 
 INSERT INTO account_types (id, name, price) values (1, 'default', 100)
 ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
-
 INSERT INTO categories(id, name, parent_id) VALUES (1,'test',null);
 
 INSERT INTO roles (id, name)
@@ -355,7 +354,30 @@ VALUES (201, 1),
        (207, 3);
 
 -- REPORTS (30x)
+INSERT INTO resources(id, url, method)
+VALUES (301, '/api/reports', 'post'),
+       (302, '/api/reports', 'get'),
+       (303, '/api/reports/:id', 'get'),
+       (304, '/api/reports/files', 'post'),
+       (305, '/api/reports/:id', 'put');
 
+INSERT INTO accesses (resource_id, role_id)
+VALUES (301, 1),
+       (302, 1),
+       (303, 1),
+       (304, 1),
+       (305, 1),
+       (301, 2),
+       (302, 2),
+       (303, 2),
+       (304, 2),
+       (305, 2),
+       (301, 3),
+       (302, 3),
+       (303, 3),
+       (304, 3),
+       (305, 3)
+       ;
 -- ACTIVITIES (40x)
 INSERT INTO resources(id, url, method)
 VALUES (401, '/api/activities', 'post'),
@@ -377,6 +399,15 @@ VALUES (401, 1),
        (405, 2);
 
 -- CATEGORIES (50x)
+INSERT INTO resources(id, url, method)
+VALUES (501, '/api/categories', 'post'),
+       (502, '/api/categories', 'get');
+
+INSERT INTO accesses (resource_id, role_id)
+VALUES  (501, 1),
+        (502, 1),
+        (502, 2),
+        (502, 3);
 
 
 -- QUESTIONS (60x)
@@ -402,7 +433,35 @@ VALUES (601, 1),
        (607, 2);
 
 -- SUBSCRIPTIONS (70x)
+INSERT INTO resources (id, url, method)
+VALUES  (701, '/api/subscription', 'post'),
+        (702, '/api/subscription/buy', 'post'),
+        (703, '/api/subscription/verify', 'post'),
+        (704, '/api/subscription/type/:id', 'put'),
+        (705, '/api/subscription/type/:id', 'get'),
+        (706, '/api/subscription/type', 'get'),
+        (707, '/api/subscription/type/:id', 'delete')
+        ;
 
+INSERT INTO accesses (resource_id, role_id)
+VALUES  (701, 1),
+        (701, 2),
+        (701, 3),
+        (702, 1),
+        (702, 2),
+        (702, 3),
+        (703, 1),
+        (703, 2),
+        (703, 3),
+        (704, 1),
+        (705, 1),
+        (705, 2),
+        (705, 3),
+        (706, 1),
+        (706, 2),
+        (706, 3),
+        (707, 1)
+        ;
 -- ZONES (80x)
 INSERT INTO resources(id, url, method)
 VALUES (801, '/api/zones', 'post'),

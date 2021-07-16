@@ -42,16 +42,11 @@ const accessCheck = require('../../projects/services/accessCheck.js');
 
 const fetch = async (request, response) => {
     const { id } = request.params;
-    const activity = await fetchService.fetch_activity(id);
+    const activity = await fetchService.fetch_activity(id, request.user);
     if (!activity) {
         return error(response, 404, {
             en: 'Activity not found.',
             fa: 'فعالیت یافت نشد.',
-        });
-    }
-    if (!(await accessCheck(request.user, activity.project_id))) {
-        return error(response, 403, {
-            en: 'you don\'t have access to this project',
         });
     }
     return ok(response, activity, { }, 200);

@@ -1,28 +1,13 @@
 /* eslint-disable camelcase */
 const db = require('../../../core/db/postgresql');
-// const projectCheckAccess = require('../../projects/services/checkAccess');
 
-const fetch_activity = async (id) => db.fetch({
+const fetch_activity = async (id, user) => db.fetch({
     text: `SELECT id, start_date, scheduled_end_date, project_id, people, zones, status, is_done
-           FROM activities
-           WHERE is_deleted = false AND id = $1`,
-    values: [id],
+           FROM activities 
+           WHERE is_deleted = false AND id = $1 AND ($2 in (select owner_id from projects where is_deleted=false and activities.project_id = projects.id) or $2 in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) or people @> $3 )`,
+    values: [id, user.id, [user.id]],
 });
-
-const checkAccess = async (userId, activityId) => {
-
-    const projectId = (await db.fetch({
-        text: `SELECT project_id FROM activities a
-        WHERE a.id = $1`,
-        values: [activityId]
-    })).project_id;
-
-    const access = (await projectCheckAccess(userId, projectId));
-
-    return access;
-}
 
 module.exports = {
     fetch_activity,
-    checkAccess,
 };
