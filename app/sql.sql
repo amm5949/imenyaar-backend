@@ -139,14 +139,13 @@ CREATE TABLE IF NOT EXISTS zones
 CREATE TABLE IF NOT EXISTS incidents
 (
     id               SERIAL PRIMARY KEY,
-    zone_id          INT,
-    user_id          BIGINT,
+    zone_id          INT NOT NULL,
+    user_id          BIGINT NOT NULL ,
     type             VARCHAR(127)  NOT NULL,
     financial_damage INT DEFAULT 0 NOT NULL,
     human_damage     INT DEFAULT 0 NOT NULL,
-    date             VARCHAR(28)          NOT NULL,
+    date             TIMESTAMP          NOT NULL,
     description      VARCHAR(2047) NOT NULL,
-    hour             INT           NOT NULL,
     reason           VARCHAR(255)  NOT NULL,
     previous_version INT DEFAULT NULL,
     FOREIGN KEY (zone_id) REFERENCES zones,
@@ -154,12 +153,22 @@ CREATE TABLE IF NOT EXISTS incidents
     FOREIGN KEY (previous_version) REFERENCES incidents
 );
 
-CREATE TABLE IF NOT EXISTS incident_photos
+CREATE TABLE IF NOT EXISTS incident_images
 (
-    id          SERIAL PRIMARY KEY,
-    incident_id INT,
-    name        VARCHAR(511),
-    FOREIGN KEY (incident_id) REFERENCES incidents
+    id         BIGSERIAL PRIMARY KEY,
+    incident_id  BIGINT       DEFAULT NULL,
+    path       varchar(250) NOT NULL,
+    FOREIGN KEY (incident_id) REFERENCES incidents (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS incident_voices
+(
+    id         BIGSERIAL PRIMARY KEY,
+    incident_id  BIGINT       DEFAULT NULL,
+    path       varchar(250) NOT NULL,
+    FOREIGN KEY (incident_id) REFERENCES incidents (id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE activities
@@ -267,7 +276,7 @@ CREATE TABLE IF NOT EXISTS answer_images
     id         BIGSERIAL PRIMARY KEY,
     answer_id  BIGINT       DEFAULT NULL,
     path       varchar(250) NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answers (id) 
+    FOREIGN KEY (answer_id) REFERENCES answers (id)
         ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS answer_voices
@@ -275,13 +284,12 @@ CREATE TABLE IF NOT EXISTS answer_voices
     id         BIGSERIAL PRIMARY KEY,
     answer_id  BIGINT       DEFAULT NULL,
     path       varchar(250) NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answers (id) 
+    FOREIGN KEY (answer_id) REFERENCES answers (id)
         ON DELETE CASCADE
 );
 
 INSERT INTO account_types (id, name, price) values (1, 'default', 100)
-ON CONFLICT (id) DO UPDATE(28) SET name = 'default', price = 100;
-
+ON CONFLICT (id) DO UPDATE SET name = 'default', price = 100;
 INSERT INTO categories(id, name, parent_id) VALUES (1,'test',null);
 
 INSERT INTO roles (id, name)
@@ -478,10 +486,10 @@ VALUES (801, 1),
 -- INCIDENTS (90x)
 INSERT INTO resources (id, url, method)
 VALUES (901, '/api/incidents', 'post'),
-       (902, '/api/incidents/list/:zone_id', 'get'),
+       (902, '/api/incidents/list/:project_id', 'get'),
        (903, '/api/incidents/fetch/:incident_id', 'get'),
        (904, '/api/incidents/:incident_id', 'put');
-       
+
 INSERT INTO accesses(resource_id, role_id)
 VALUES (901, 1),
        (902, 1),

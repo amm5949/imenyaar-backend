@@ -19,22 +19,23 @@ const createService = require('../services/create');
  * @apiParam {string} date acceptable format is "new Date()" provided in body
  * @apiSuccessExample success-example:
  *  HTTP/1.1 200
- * {
+ *{
     "status": "ok",
     "message": {
         "en": "Request was successful",
         "fa": "درخواست موفقیت آمیز بود"
     },
     "result": {
-        "id": 2,
+        "id": 4,
         "zone_id": 1,
+        "user_id": "1",
         "type": "some type",
         "financial_damage": 1000,
         "human_damage": 1500,
-        "date": "2021-07-12T19:30:00.000Z",
+        "date": "2021-07-13T12:35:34.659Z",
         "description": "some info",
-        "hour": 20,
-        "reason": "someone was tired"
+        "reason": "someone was tired",
+        "previous_version": null
     }
 }
  * @apiParamExample {json} request-example:
@@ -45,8 +46,9 @@ const createService = require('../services/create');
     "human_damage":1500,
     "date":"2021-07-13T17:05:34.659Z",
     "description":"some info",
-    "hour":20,
-    "reason":"someone was tired"
+    "reason":"someone was tired",
+    "image_ids":[12, 2],
+    "voice_ids":[13, 41]
 }
  */
 
@@ -55,7 +57,11 @@ const create = async (request, response) => {
     if (createValidator.failed) {
         return createValidator.response(response);
     }
-    const { data } = createValidator;
+    const data = {
+        ...createValidator.data,
+        user_id: request.user.id,
+        image_ids: createValidator.data.image_ids,
+    };
     const zone = await createService.getZone(data.zone_id);
     if (zone === undefined) {
         return error(response, 404, {
@@ -66,6 +72,7 @@ const create = async (request, response) => {
     if (Number.isNaN(Date.parse(data.date))) {
         return error(response, 400, { en: 'invalid date format.' });
     }
+
     const incident = await createService.insertIncident(data);
     return ok(response, incident);
 };

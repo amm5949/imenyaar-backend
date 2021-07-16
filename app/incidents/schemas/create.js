@@ -6,6 +6,9 @@ module.exports = {
     'human_damage': 'integer',
     'date': 'string',
     'description': 'string',
-    'hour': 'integer|range:0,23',
     'reason': 'string',
+    'image_ids': 'array',
+    'image_ids.*': 'integer',
+    'voice_ids': 'array',
+    'voice_ids.*': 'integer',
 };
