@@ -21,11 +21,11 @@ const { ok } = require('../../../core/util/response');
     "result": {
         "values": [
             {
-                "id": 1,
+                "id": 3,
                 "name": "test zone",
                 "project_id": 1,
-                "properties": "zone properties",
-                "details": "zone details"
+                "properties": "special",
+                "details": "very important detail"
             }
         ],
         "page_count": 1
@@ -34,7 +34,7 @@ const { ok } = require('../../../core/util/response');
  */
 
 const list = async (request, response) => {
-    const zones = await listService.fetch_zones(request.query);
+    const zones = await listService.fetch_zones(request.query, request.user);
     return ok(response, zones, {}, 200);
 };
 
