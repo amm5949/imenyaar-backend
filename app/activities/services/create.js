@@ -11,7 +11,6 @@ const test_users = async (users) => {
                    AND user_id = $1`,
             values: [user],
         });
-        console.log(res, user)
         if (res) {
             people.push(res.i);
         }
