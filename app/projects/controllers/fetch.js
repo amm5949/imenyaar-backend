@@ -38,7 +38,7 @@ const accessCheck = require('../services/accessCheck.js');
 
 const fetch = async (request, response) => {
     const { id } = request.params;
-    if (!(await accessCheck(request.user, id))) {
+    if (!(await accessCheck(request.user, id, 'fetch'))) {
         return error(response, 403, {
             en: 'you don\'t have access to this project',
         });

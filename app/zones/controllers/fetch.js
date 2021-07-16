@@ -39,7 +39,7 @@ const fetch = async (request, response) => {
             fa: 'زون یافت نشد.',
         });
     }
-    if (!(await accessCheck(request.user, zone.project_id))) {
+    if (!(await accessCheck(request.user, zone.project_id, 'fetch'))) {
         return error(response, 403, {
             en: 'you don\'t have access to this project',
         });
