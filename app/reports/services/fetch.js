@@ -5,9 +5,9 @@ const  {getCategoryNames } = require('../../categories/services/list');
 
 const fetchReportById = async (id) => {
     const report = await fetch({
-        text: `SELECT id, user_id
+        text: `SELECT id, user_id, zone_id
         FROM reports
-        WHERE id = $1 AND is_deleted = FALSE `,
+        WHERE id = $1`,
         values: [id]
     });
     return report;

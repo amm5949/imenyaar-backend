@@ -274,10 +274,9 @@ const get = async (request, response) => {
 
     const report = await fetchService.fetchReport(id);
     // Check access
-    if (!accessCheck(user, report)) {
+    if (!(await accessCheck.byReport(user, report[0]))) {
         return error(response, 403, {});
     }
-
     return ok(response, report);
 };
 

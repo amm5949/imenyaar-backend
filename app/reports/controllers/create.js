@@ -3,7 +3,7 @@ const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
 const activityService = require('../../activities/services/fetch');
-const { activity_id } = require('../schemas/create');
+const accessHelper = require('../helpers/access');
 
 /**
  * @api {post} /api/reports create
@@ -136,12 +136,13 @@ const create = async (request, response) => {
         validatorResult.response(response);
     }
     // TODO: add this when access check is fixed
-    // if (!activityService.checkAccess(user.id, data.activity_id)){
-    //     return error(response, 403, {
-    //         en: 'Invalid access',
-    //         fa: 'دسترسی غیرمجاز'
-    //     });
-    // }
+    const activity = await activityService.fetch_activity(data.activity_id);
+    if (!accessHelper.byActivity(user, activity)){
+        return error(response, 403, {
+            en: 'Invalid access',
+            fa: 'دسترسی غیرمجاز'
+        });
+    }
 
     const report = await createService(data);
     return ok(response, report);
