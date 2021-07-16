@@ -4,10 +4,10 @@ const db = require('../../../core/db/postgresql');
 
 const check_user_role = async (user) => {
     const res = await db.fetch({
-        text: `SELECT account_type_id as i
-               FROM users
+        text: `SELECT role_id as i
+               FROM user_roles
                WHERE is_deleted = FALSE
-               AND id = $1`,
+               AND user_id = $1`,
         values: [user.id],
     });
     if (res === undefined) {
@@ -20,14 +20,14 @@ const fetch_projects_page_count = async (project_data, user) => {
     const size = project_data.size || 10;
     let text = `
         SELECT COUNT(*) AS count
-        FROM projects
+        FROM projects p
         WHERE
     `;
     const values = [];
     const wheres = ['is_deleted = false'];
     if (!(await check_user_role(user))) {
         values.push(user.id);
-        wheres.push(`owner_id=$${values.length}`);
+        wheres.push(`(p.owner_id=$${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id and is_deleted=false))`);
     }
 
     if (Object.prototype.hasOwnProperty.call(project_data, 'name')) {
@@ -80,14 +80,14 @@ const fetch_projects = async (project_data, user) => {
     const size = project_data.size || 10;
     let text = `
         SELECT id, name, owner_id, start_date, scheduled_end, address, area, is_multizoned
-        FROM projects
+        FROM projects p
         WHERE
     `;
     const values = [];
     const wheres = ['is_deleted = false'];
     if (!(await check_user_role(user))) {
         values.push(user.id);
-        wheres.push(`owner_id=$${values.length}`);
+        wheres.push(`(p.owner_id=$${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id and is_deleted=false))`);
     }
 
     if (Object.prototype.hasOwnProperty.call(project_data, 'name')) {

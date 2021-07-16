@@ -31,7 +31,7 @@ const fetch_zones_page_count = async (zone_data, user) => {
 
 
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR $${values.length} IN (SELECT user_id FROM project_people ppp WHERE ppp.project_id=pp.id and is_deleted=false))`);
 
     text += wheres.join(' AND ');
     const pages = await db.executeQuery({
@@ -71,7 +71,7 @@ const fetch_zones = async (zone_data, user) => {
     }
 
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR $${values.length} IN (SELECT user_id FROM project_people ppp WHERE ppp.project_id=pp.id and is_deleted=false))`);
 
     text += wheres.join(' AND ');
     const offset = (parseInt(page, 10) - 1) * parseInt(size, 10);

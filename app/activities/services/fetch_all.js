@@ -10,6 +10,7 @@ const fetch_activities_page_count = async (activity_data, user) => {
         INNER JOIN projects pp ON pp.id = a.project_id 
         WHERE
     `;
+    const temp = [user.id];
     const values = [];
     const wheres = ['a.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
@@ -46,7 +47,8 @@ const fetch_activities_page_count = async (activity_data, user) => {
     }
 
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR people@> $${values.length + 1})`);
+    values.push(temp);
 
     text += wheres.join(' AND ');
     const pages = await db.executeQuery({
@@ -65,6 +67,7 @@ const fetch_activities = async (activity_data, user) => {
         INNER JOIN projects pp ON pp.id = a.project_id 
         WHERE
     `;
+    const temp = [user.id];
     const values = [];
     const wheres = ['a.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
@@ -99,14 +102,15 @@ const fetch_activities = async (activity_data, user) => {
         values.push(activity_data.is_done);
         wheres.push(`is_done=$${values.length}`);
     }
- 
+
     values.push(user.id);
-    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select id from users u where u.account_type_id = 1))`);
+    wheres.push(`(pp.owner_id = $${values.length} OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) OR people@> $${values.length + 1})`);
+    values.push(temp);
+
     text += wheres.join(' AND ');
     const offset = (parseInt(page, 10) - 1) * parseInt(size, 10);
     const limit = parseInt(size, 10);
     text += ` OFFSET ${offset} LIMIT ${limit}`;
-    console.log(text);
     const res = await db.executeQuery({
         text,
         values,
