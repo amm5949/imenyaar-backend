@@ -1,5 +1,6 @@
 const { ok, error } = require('../../../core/util/response');
 const fetchService = require('../services/fetch');
+const accessCheck = require('../helpers/access');
 
 /**
  * @api {get} /api/incidents/fetch/:incident_id Fetch
@@ -52,12 +53,18 @@ const fetchService = require('../services/fetch');
         }
     ]
 }
+ * @apiError (403) ForbiddenAccess Incident not accessible.
+ * @apiError (404) NotFound Incident not found.
  */
 const fetch = async (request, response) => {
     const { incident_id: incidentID } = request.params;
     const incidents = await fetchService.fetchIncident(incidentID);
     if (!incidents.length) {
         return error(response, 404, { en: 'invalid incident id' });
+    }
+    // Check access
+    if (!(await accessCheck.byIncident(user, incident[0]))) {
+        return error(response, 403, {});
     }
     return ok(response, incidents);
 };
