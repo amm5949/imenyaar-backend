@@ -136,7 +136,7 @@ const create = async (request, response) => {
         validatorResult.response(response);
     }
     // TODO: add this when access check is fixed
-    const activity = await activityService.fetch_activity(data.activity_id);
+    const activity = await activityService.fetch_activity(data.activity_id, user);
     if (!accessHelper.byActivity(user, activity)){
         return error(response, 403, {
             en: 'Invalid access',
