@@ -58,6 +58,7 @@ const accessCheck = require('../helpers/access');
  */
 const fetch = async (request, response) => {
     const { incident_id: incidentID } = request.params;
+    const {user} = request.user;
     const incidents = await fetchService.fetchIncident(incidentID);
     if (!incidents.length) {
         return error(response, 404, { en: 'invalid incident id' });
