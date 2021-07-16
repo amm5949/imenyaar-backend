@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS answer_voices
 );
 
 INSERT INTO account_types (id, name, price) values (1, 'default', 100)
-ON CONFLICT (id) DO UPVARCHAR(28) SET name = 'default', price = 100;
+ON CONFLICT (id) DO UPDATE(28) SET name = 'default', price = 100;
 
 INSERT INTO categories(id, name, parent_id) VALUES (1,'test',null);
 
@@ -346,6 +346,7 @@ VALUES (201, 1),
        (207, 3);
 
 -- REPORTS (30x)
+INSERT INTO resources(id, url, method)
 VALUES (301, '/api/reports', 'post'),
        (302, '/api/reports', 'get'),
        (303, '/api/reports/:id', 'get'),
