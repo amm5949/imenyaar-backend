@@ -28,21 +28,22 @@ const owns_project = async (id, user) => {
 };
 const check_user_role = async (user) => {
     const res = await db.fetch({
-        text: `SELECT role_id as i
+        text: `SELECT role_id
                FROM user_roles
                WHERE is_deleted = FALSE
-               AND user_id = $1`,
+               AND user_id = $1
+               ORDER BY role_id ASC`,
         values: [user.id],
     });
     if (res === undefined) {
         return false;
     }
-    return res.i === 1;
+    return res.role_id;
 };
 
 // acceptable types = {fetch, edit}
 module.exports = async (user, project, type='edit') => {
-    if (await owns_project(project, user) || await check_user_role(user)) {
+    if (await owns_project(project, user) || (await check_user_role(user)) == 1) {
         return true;
     }
     if (type === 'fetch' && await is_added_to_project(user, project)) {
