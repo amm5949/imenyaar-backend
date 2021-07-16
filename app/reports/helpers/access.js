@@ -11,7 +11,7 @@ exports.byReport = async (user, report) => {
     return (
     (user.roles[0].id === 1)
     || (user.roles[0].id === 2 && user.id === project.owner_id)
-    || (user.id === report.user_id)
+    || (user.id == report.user_id)
     )
 };
 
