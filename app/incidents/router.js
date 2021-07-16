@@ -6,4 +6,5 @@ module.exports = (app, router) => {
     router.get('/api/incidents', controllers.list);
     router.get('/api/incidents/fetch/:incident_id', controllers.fetch);
     router.put('/api/incidents/:id', controllers.update);
+    router.post('/api/incidents/files', controllers.upload);
 };
