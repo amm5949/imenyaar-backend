@@ -4,7 +4,7 @@ const updateSchema = require('../schemas/update');
 const updateService = require('../services/update');
 
 /**
- * @api {post} /api/questions/:id Update
+ * @api {put} /api/questions/:id Update
  * @apiGroup Questions
  * @apiName UpdateQuestion
  * @apiVersion 1.0.0

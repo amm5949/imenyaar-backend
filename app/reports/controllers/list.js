@@ -16,7 +16,7 @@ const { ok } = require('../../../core/util/response');
  * @apiSuccess {number} result.items.id Id
  * @apiSuccess {number} result.items.activity_id Activity id
  * @apiSuccess {number} result.items.zone_id Zone id
- * @apiSuccess {String}   result.items.creation_date Creation date of report. Format is `new Date()` of js.
+ * @apiSuccess {String} result.items.creation_date Creation date of report. Format is `new Date()` of js.
  * @apiSuccess {string} result.items.user_id User id
  * @apiSuccess {string} result.items.first_name User first name
  * @apiSuccess {string} result.items.last_name User last name
