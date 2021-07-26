@@ -61,7 +61,6 @@ module.exports = async (user) => {
         text: `SELECT token FROM activation_codes WHERE user_id = $1`,
         values: [record.id]
     })).token;
-    console.log(token, parseInt(record.phone_number,10));
     sms.send('verify', token, parseInt(record.phone_number,10));
 
     return record;

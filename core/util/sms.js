@@ -12,7 +12,7 @@ exports.send = (template, token, receptor) => {
     api.Send({
         receptor: receptor,
         message: message,
-        token: "0000000",
+        token: token,
         // template: "verify",
         sender: '1000596446',
     },
