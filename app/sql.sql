@@ -1,19 +1,19 @@
--- CREATE TYPE USER_TYPE AS ENUM ('bronze', 'silver', 'gold');
 
-CREATE TABLE IF NOT EXISTS account_types
-(
-    id                    SERIAL PRIMARY KEY,
-    name                  VARCHAR(63),
-    allowed_project_count INT     DEFAULT 1,
-    person_per_project    INT     DEFAULT 1,
-    duration_days         INT     DEFAULT 365,
-    can_incident          BOOLEAN DEFAULT FALSE,
-    can_sync              BOOLEAN DEFAULT FALSE,
-    price                 INT NOT NULL
+CREATE TABLE IF NOT EXISTS account_types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(63),
+    can_add_person BOOLEAN DEFAULT FALSE,
+    activity_count INT DEFAULT 1,
+    can_edit_photo BOOLEAN DEFAULT FALSE,
+    can_send_voice BOOLEAN DEFAULT FALSE,
+    can_access_incident BOOLEAN DEFAULT FALSE,
+    can_get_analytics BOOLEAN DEFAULT FALSE,
+    can_backup BOOLEAN DEFAULT FALSE,
+    duration_days INT DEFAULT 365,
+    price INT NOT NULL
 );
 
 
--- TODO handle subusers
 CREATE TABLE IF NOT EXISTS users
 (
     id              SERIAL PRIMARY KEY,
