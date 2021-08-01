@@ -14,15 +14,17 @@ program.version('0.0.1');
 
 // Create user
 
-program.command('create-user <phone_number> <password> <role> [first_name] [last_name]')
+program.command('create-user <phone_number> <password> <role> [first_name] [last_name] [account_type_id]')
     .description('Create a user')
-    .action(async (phone_number, password, role, first_name, last_name) => {
+    .action(async (phone_number, password, role, first_name, last_name, account_type_id) => {
         const record = await db.insertQuery('users', {
             phone_number,
             password: password,
             first_name: first_name || phone_number,
             last_name: last_name || phone_number,
+            account_type_id: account_type_id || 1,
             is_active: true,
+            is_verified: true,
             is_deleted: false,
         });
 
