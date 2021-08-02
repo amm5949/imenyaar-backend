@@ -39,17 +39,18 @@ const accessCheck = require('../services/accessCheck.js');
  * @apiErrorExample {json} Forbidden
  * HTTP/1.1 403 Forbidden
  *  {
- *     "status": "error",
- *     "message": {
- *          "en": "You can't add any more people to this project.",
-            "fa": "شما نمی‌توانید افراد دیگری به این پروژه معرفی کنید."
- *     }
- * }
+	"status": "error",
+	"message": {
+		"en": "You can't add any more people to this project.",
+		"fa": "شما نمی‌توانید افراد دیگری به این پروژه معرفی کنید."
+	}
+}
  */
 
 const added_people = async (request, response) => {
     const { id } = request.params;
     const result = validator(add_people_schema, request.body);
+    const user = request.user;
     if (result.failed) {
         return result.response(response);
     }
@@ -65,7 +66,7 @@ const added_people = async (request, response) => {
     // it's best to then include project id.
     const canAddPerson = (
             user.roles[0].name === 'admin' ||
-            await subscrptionService.checkByManager(user.id, 'can_add_person', id)
+            await subscriptionService.checkByManager(user.id, 'can_add_person', id)
         );
     if (!canAddPerson){
         return error(response, 403, {
