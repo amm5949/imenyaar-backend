@@ -3,7 +3,7 @@ const add_people_service = require('../services/add_people');
 const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const add_people_schema = require('../schemas/add_people');
-const subscriptionService = require('../../subscription/services/verify');
+const subscriptionService = require('../../subscription/services/check');
 const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {post} /api/projects/people/:id add people
@@ -24,14 +24,25 @@ const accessCheck = require('../services/accessCheck.js');
         ]
  }
  *
- * @apiError (403) {Object} maximumMembersReached Owner not allowed to add more people.
- * @apiErrorExample {json} maximumMembersReached
- * HTTP/1.1 400
+ * @apiError (404) {Object} NotFound Project/people not found.
+ * @apiError (403) {Object} Forbidden Owner not allowed to add more people/doesn't have access to project.
+ * @apiErrorExample {json} Forbidden
+ * HTT/1.1 403 Forbidden
  *  {
  *     "status": "error",
  *     "message": {
- *          "en": "Maximum allowed project members reached.",
-            "fa": "از سقف اعضای مجاز این پروژه عبور کرده‌اید."
+ *          "en": "you don't have access to this project",
+            "fa": "شما به این پروژه دسترسی ندارید."
+ *     }
+ * }
+ * 
+ * @apiErrorExample {json} Forbidden
+ * HTTP/1.1 403 Forbidden
+ *  {
+ *     "status": "error",
+ *     "message": {
+ *          "en": "You can't add any more people to this project.",
+            "fa": "شما نمی‌توانید افراد دیگری به این پروژه معرفی کنید."
  *     }
  * }
  */
@@ -42,27 +53,37 @@ const added_people = async (request, response) => {
     if (result.failed) {
         return result.response(response);
     }
-    // if (!subscriptionService.checkPeople(request.user.id, id)){
-    //     return error(response, 403, {
-    //         en: 'Maximum allowed project members reached.',
-    //         fa: 'از سقف اعضای مجاز این پروژه عبور کرده‌اید.'
-    //     });
-    // }
     const { data } = result;
     if (!(await accessCheck(request.user, id))) {
         return error(response, 403, {
             en: 'you don\'t have access to this project',
+            fa: "شما به این پروژه دسترسی ندارید."
+        });
+    }
+    // for now it's either one or many users
+    // in future versions this may become a quantitive resource
+    // it's best to then include project id.
+    const canAddPerson = (
+            user.roles[0].name === 'admin' ||
+            await subscrptionService.checkByManager(user.id, 'can_add_person', id)
+        );
+    if (!canAddPerson){
+        return error(response, 403, {
+            en: "You can't add any more people to this project.",
+            fa: "شما نمی‌توانید افراد دیگری به این پروژه معرفی کنید."
         });
     }
     const project = await add_people_service.fetch_project(id);
     if (project === undefined) {
         return error(response, 404, {
             en: 'project not found',
+            fa: 'پروژه یافت نشد.'
         });
     }
     if (!(await add_people_service.fetch_user(data.people))) {
         return error(response, 404, {
             en: 'one or more the users were not found',
+            fa: 'یک یا چند کاربر یافت نشدند.'
         });
     }
     const added_people_ret = await add_people_service.add_people(id, data.people);
