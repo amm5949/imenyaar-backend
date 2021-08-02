@@ -20,9 +20,39 @@ const createSchema = require('../schemas/create');
  * @apiParam {Boolean} [can_backup=False] whether the project manager can backup their project data.
  * @apiParam {Integer} [duration_days=365] duration of the subscription in days.
  * @apiParam {Integer} price the price of the subscriptio (in rials).
+ * @apiParamExample {json} Request-Example:
+ * {
+    "name": "Gold",
+	"can_add_person": false,
+	"activity_count": 4,
+	"can_edit_photos": true,
+	"can_send_voice": true,
+	"can_access_incident": true,
+	"price": 10000,
+	"duration": 10
+}
  * @apiSuccessExample
  * HTTP/1.1 200
- * 
+ * {
+	"status": "ok",
+	"message": {
+		"en": "Request was successful",
+		"fa": "درخواست موفقیت آمیز بود"
+	},
+	"result": {
+		"id": 2,
+		"name": "Gold",
+		"can_add_person": false,
+		"activity_count": 4,
+		"can_edit_photo": false,
+		"can_send_voice": true,
+		"can_access_incident": true,
+		"can_get_analytics": false,
+		"can_backup": false,
+		"duration_days": 365,
+		"price": 10000
+	}
+}
  */
 
 const create = async (request, response) => {
