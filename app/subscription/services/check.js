@@ -33,9 +33,10 @@ const checkByManager = async (id, resource, project_id=null) => {
    it's best to query this by project_id, unlike `checkByManager()`
 */
 const checkByUser = async (id, resource, project_id) => {
-    let query = `SELECT owner_id FROM projects p`;
+    let query = `SELECT owner_id FROM projects p WHERE p.id = $1`;
     const managerId = (await db.fetch({
-        text: query, values: [project_id]
+        text: query, 
+        values: [project_id]
     })).owner_id;
     const res = await checkByManager(managerId, resource, project_id);
     return res;
