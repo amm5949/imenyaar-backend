@@ -1,4 +1,4 @@
-
+-- account subscription schemas
 CREATE TABLE IF NOT EXISTS account_types (
     id SERIAL PRIMARY KEY,
     name VARCHAR(63),
@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS account_types (
 );
 
 
-CREATE TABLE IF NOT EXISTS users
-(
+CREATE TABLE IF NOT EXISTS users (
     id              SERIAL PRIMARY KEY,
     phone_number    VARCHAR(15)  NOT NULL,
     first_name      VARCHAR(63)  NOT NULL,
@@ -29,13 +28,24 @@ CREATE TABLE IF NOT EXISTS users
     FOREIGN KEY (account_type_id) REFERENCES account_types
 );
 
-
+-- profile pictures
 CREATE TABLE IF NOT EXISTS user_photos
 (
     id         SERIAL PRIMARY KEY,
     user_id    INT REFERENCES users,
     name       VARCHAR(511),
     is_deleted BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    account_type_id INT NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    cost INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users,
+    FOREIGN KEY (account_type_id) REFERENCES account_types
 );
 
 
@@ -54,6 +64,8 @@ CREATE TABLE IF NOT EXISTS user_roles
     FOREIGN KEY (role_id) REFERENCES roles,
     FOREIGN KEY (user_id) REFERENCES users
 );
+
+-- api resource and routing
 CREATE TABLE IF NOT EXISTS resources
 (
     id         BIGSERIAL PRIMARY KEY,
@@ -61,6 +73,8 @@ CREATE TABLE IF NOT EXISTS resources
     method     varchar(50)  NOT NULL,
     is_deleted BOOL DEFAULT false
 );
+
+-- resource access management by role
 CREATE TABLE IF NOT EXISTS accesses
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -71,14 +85,7 @@ CREATE TABLE IF NOT EXISTS accesses
     FOREIGN KEY (resource_id) REFERENCES resources
 );
 
-CREATE TABLE IF NOT EXISTS sms_data
-(
-    code          SERIAL PRIMARY KEY,
-    creation_date TIMESTAMP DEFAULT NOW(),
-    accepted      BOOLEAN   DEFAULT FALSE
-);
-
-
+-- activation tokens (sent via sms)
 create table IF NOT EXISTS activation_codes
 (
     id              bigserial primary key,
