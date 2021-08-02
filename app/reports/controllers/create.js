@@ -62,7 +62,9 @@ const accessHelper = require('../helpers/access');
     ]
 }
  * @apiSuccess {Object} result.report  Report details
- * @apiSuccess {Array} result.answers  Array of answer details (image and voice lins not included)
+ * @apiSuccess {Array}  result.answers  Array of answer details (image and voice lins not included)
+ * @apiSuccess {String} [result.errors]  If present, it indicates errors with attaching voice files 
+ *                                      (i.e. current subscription doesn't support voice attachments).
  * 
  * @apiSuccessExample 
     HTTP/1.1 200 
@@ -107,7 +109,8 @@ const accessHelper = require('../helpers/access');
                 "report_id": "60",
                 "is_deleted": false
             }
-        ]
+        ],
+        "errors": "cannot attach voice files."
     }
 }
 
@@ -135,7 +138,6 @@ const create = async (request, response) => {
     if (validatorResult.failed) {
         validatorResult.response(response);
     }
-    // TODO: add this when access check is fixed
     const activity = await activityService.fetch_activity(data.activity_id, user);
     if (!accessHelper.byActivity(user, activity)){
         return error(response, 403, {

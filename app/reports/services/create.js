@@ -1,6 +1,8 @@
 const db = require('../../../core/db/postgresql');
+const subscriptionService = require('../../subscription/services/check');
 
 const create = async (data) => {
+    let errors;
     const { answers, ...reportData } = data;
 
     const optionIds = answers.map((answer) => answer.option_id);
@@ -64,17 +66,49 @@ const create = async (data) => {
         {answer_id: image.answer_id},
         {id: image.id})
     }));
+    // this could be checked in files.js 
+    // but that requires checking which project the user is pushing into
+    // can be modified in future versions.
+    // a better practice is checking user's access *before* uploading files separately.
+    if(voiceData.length) {
+        const userRole = await db.fetch({
+            text: `SELECT r.id, r.name as name FROM user_roles ur
+                    INNER JOIN roles r on ur.role_id = r.id
+                    WHERE ur.user_id = $1
+                    ORDER BY r.id ASC`,
+            values: [data.user_id]
+        });
+        const projectId = (await db.fetch({
+            text: `SELECT project_id FROM reports r 
+            INNER JOIN activities a ON a.id = r.activity_id 
+            WHERE r.id = $1`,
+            values: [report.id]
+        })).project_id;
 
-    await Promise.all(voiceData.map((voice) => {
-        db.updateQuery('answer_voices', 
-        {answer_id: voice.answer_id},
-        {id: voice.id})
-    }));
+        const canVoice = (
+            userRole.name === 'admin' 
+            || await subscriptionService.checkByUser(data.user_id, 'can_send_voice', projectId)
+            );
+            console.log(canVoice);
+        if (canVoice){
+            await Promise.all(voiceData.map((voice) => {
+                db.updateQuery('answer_voices', 
+                {answer_id: voice.answer_id},
+                {id: voice.id})
+            }));
+        }
+        else {
+            errors = 'cannot attach voice files.';
+        }
+    }
     
-    return {
-        report,
-        answers: answersRes
-    };
+    const res = Object.assign ({
+            report,
+            answers: answersRes
+        },        
+        errors && {errors},
+        );
+    return res;
 };
 
 module.exports = create;
