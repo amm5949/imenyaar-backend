@@ -5,16 +5,16 @@ const createSchema = require('../schemas/create');
 
 /**
  * @api {post} /api/users create
- * @apiName CreateUser
+ * @apiName Refer User
  * @apiGroup User
  * @apiVersion 1.0.0
- * @apiDescription Create a user
+ * @apiDescription Create/refer a user
  *
  * @apiParam {string} phone_number Phone number
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
  *
- * @apiParamExample
+ * @apiParamExample {json} Request-Example:
  * {
  * "phone_number": "09220000000",
     "first_name": "John",
@@ -29,11 +29,12 @@ const createSchema = require('../schemas/create');
 
 const create = async (request, response) => {
     const result = validator(createSchema, request.body);
+    const user = request.user;
     
     if (result.failed) {
         return result.response(response);
     }
-    const referer_id = request.user.id;
+    const referer_id = user.id;
     const body = request.body;
     body.referer_id = referer_id;
     
@@ -44,12 +45,6 @@ const create = async (request, response) => {
             fa: 'شماره موبایل قبلاً ثبت شده است.',
         });
     }
-    // const accountType = await createService.getAccountType(body.account_type_id);
-    // if (accountType === undefined) {
-    //     return error(response, 400, {
-    //         en: 'invalid account type id',
-    //     });
-    // }
     return ok(response, {}, { en: 'user created' }, 200);
 };
 
