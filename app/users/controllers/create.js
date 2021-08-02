@@ -29,12 +29,11 @@ const createSchema = require('../schemas/create');
 
 const create = async (request, response) => {
     const result = validator(createSchema, request.body);
-    const user = request.user;
     
     if (result.failed) {
         return result.response(response);
     }
-    const referer_id = user.id;
+    const referer_id = request.user.id;
     const body = request.body;
     body.referer_id = referer_id;
     
