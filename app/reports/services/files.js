@@ -16,8 +16,9 @@ module.exports = async (images, voices) => {
         })));
     }
 
-    return {
-        imageRes,
-        voiceRes
-    };
+    const res = Object.assign ({},
+    imageRes && {imageRes},
+    voiceRes && {voiceRes}
+    );
+    return res;
 };
