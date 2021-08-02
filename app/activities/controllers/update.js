@@ -7,8 +7,8 @@ const createService = require('../services/create');
 const accessCheck = require('../../projects/services/accessCheck.js');
 /**
  * @api {put} /api/activities/:id Update
- * @apiName UpdateActivity
- * @apiGroup Activity
+ * @apiName Update Activity
+ * @apiGroup Activities
  * @apiVersion 1.0.0
  * @apiDescription Update an activity
  *
