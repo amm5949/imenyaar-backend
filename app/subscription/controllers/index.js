@@ -5,7 +5,7 @@ const verify = require('./verify');
 const update = require('./update');
 const fetch = require('./fetch');
 const list = require('./list');
-// const remove = require('./remove');
+const remove = require('./remove');
 
 module.exports = {
     create,
@@ -14,5 +14,5 @@ module.exports = {
     update,
     fetch,
     list,
-    // remove,
+    remove,
 };

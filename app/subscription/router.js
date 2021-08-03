@@ -7,5 +7,5 @@ module.exports = (app, router) => {
     router.put('/api/subscription/types/:id', controllers.update);
     app.get('/api/subscription/types/:id', controllers.fetch);
     app.get('/api/subscription/types', controllers.list);
-    // router.delete('/api/subscription/types/:id', controllers.remove);
+    router.delete('/api/subscription/types/:id', controllers.remove);
 };
