@@ -18,7 +18,7 @@ const { ok, error } = require('../../../core/util/response');
  * @apiSuccess {Boolean} can_get_analytics whether the project manager can get analytics in pdf format.
  * @apiSuccess {Boolean} can_backup whether the project manager can backup their project data.
  * @apiSuccess {Integer} duration_days duration of the subscription in days.
- * @apiSuccess {Integer} price the price of the subscriptio (in rials).
+ * @apiSuccess {Integer} price the price of the subscriptio (in Tomans).
  * @apiSuccessExample
  * HTTP/1.1 200
  * {

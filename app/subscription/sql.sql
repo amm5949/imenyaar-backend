@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS subscriptions (
     id              serial primary key,
-    start_date      varchar(30) not null,
-    end_date        varchar(30) not null,
+    start_date      timestamptz not null,
+    end_date        timestamptz not null,
     cost            bigint not null,
     user_id         bigint not null,
     account_type_id bigint not null,

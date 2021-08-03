@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const create = require('./create');
-// const buy = require('./buy');
-// const verify = require('./verify');
+const request = require('./request');
+const verify = require('./verify');
 // const update = require('./update');
 const fetch = require('./fetch');
 const list = require('./list');
@@ -9,8 +9,8 @@ const list = require('./list');
 
 module.exports = {
     create,
-    // buy,
-    // verify,
+    request,
+    verify,
     // update,
     fetch,
     list,

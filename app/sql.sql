@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     start_date DATE,
     end_date DATE,
     cost INT NOT NULL,
+    authority VARCHAR(64),
+    is_verified BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users,
     FOREIGN KEY (account_type_id) REFERENCES account_types
 );
@@ -444,8 +446,8 @@ VALUES (601, 1),
 -- SUBSCRIPTIONS (70x)
 INSERT INTO resources (id, url, method)
 VALUES  (701, '/api/subscription', 'post'),
-        (702, '/api/subscription/buy', 'post'),
-        (703, '/api/subscription/verify', 'post'),
+        (702, '/api/subscription/buy/:id', 'post'),
+        (703, '/api/subscription/verify/:id', 'get'),
         (704, '/api/subscription/type/:id', 'put'),
         (705, '/api/subscription/type/:id', 'get'),
         (706, '/api/subscription/type', 'get'),

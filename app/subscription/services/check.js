@@ -7,6 +7,7 @@ const checkByManager = async (id, resource, data) => {
                 WHERE s.user_id = $1
                 AND start_date <= $2
                 AND end_date >= $2
+                AND is_verified = true
                 ORDER BY end_date LIMIT 1`;
     date = new Date();
     const subscriptionInfo = await db.fetch({
