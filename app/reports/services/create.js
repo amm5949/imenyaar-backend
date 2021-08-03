@@ -88,8 +88,7 @@ const create = async (data) => {
         const canVoice = (
             userRole.name === 'admin' 
             || await subscriptionService.checkByUser(data.user_id, 'can_send_voice', {project_id: projectId})
-            );
-            console.log(canVoice);
+        );
         if (canVoice){
             await Promise.all(voiceData.map((voice) => {
                 db.updateQuery('answer_voices', 
