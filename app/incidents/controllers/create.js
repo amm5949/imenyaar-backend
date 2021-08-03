@@ -2,6 +2,7 @@ const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
 const createService = require('../services/create');
+const subscriptionService = require('../../subscription/services/check');
 
 /**
  * @api {post} /api/incidents Create
@@ -50,6 +51,9 @@ const createService = require('../services/create');
     "image_ids":[12, 2],
     "voice_ids":[13, 41]
 }
+ * @apiError (404) NotFound Zone not found.
+ * @apiError (400) BadRequest Invalid date format.
+ * @apiError (403) Forbidden User doesn't have access to incidents module (subscription upgrade required).
  */
 
 const create = async (request, response) => {
@@ -61,6 +65,7 @@ const create = async (request, response) => {
         ...createValidator.data,
         user_id: request.user.id,
         image_ids: createValidator.data.image_ids,
+        voice_ids: createValidator.data.voice_ids,
     };
     const zone = await createService.getZone(data.zone_id);
     if (zone === undefined) {
@@ -69,8 +74,19 @@ const create = async (request, response) => {
             fa: 'منطقه داده شده وجود ندارد',
         });
     }
+    if (user.roles[0].name !== 'admin' && !(await 
+        subscriptionService.checkByUser(user.id, 'activity', {zone_id: data.zone_id})
+        )){
+        return error(response, 403, {
+            en:  "You don't have access to this module.",
+            fa: 'شما به این قسمت دسترسی ندارید.'
+        });
+    }
     if (Number.isNaN(Date.parse(data.date))) {
-        return error(response, 400, { en: 'invalid date format.' });
+        return error(response, 400, { 
+            en: 'invalid date format.',
+            fa: 'فرمت تاریخ معتبر نمی‌باشد.'
+        });
     }
 
     const incident = await createService.insertIncident(data);
