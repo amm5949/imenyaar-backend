@@ -448,10 +448,10 @@ INSERT INTO resources (id, url, method)
 VALUES  (701, '/api/subscription', 'post'),
         (702, '/api/subscription/buy/:id', 'post'),
         (703, '/api/subscription/verify/:id', 'get'),
-        (704, '/api/subscription/type/:id', 'put'),
-        (705, '/api/subscription/type/:id', 'get'),
-        (706, '/api/subscription/type', 'get'),
-        (707, '/api/subscription/type/:id', 'delete')
+        (704, '/api/subscription/types/:id', 'put'),
+        (705, '/api/subscription/types/:id', 'get'),
+        (706, '/api/subscription/types', 'get'),
+        (707, '/api/subscription/types/:id', 'delete')
         ;
 
 INSERT INTO accesses (resource_id, role_id)

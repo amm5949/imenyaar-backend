@@ -19,7 +19,7 @@ const createSchema = require('../schemas/create');
  * @apiParam {Boolean} [can_get_analytics=False] whether the project manager can get analytics in pdf format.
  * @apiParam {Boolean} [can_backup=False] whether the project manager can backup their project data.
  * @apiParam {Integer} [duration_days=365] duration of the subscription in days.
- * @apiParam {Integer} price the price of the subscriptio (in rials).
+ * @apiParam {Integer} price the price of the subscriptio (in tomans).
  * @apiParamExample {json} Request-Example:
  * {
     "name": "Gold",
