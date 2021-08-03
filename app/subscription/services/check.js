@@ -1,13 +1,13 @@
 const db = require ('../../../core/db/postgresql');
 
 // if using quantitive resources such as activity limit, include project_id
-const checkByManager = async (id, resource, project_id=undefined) => {
+const checkByManager = async (id, resource, data) => {
     let query = `SELECT * FROM subscriptions s
                 INNER JOIN account_types at ON at.id = s.account_type_id 
                 WHERE s.user_id = $1
                 AND start_date <= $2
                 AND end_date >= $2
-                ORDER BY end_date ASC LIMIT 1`;
+                ORDER BY end_date LIMIT 1`;
     date = new Date();
     const subscriptionInfo = await db.fetch({
         text: query,
@@ -19,10 +19,10 @@ const checkByManager = async (id, resource, project_id=undefined) => {
     // quantitive resource
     if (resource === 'activity'){
         query = `SELECT count(*) FROM activities WHERE project_id = $1`;
-        const activityCount = (await db.fetch({text: query, values: [project_id]})).count;
+        const activityCount = (await db.fetch({text: query, values: [data.project_id]})).count;
         return (activityCount + 1 <= subscriptionInfo.activity_count);
     }
-    const res = (subscriptionInfo[resource] === true);
+    const res = (subscriptionInfo[resource] == true);
     return res;
 }
 
@@ -52,7 +52,7 @@ const checkByUser = async (id, resource, data) => {
             }))
         );
     }
-    const res = await checkByManager(owner_id, resource, data.project_id || project_id);
+    const res = await checkByManager(owner_id, resource, {project_id: data.project_id || project_id});
     return res;
 }
 

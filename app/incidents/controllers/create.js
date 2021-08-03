@@ -7,7 +7,7 @@ const subscriptionService = require('../../subscription/services/check');
 /**
  * @api {post} /api/incidents Create
  * @apiGroup Incidents
- * @apiName CreateIncident
+ * @apiName Create Incident
  * @apiVersion 1.0.0
  * @apiDescription Create a new incident
  * @apiParam {number} zone_id id of the zone incident belongs to
@@ -18,6 +18,10 @@ const subscriptionService = require('../../subscription/services/check');
  * @apiParam {string} reason reason
  * @apiParam {integer} hour Hour of incident
  * @apiParam {string} date acceptable format is "new Date()" provided in body
+ * 
+ * @apiSuccess {Object} result.incident Incident details
+ * @apiSuccess {String} [result.errors]  If present, it indicates errors with attaching voice files 
+ *                                      (i.e. current subscription doesn't support voice attachments).
  * @apiSuccessExample success-example:
  *  HTTP/1.1 200
  *{
@@ -27,16 +31,20 @@ const subscriptionService = require('../../subscription/services/check');
         "fa": "درخواست موفقیت آمیز بود"
     },
     "result": {
-        "id": 4,
-        "zone_id": 1,
-        "user_id": "1",
-        "type": "some type",
-        "financial_damage": 1000,
-        "human_damage": 1500,
-        "date": "2021-07-13T12:35:34.659Z",
-        "description": "some info",
-        "reason": "someone was tired",
-        "previous_version": null
+        "incident":
+        {
+            "id": 4,
+            "zone_id": 1,
+            "user_id": "1",
+            "type": "some type",
+            "financial_damage": 1000,
+            "human_damage": 1500,
+            "date": "2021-07-13T12:35:34.659Z",
+            "description": "some info",
+            "reason": "someone was tired",
+            "previous_version": null
+        },
+        "errors": "cannot attach voice files."
     }
 }
  * @apiParamExample {json} request-example:
@@ -58,12 +66,13 @@ const subscriptionService = require('../../subscription/services/check');
 
 const create = async (request, response) => {
     const createValidator = validator(createSchema, request.body);
+    const {user} = request;
     if (createValidator.failed) {
         return createValidator.response(response);
     }
     const data = {
         ...createValidator.data,
-        user_id: request.user.id,
+        user_id: user.id,
         image_ids: createValidator.data.image_ids,
         voice_ids: createValidator.data.voice_ids,
     };
@@ -75,7 +84,7 @@ const create = async (request, response) => {
         });
     }
     if (user.roles[0].name !== 'admin' && !(await 
-        subscriptionService.checkByUser(user.id, 'activity', {zone_id: data.zone_id})
+        subscriptionService.checkByUser(user.id, 'can_access_incident', {zone_id: data.zone_id})
         )){
         return error(response, 403, {
             en:  "You don't have access to this module.",
