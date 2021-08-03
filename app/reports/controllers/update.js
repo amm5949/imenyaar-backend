@@ -55,6 +55,10 @@ const updateSchema = require('../schemas/update');
         }
     ]
 }
+ * @apiSuccess {Object} result.report  Report details
+ * @apiSuccess {Array}  result.answers  Array of answer details (image and voice lins not included)
+ * @apiSuccess {String} [result.errors]  If present, it indicates errors with attaching voice files 
+ *                                      (i.e. current subscription doesn't support voice attachments).
  * @apiSuccessExample 
     HTTP/1.1 200 
     {
@@ -99,7 +103,8 @@ const updateSchema = require('../schemas/update');
                 "report_id": "77",
                 "is_deleted": false
             }
-        ]
+        ],
+        "errors": "cannot attach voice files."
     }
 }
 
