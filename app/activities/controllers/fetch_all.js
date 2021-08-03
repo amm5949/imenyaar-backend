@@ -3,8 +3,8 @@ const { ok } = require('../../../core/util/response');
 
 /**
  * @api {get} /api/activities  list
- * @apiName ListActivities
- * @apiGroup Activites
+ * @apiName List Activities
+ * @apiGroup Activities
  * @apiVersion 1.0.0
  * @apiDescription List all Activites, output format is same as FetchActivity but activities are in an array
  * @apiParam {Number} project_id  
