@@ -6,7 +6,7 @@ const accessCheck = require('../../projects/services/accessCheck');
 /**
  * @api {get} /api/incidents/list/:project_id Get incident reports of a project
  * @apiGroup Incidents
- * @apiName ListIncidents
+ * @apiName List Incidents
  * @apiVersion 1.0.0
  * @apiDescription Get list of incidents for a project
  *

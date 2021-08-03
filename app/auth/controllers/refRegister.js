@@ -4,10 +4,10 @@ const refRegisterSchema = require('../schemas/refRegister');
 const refRegisterService = require('../services/refRegister');
 /**
  * @api {post} /api/auth/ref_register RefRegister
- * @apiName refRegister
+ * @apiName Referred Register
  * @apiGroup Auth
  * @apiVersion 1.0.0
- * @apiDescription Register a refree.
+ * @apiDescription Register a referee.
  *
  * @apiParam {string{1..15}} phone_number Phone number
  * @apiParam {string{6..}} password Password

@@ -6,7 +6,7 @@ const createSchema = require('../schemas/update');
 const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {put} /api/projects/:id Update
- * @apiName UpdateProject
+ * @apiName Update Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Update a project

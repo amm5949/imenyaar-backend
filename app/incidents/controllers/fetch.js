@@ -5,7 +5,7 @@ const accessCheck = require('../helpers/access');
 /**
  * @api {get} /api/incidents/fetch/:incident_id Fetch
  * @apiGroup Incidents
- * @apiName FetchIncidents
+ * @apiName Fetch Incident
  * @apiVersion 1.0.0
  * @apiDescription Fetch a report and all its updates
  * @apiSuccessExample

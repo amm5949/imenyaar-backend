@@ -3,10 +3,11 @@ const { ok, error } = require('../../../core/util/response');
 const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {get} /api/projects/:id fetch
- * @apiName FetchProject
+ * @apiName Fetch Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Fetch a project
+ * 
  * @apiSuccess {Number} id
  * @apiSuccess {String} name
  * @apiSuccess {Number} owner_id
@@ -16,7 +17,7 @@ const accessCheck = require('../services/accessCheck.js');
  * @apiSuccess {Number} area
  * @apiSuccess {Boolean} is_multizoned
  *
- * @apiSuccessExample
+ * @apiSuccessExample {json} Success-Response:
 {
     "status": "ok",
     "message": {

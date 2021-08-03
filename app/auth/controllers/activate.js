@@ -5,7 +5,7 @@ const { ok, error } = require('../../../core/util/response');
 
 /**
  * @api {post} /api/auth/activate Activate
- * @apiName activate
+ * @apiName Activate Account
  * @apiGroup Auth
  * @apiVersion 1.0.0
  * @apiDescription Activates an account.
@@ -13,7 +13,7 @@ const { ok, error } = require('../../../core/util/response');
  * @apiParam {string} phone_number Phone number
  * @apiParam {string} code Code
  * 
- * @apiParamExample
+ * @apiParamExample {json} Request-Example:
  * {
  * "phone_number": "09220000000",
     "code": "b4c402ca"

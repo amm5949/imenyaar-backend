@@ -8,9 +8,12 @@ const refreshService = require('../services/refresh');
  * @apiName refresh-token
  * @apiGroup Auth
  * @apiVersion 1.0.0
- * @apiDescription Get a new pair of tokens.
+ * @apiDescription Get a new pair of tokens. *Refresh token* is a single-use token that can be used to get a new pair, has longer life time.
+ * *Access token* is a token that can be used to access the API's, it has 60 seconds life time. Don't use refresh token for API's.
  *
  * @apiParam {String} refresh_token Refresh token.
+ * @apiSuccess {string} access_token Access token
+ * @apiSuccess {string} refresh_token Refresh token
  * @apiErrorExample {json} Invalid refresh token.
  *    HTTP/1.1 401
  * @apiSuccessExample {json} Success-Response

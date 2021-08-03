@@ -2,8 +2,8 @@ const removeService = require('../services/remove');
 const { ok, error } = require('../../../core/util/response');
 const accessCheck = require('../services/accessCheck.js');
 /**
- * @api {delete} /api/projects/:id delete
- * @apiName DeleteProject
+ * @api {delete} /api/projects/:id Delete
+ * @apiName Delete Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Delete a project

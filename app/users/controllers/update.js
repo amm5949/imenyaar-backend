@@ -5,7 +5,7 @@ const createSchema = require('../schemas/update');
 
 /**
  * @api {put} /api/users/:id Update
- * @apiName UpdateUser
+ * @apiName Update User
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Updates a user
@@ -16,7 +16,7 @@ const createSchema = require('../schemas/update');
  * @apiParam (body) {string} [phone_number] available to non-verified users (by referer)
  * @apiParam (body) {string} [password] available only to user
  *
- * @apiParamExample
+ * @apiParamExample {json} Request-Example
 {
     "first_name": "John",
     "last_name": "Doe"

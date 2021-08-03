@@ -6,13 +6,13 @@ const { ok, error } = require('../../../core/util/response');
 const add_people_schema = require('../schemas/add_people');
 const accessCheck = require('../services/accessCheck.js');
 /**
- * @api {delete} /api/projects/addpeople/:id remove people
- * @apiName RemovePeopleFromProject
+ * @api {delete} /api/projects/addpeople/:id Remove People
+ * @apiName Remove People from Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription remove multiple people from a project
  *
- * @apiParamExample
+ * @apiParamExample {json} Request-Example
  {
     "people": [
         {
@@ -24,7 +24,7 @@ const accessCheck = require('../services/accessCheck.js');
         ]
  }
  *
- * @apiSuccessExample
+ * @apiSuccessExample {json} Success-Response
 {
     "status": "ok",
     "message": {

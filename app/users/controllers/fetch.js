@@ -3,7 +3,7 @@ const { ok, error } = require('../../../core/util/response');
 
 /**
  * @api {get} /api/users/:id fetch
- * @apiName FetchUser
+ * @apiName Fetch User
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription Fetch a user

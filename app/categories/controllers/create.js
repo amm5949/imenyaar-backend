@@ -5,7 +5,7 @@ const createSchema = require('../schemas/create');
 
 /**
  * @api {post} /api/categories create
- * @apiName CreateCategory
+ * @apiName Create Category
  * @apiGroup Categories
  * @apiVersion 1.0.0
  * @apiDescription Create a category, each category either has a parent
@@ -14,12 +14,12 @@ const createSchema = require('../schemas/create');
  *
  * @apiParam {String} name Category name
  * @apiParam {Number} [parent_id=1] Parent category id
- * @apiParamExample
+ * @apiParamExample {json} Request-Example:
 {
 	"name": "Random"
 }
  * @apiSuccess {Object} result.category Category details.
- * @apiSuccessExample
+ * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200
  * {
     "status": "ok",

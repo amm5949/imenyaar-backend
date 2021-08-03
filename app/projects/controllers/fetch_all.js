@@ -2,8 +2,8 @@ const listService = require('../services/fetch_all');
 const { ok } = require('../../../core/util/response');
 
 /**
- * @api {get} /api/projects list
- * @apiName ListProjects
+ * @api {get} /api/projects List
+ * @apiName List Projects
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription List all projects. There are filters available for returned array,
@@ -19,7 +19,7 @@ const { ok } = require('../../../core/util/response');
  * @apiParam (Query String) {String} [filter] Search filter, acceptable format is argument to a postgres `LIKE` operator.
  * @apiParam (Query String) {Boolean} [check_active] If `true`, filter all active projects.
 
- * @apiSuccessExample
+ * @apiSuccessExample {json} Success-Response:
 {
     "status": "ok",
     "message": {

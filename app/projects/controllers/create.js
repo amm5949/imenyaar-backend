@@ -6,7 +6,7 @@ const subscriptionService = require('../../subscription/services/verify');
 
 /**
  * @api {post} /api/projects create
- * @apiName CreateProject
+ * @apiName Create Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Create a project

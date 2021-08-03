@@ -3,7 +3,7 @@ const { ok } = require('../../../core/util/response');
 
 /**
  * @api {get} /api/users list
- * @apiName ListUsers
+ * @apiName List Users
  * @apiGroup User
  * @apiVersion 1.0.0
  * @apiDescription List all users. For filtering (simple search) options see

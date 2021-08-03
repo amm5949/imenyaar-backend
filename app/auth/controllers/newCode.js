@@ -5,14 +5,14 @@ const { ok, error } = require('../../../core/util/response');
 
 /**
  * @api {post} /api/auth/new-code New code
- * @apiName new-code
+ * @apiName New Activation Code
  * @apiGroup Auth
  * @apiVersion 1.0.0
  * @apiDescription Requests a new code for activation.
  *
  * @apiParam {string} phone_number Phone number
  * 
- * @apiParamExample
+ * @apiParamExample {json} Request-Example:
  * {
  *      "phone_number": "0922000000"
  * }

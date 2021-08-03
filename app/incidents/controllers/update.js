@@ -4,9 +4,9 @@ const updateSchema = require('../schemas/update');
 const updateService = require('../services/update');
 
 /**
- * @api {put} /api/incidents/:id Create
+ * @api {put} /api/incidents/:id Update
  * @apiGroup Incidents
- * @apiName UpdateIncident
+ * @apiName Update Incident
  * @apiVersion 1.0.0
  * @apiDescription Create a new version of the given incident with fresh info
  * @apiParam {number} [zone_id] id of the zone incident belongs to
@@ -15,7 +15,6 @@ const updateService = require('../services/update');
  * @apiParam {number} [human_damage] human damage
  * @apiParam {string} [description] description
  * @apiParam {string} [reason] reason
- * @apiParam {integer} [hour] Hour of incident
  * @apiParam {string} [date] acceptable format is "new Date()" provided in body
  * @apiSuccessExample success-example:
  *  HTTP/1.1 200
@@ -41,7 +40,6 @@ const updateService = require('../services/update');
  * @apiParamExample {json} request-example:
  * {
     "type":"some new type",
-    "hour":20,
     "reason":"someone was super tired"
 }
  */

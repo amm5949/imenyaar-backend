@@ -5,10 +5,10 @@ const loginSchema = require('../schemas/login');
 const loginService = require('../services/login');
 /**
  * @api {post} /api/auth/login Login
- * @apiName login
+ * @apiName Login
  * @apiGroup Auth
  * @apiVersion 1.0.0
- * @apiDescription Logging in to system
+ * @apiDescription Login to system
  *
  * @apiParam {string{1..15}} phone_number Phone number
  * @apiParam {string} password Password

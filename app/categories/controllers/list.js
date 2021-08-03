@@ -3,12 +3,12 @@ const listService = require('../services/list');
 
 /**
  * @api {get} /api/categories List
- * @apiName ListCategories
+ * @apiName List Categories
  * @apiGroup Categories
  * @apiVersion 1.0.0
  * @apiDescription returns *all* top categories and their children in a recursive manner.
  * 
- * @apiSuccessExample successExample:
+ * @apiSuccessExample {json} Success-Response:
  * {
     "status": "ok",
     "message": {

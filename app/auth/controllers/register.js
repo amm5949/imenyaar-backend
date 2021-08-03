@@ -4,7 +4,7 @@ const registerSchema = require('../schemas/register');
 const registerService = require('../services/register');
 /**
  * @api {post} /api/auth/register Register
- * @apiName register
+ * @apiName Register
  * @apiGroup Auth
  * @apiVersion 1.0.0
  * @apiDescription Register a user.
@@ -14,7 +14,7 @@ const registerService = require('../services/register');
  * @apiParam {string} first_name First name
  * @apiParam {string} last_name Last name
  *
- * @apiParamExample
+ * @apiParamExample {json} Request-Example:
  * {
     "phone_number": "0922000000",
     "password": "password",

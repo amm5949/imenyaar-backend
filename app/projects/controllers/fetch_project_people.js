@@ -2,11 +2,12 @@ const fetchService = require('../services/fetch_project_people.js');
 const { ok, error } = require('../../../core/util/response');
 const accessCheck = require('../services/accessCheck.js');
 /**
- * @api {get} /api/projects/people/:id fetch people
- * @apiName FetchPeople
+ * @api {get} /api/projects/people/:id Fetch people
+ * @apiName Fetch Project People
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Fetch project people
+ * 
  * @apiSuccess {Number} id
  * @apiSuccess {String} name
  * @apiSuccess {Number} owner_id
@@ -15,8 +16,9 @@ const accessCheck = require('../services/accessCheck.js');
  * @apiSuccess {String} address
  * @apiSuccess {Number} area
  * @apiSuccess {Boolean} is_multizoned
- * @apiSuccess {Array} people you can see the structure in example
- * @apiSuccessExample
+ * @apiSuccess {Array} people see example.
+ * 
+ * @apiSuccessExample {json} Success-Response:
 {
     "status": "ok",
     "message": {

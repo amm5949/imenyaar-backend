@@ -7,12 +7,12 @@ const subscriptionService = require('../../subscription/services/check');
 const accessCheck = require('../services/accessCheck.js');
 /**
  * @api {post} /api/projects/people/:id add people
- * @apiName AddPeopleToProject
+ * @apiName Add People to Project
  * @apiGroup Projects
  * @apiVersion 1.0.0
  * @apiDescription Add multiple people to a project
  *
- * @apiParamExample
+ * @apiParamExample {json} Request-Example
  {
     "people": [
         {

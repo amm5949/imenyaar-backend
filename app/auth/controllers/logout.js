@@ -5,7 +5,7 @@ const logoutService = require('../services/logout');
 
 /**
  * @api {post} /api/auth/logout Logout
- * @apiName logout
+ * @apiName Logout
  * @apiGroup Auth
  * @apiVersion 1.0.0
  * @apiDescription Log out and end current session.
