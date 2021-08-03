@@ -86,7 +86,6 @@ const update = async (data, parent_id) => {
             WHERE r.id = $1`,
             values: [report.id]
         })).project_id;
-
         const canVoice = (
             userRole.name === 'admin' 
             || await subscriptionService.checkByUser(data.user_id, 'can_send_voice', {project_id: projectId})

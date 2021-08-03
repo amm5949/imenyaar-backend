@@ -33,26 +33,26 @@ const checkByManager = async (id, resource, project_id=undefined) => {
    it's best to query this by project_id, unlike `checkByManager()`
 */
 const checkByUser = async (id, resource, data) => {
-    let projectManagerId, project_id;
+    let owner_id, project_id;
     if (data.hasOwnProperty('project_id')){
-        let query = `SELECT owner_id FROM projects p WHERE p.id = $1`;
-        projectManagerId = (await db.fetch({
+        let query = `SELECT * FROM projects p WHERE p.id = $1`;
+        owner_id = (await db.fetch({
             text: query, 
-            values: [project_id]
+            values: [data.project_id]
         })).owner_id;
     }
     else if (data.hasOwnProperty('zone_id')){
-        let query = `SELECT owner_id, p.id FROM zones z
+        let query = `SELECT owner_id, p.id as project_id FROM zones z
         INNER JOIN projects p ON p.id = z.project_id
         WHERE z.id = $1`;
         (
-            {projectManagerId, project_id} = (await db.fetch({
+            {owner_id, project_id} = (await db.fetch({
                 text: query, 
-                values: [zone_id]
+                values: [data.zone_id]
             }))
         );
     }
-    const res = await checkByManager(projectManagerId, resource, data.project_id || project_id);
+    const res = await checkByManager(owner_id, resource, data.project_id || project_id);
     return res;
 }
 
