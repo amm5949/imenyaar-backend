@@ -25,7 +25,6 @@ const { ok } = require('../../../core/util/response');
             "first_name": "John",
             "last_name": "Doe",
             "phone_number": "09150000000",
-            "account_type_id": 1,
             "role": "admin",
             "is_verified": true
         }

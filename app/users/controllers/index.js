@@ -3,6 +3,7 @@ const fetch = require('./fetch');
 const list = require('./list');
 const update = require('./update');
 const remove = require('./remove');
+const fetchSubscription = require('./fetch_subscription');	
 
 module.exports = {
     create,
@@ -10,4 +11,5 @@ module.exports = {
     list,
     update,
     remove,
+    fetchSubscription,
 };

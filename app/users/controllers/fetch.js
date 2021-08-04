@@ -11,7 +11,6 @@ const { ok, error } = require('../../../core/util/response');
  * @apiSuccess {String} phone_number
  * @apiSuccess {String} last_name
  * @apiSuccess {String} first_name
- * @apiSuccess {Number} account_type_id
  * @apiSuccess {Boolean} is_active
  * @apiSuccess {Boolean} is_verified
  *
@@ -29,10 +28,6 @@ const fetch = async (request, response) => {
     return ok(response, user, { }, 200);
 };
 
-module.exports = async (request, response, next) => {
-    try {
-        return await fetch(request, response);
-    } catch (err) {
-        return next(err);
-    }
+module.exports = async (request, response, ) => {
+    return await fetch(request, response);
 };

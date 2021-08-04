@@ -12,8 +12,7 @@ module.exports = async (user) => {
     const insertData = {
         ...user,
         is_verified: false,
-        is_deleted: false,
-        account_type_id: 2,
+        is_deleted: false
     };
 
     if (await phoneDuplicateCheck(insertData.phone_number) !== undefined) {
