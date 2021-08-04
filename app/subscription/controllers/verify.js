@@ -7,7 +7,7 @@ const fetchService = require('../services/fetch_subscription');
  * @api {get} /api/subscription/verify/:id verifyPayment
  * @apiName verifyPayment
  * @apiGroup Subscription
- * @apiVersion 1.0.0.
+ * @apiVersion 1.0.0
  * @apiDescription Send the subscription ID to this endpoint
  *  to check if it's paid.
  * @apiSuccess {Object} subscription Subscription details.
