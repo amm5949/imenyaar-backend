@@ -49,6 +49,7 @@ const fetchService = require('../services/fetch_subscription');
 const verify = async (request, response) => {
     const id = request.params.id;
     const {user} = request;
+    console.log("HEY", id);
     let subscription = await fetchService.getSubscription(id);
     if (subscription === undefined) {
         return error(response, 404, {

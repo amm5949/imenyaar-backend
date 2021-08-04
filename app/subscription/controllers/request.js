@@ -1,6 +1,7 @@
 const {ok, error} = require('../../../core/util/response');
 const checkout = require('zarinpal-checkout').create('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', true);
 const requestService = require('../services/request');
+const config = require('config');
 
 
 /**
@@ -49,10 +50,9 @@ const request = async (request, response) => {
     
     const zarinResponse = await checkout.PaymentRequest({
         Amount: subscription.cost, // in Tomans
-        CallbackURL: `localhost:2000/api/subscription/verify/${subscription.id}`,
-        Description: 'Imenyaar subscription payment',
-        Email: 'afzado@gmail.com',
-        Mobile: '09157150514'
+        // TODO: set this url to actual server's
+        CallbackURL: `37.152.189.29:${config.get('PORT')}/api/subscription/verify/${subscription.id}`,
+        Description: 'Imenyaar subscription payment'
     })
     console.log(zarinResponse);
     const subscriptionReceipt = await requestService.assignReceipt(subscription.id, zarinResponse.authority);
