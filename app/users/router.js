@@ -5,5 +5,6 @@ module.exports = (app, router) => {
     router.get('/api/users/:id', controllers.fetch);
     router.get('/api/users', controllers.list);
     router.put('/api/users/:id', controllers.update);
+    router.get('/api/users/:id/subscription', controllers.fetchSubscription);
     router.delete('/api/users/:id', controllers.remove);
 };

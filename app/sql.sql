@@ -20,12 +20,10 @@ CREATE TABLE IF NOT EXISTS users (
     first_name      VARCHAR(63)  NOT NULL,
     last_name       VARCHAR(63)  NOT NULL,
     password        VARCHAR(511),
-    account_type_id INT     DEFAULT NULL,
     is_verified     BOOLEAN DEFAULT FALSE,
     is_active       BOOLEAN DEFAULT TRUE,
     is_deleted      BOOLEAN DEFAULT FALSE,
-    referer_id      INT DEFAULT NULL,
-    FOREIGN KEY (account_type_id) REFERENCES account_types
+    referer_id      INT DEFAULT NULL
 );
 
 -- profile pictures
@@ -313,7 +311,8 @@ VALUES (101, '/api/users', 'post'),
        (102, '/api/users', 'get'),
        (103, '/api/users/:id', 'get'),
        (104, '/api/users/:id', 'put'),
-       (105, '/api/users/:id', 'delete');
+       (105, '/api/users/:id', 'delete'),
+       (106, '/api/users/:id/subscription', 'get');
 INSERT INTO accesses (resource_id, role_id)
 VALUES (101, 1),
        (102, 1),
@@ -328,7 +327,10 @@ VALUES (101, 1),
        (102, 3),
        (103, 3),
        (104, 3),
-       (105, 3);
+       (105, 3),
+       (106, 1),
+       (106, 2),
+       (106, 3);
 
 -- PROJECTS
 INSERT INTO resources(id, url, method)
