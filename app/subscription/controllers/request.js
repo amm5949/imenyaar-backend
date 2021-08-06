@@ -29,7 +29,8 @@ const config = require('config');
 			"end_date": "2022-08-10T19:30:00.000Z",
 			"cost": 10000,
 			"is_verified": false,
-			"authority": "000000000000000000000000000000511174"
+			"authority": "000000000000000000000000000000511174",
+            "ref_id": ""
 		},
 		"url": "https://sandbox.zarinpal.com/pg/StartPay/000000000000000000000000000000511174"
 	}
@@ -48,15 +49,22 @@ const request = async (request, response) => {
         });
     }
     
-    const zarinResponse = await checkout.PaymentRequest({
+    let zarinResponse;
+    await checkout.PaymentRequest({
         Amount: subscription.cost, // in Tomans
         // TODO: set this url to actual server's
         CallbackURL: `37.152.189.29:${config.get('PORT')}/api/subscription/verify/${subscription.id}`,
         Description: 'Imenyaar subscription payment'
-    })
-    console.log(zarinResponse);
+    }).then(response => {
+        zarinResponse = response;
+        if (response.status === 100) {
+            console.log(response.url);
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+    // console.log(zarinResponse);
     const subscriptionReceipt = await requestService.assignReceipt(subscription.id, zarinResponse.authority);
-    // console.log(subscriptionReceipt)
     return ok(response, {subscription: subscriptionReceipt, url: zarinResponse.url}, {}, 200);
 }
 

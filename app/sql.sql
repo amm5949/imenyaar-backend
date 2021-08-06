@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     end_date DATE,
     cost INT NOT NULL,
     authority VARCHAR(64),
+    ref_id VARCHAR(64),
     is_verified BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users,
     FOREIGN KEY (account_type_id) REFERENCES account_types

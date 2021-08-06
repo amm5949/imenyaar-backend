@@ -28,7 +28,8 @@ const fetchService = require('../services/fetch_subscription');
 			"end_date": "2023-08-11T17:18:28.857Z",
 			"cost": 10000,
 			"is_verified": true,
-			"authority": "000000000000000000000000000000511111"
+			"authority": "000000000000000000000000000000511111",
+            "ref_id": "12345678"
 		}
 	}
 }
@@ -48,8 +49,7 @@ const fetchService = require('../services/fetch_subscription');
 
 const verify = async (request, response) => {
     const id = request.params.id;
-    const {user} = request;
-    console.log("HEY", id);
+    // const {user} = request;
     let subscription = await fetchService.getSubscription(id);
     if (subscription === undefined) {
         return error(response, 404, {
@@ -57,18 +57,18 @@ const verify = async (request, response) => {
             fa: 'اطلاعات اشتراک یافت نشد.'
         });
     }
-    if (user.roles[0].name !== 'admin' && user.id !== subscription.user_id) {
-        return error(response, 403, {
-            en: 'Forbidden access.',
-            fa: 'دسترسی مجاز نیست.'
-        });
-    }
+    // if (user.roles[0].name !== 'admin' && user.id !== subscription.user_id) {
+    //     return error(response, 403, {
+    //         en: 'Forbidden access.',
+    //         fa: 'دسترسی مجاز نیست.'
+    //     });
+    // }
     const zarinResponse = await checkout.PaymentVerification({
         Amount: subscription.cost,
         Authority: subscription.authority,
     });
     if (zarinResponse.status === 101 || zarinResponse.status === 100) {
-        subscription = await verifyService(subscription.id);
+        subscription = await verifyService(subscription.id, zarinResponse.RefID);
         return ok(response, {
             subscription,
             subscription

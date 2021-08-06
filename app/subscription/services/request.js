@@ -43,11 +43,11 @@ const requestSubscription = async (user_id, account_type_id) => {
     return subscription;
 };
 
-const assignReceipt = async (subscription_id, authority) => {
-    const query = `UPDATE subscriptions SET authority = $2 WHERE id = $1`
+const assignReceipt = async (subscription_id, authority, data={}) => {
+    const query = `UPDATE subscriptions SET authority = $2, is_verified = $3 WHERE id = $1`
     const res = await db.insertOrUpdate({
         text: query,
-        values: [subscription_id, authority]
+        values: [subscription_id, authority, data.verify || false]
     });
     return res.rows[0];
 }
