@@ -3,7 +3,7 @@ const db = require('../../../core/db/postgresql');
 
 const fetchUsers = async (filter) => {
     query = `
-    SELECT u.id, u.first_name, u.last_name, u.phone_number, u.account_type_id,
+    SELECT u.id, u.first_name, u.last_name, u.phone_number,
     r.name as role, u.is_verified, u.referer_id
     FROM users as u
         LEFT JOIN user_roles as ur on ur.user_id = u.id 

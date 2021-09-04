@@ -80,15 +80,6 @@ const update = async (request, response) => {
             }
         );
     }
-    // if (data.account_type_id) {
-    //     const accountType = await updateService.getAccountType(request.body.account_type_id);
-    //     if (accountType === undefined) {
-    //         return error(response, 400, {
-    //             en: 'invalid account type id',
-    //             fa: 'نوع حساب کاربری معتبر نیست.'
-    //         });
-    //     }
-    // }
 
     const updatedUser = await updateService.updateUser(id, data);
 
