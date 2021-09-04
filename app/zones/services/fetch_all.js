@@ -45,7 +45,7 @@ const fetch_zones = async (zone_data, user) => {
     const page = zone_data.page || 1;
     const size = zone_data.size || 10;
     let text = `
-        SELECT z.id, z.name, z.project_id, z.properties, z.details
+        SELECT z.id, z.name, z.project_id, pp.name as project_name, z.properties, z.details
         FROM zones z
         INNER JOIN projects pp ON pp.id = z.project_id 
         WHERE

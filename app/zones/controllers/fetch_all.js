@@ -7,10 +7,11 @@ const { ok } = require('../../../core/util/response');
  * @apiGroup Zones
  * @apiVersion 1.0.0
  * @apiDescription List all zones, output format is same as FetchZone but zones are in an array
- * @apiParam {String} name        provided in query
- * @apiParam {Number} project_id  provided in query
- * @apiParam {String} properties  provided in query
- * @apiParam {String} details     provided in query
+ * @apiParam {String} name        zone name
+ * @apiParam {Number} project_id  project id
+ * @apiParam {Number} project_name  project name
+ * @apiParam {String} properties  zone properties
+ * @apiParam {String} details     zone details
  * @apiSuccessExample
 {
     "status": "ok",
@@ -24,6 +25,7 @@ const { ok } = require('../../../core/util/response');
                 "id": 3,
                 "name": "test zone",
                 "project_id": 1,
+                "project_name": "Project X",
                 "properties": "special",
                 "details": "very important detail"
             }
