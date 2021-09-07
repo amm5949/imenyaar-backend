@@ -14,7 +14,7 @@ const fetch_zones_page_count = async (zone_data, user) => {
     const wheres = ['z.is_deleted = false'];
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`z.name=$${values.length}`);
+        wheres.push(`z.name LIKE $${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
@@ -22,11 +22,11 @@ const fetch_zones_page_count = async (zone_data, user) => {
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`z.properties=$${values.length}`);
+        wheres.push(`z.properties LIKE $${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`z.details=$${values.length}`);
+        wheres.push(`z.details LIKE $${values.length}`);
     }
 
 
@@ -55,7 +55,7 @@ const fetch_zones = async (zone_data, user) => {
 
     if (Object.prototype.hasOwnProperty.call(zone_data, 'name')) {
         values.push(zone_data.name);
-        wheres.push(`z.name=$${values.length}`);
+        wheres.push(`z.name LIKE $${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'project_id')) {
         values.push(zone_data.project_id);
@@ -63,11 +63,11 @@ const fetch_zones = async (zone_data, user) => {
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'properties')) {
         values.push(zone_data.properties);
-        wheres.push(`z.properties=$${values.length}`);
+        wheres.push(`z.properties LIKE $${values.length}`);
     }
     if (Object.prototype.hasOwnProperty.call(zone_data, 'details')) {
         values.push(zone_data.details);
-        wheres.push(`z.details=$${values.length}`);
+        wheres.push(`z.details LIKE $${values.length}`);
     }
 
     values.push(user.id);
