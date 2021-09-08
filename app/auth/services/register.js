@@ -8,7 +8,6 @@ module.exports = async (user) => {
         ...user,
         is_verified: false,
         is_deleted: false,
-        account_type_id: 1,
         password: auth.createHash(user.password).passwordHash,
     };
 
