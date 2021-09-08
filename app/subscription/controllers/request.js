@@ -10,7 +10,7 @@ const config = require('config');
  * @apiGroup Subscription
  * @apiVersion 1.0.0
  * @apiDescription Send the account subscription type ID to this endpoint to start the payment process, 
- * result.url is the gateway address
+ * result.url is the gateway address. Modify ZarinPal's callback URL from `/config/development.json`.
  * 
  * @apiSuccessExample {json} success-response:
  * HTTP/1.1 200 OK
@@ -53,7 +53,7 @@ const request = async (request, response) => {
     await checkout.PaymentRequest({
         Amount: subscription.cost, // in Tomans
         // TODO: set this url to actual server's
-        CallbackURL: `37.152.189.29:${config.get('PORT')}/api/subscription/verify/${subscription.id}`,
+        CallbackURL: `${config.get('PAYMENT_CALLBACK')}/${subscription.id}`,
         Description: 'Imenyaar subscription payment'
     }).then(response => {
         zarinResponse = response;
