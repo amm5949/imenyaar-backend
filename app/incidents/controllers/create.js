@@ -85,7 +85,6 @@ const create = async (request, response) => {
     };
     const zone = await createService.getZone(data.zone_id);
     const activity = await activityService.fetch_activity(data.activity_id, user);
-    console.log(activity);
 
     if (zone === undefined || activity === undefined) {
         return error(response, 404, {
