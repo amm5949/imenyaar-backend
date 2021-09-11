@@ -20,7 +20,7 @@ const count = async (data, user) => {
         SELECT COUNT(*) AS count
         FROM (SELECT p.* 
             FROM projects p
-            inner join zones z on z.project_id = p.id
+            left join zones z on z.project_id = p.id
             left join reports r on r.zone_id = z.id
             left join incidents i on i.zone_id = z.id
             WHERE
@@ -31,8 +31,8 @@ const count = async (data, user) => {
     if (!(await check_user_role(user))) {
         values.push(user.id);
         wheres.push(`(p.owner_id=$${values.length} 
-            OR $${values.length} in (select user_id from user_roles u where u.role_id = 1 and is_deleted=false) 
-            OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id and pp.is_deleted=false))`);
+            OR $${values.length} in (SELECT user_id FROM user_roles u WHERE u.role_id = 1 AND is_deleted=false) 
+            OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id AND pp.is_deleted=false))`);
     }
     if(data.hasOwnProperty('filter')) {
         values.push(data.filter);
@@ -81,7 +81,7 @@ const count = async (data, user) => {
     }
 
     text += wheres.join(' AND ');
-    text += ` GROUP BY p.id) AS temp`
+    text += ` GROUP BY p.id ) AS temp`
     const count = (await db.fetch({
         text,
         values,
@@ -98,7 +98,7 @@ const fetch_projects = async (data, user) => {
              start_date, scheduled_end, address, area, is_multizoned
         FROM projects p
         inner join users u on u.id = owner_id
-        inner join zones z on z.project_id = p.id
+        left join zones z on z.project_id = p.id
         left join reports r on r.zone_id = z.id
         left join incidents i on i.zone_id = z.id
         WHERE
@@ -107,8 +107,9 @@ const fetch_projects = async (data, user) => {
     const wheres = ['p.is_deleted = false'];
     if (!(await check_user_role(user))) {
         values.push(user.id);
-        wheres.push(`(p.owner_id=$${values.length} OR $${values.length} in (select user_id from user_roles u WHERE u.role_id = 1) 
-        OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id))`);
+        wheres.push(`(p.owner_id=$${values.length} 
+            OR $${values.length} in (select user_id from user_roles u WHERE u.role_id = 1) 
+            OR $${values.length} in (SELECT user_id FROM project_people pp WHERE pp.project_id=p.id))`);
     }
 
     if(data.hasOwnProperty('filter')) {
