@@ -1,6 +1,6 @@
 const db = require('../../../core/db/postgresql');
 
-const listIncidents = (projectID, zoneID, page, size, to = '', from = '') => {
+const listIncidents = (projectID, zoneID, activityID, page, size, to = '', from = '') => {
     const values = [(page - 1) * size, size, projectID];
     const where = ['z.project_id = $3'];
 
@@ -19,17 +19,14 @@ const listIncidents = (projectID, zoneID, page, size, to = '', from = '') => {
         where.push(`i.zone_id = $${values.length}`);
     }
 
+    if (activityID) {
+        values.push(activityID);
+        where.push(`i.activity_id = $${values.length}`);
+    }
+
     const whereString = ` ${where.join(' AND ')}`;
-    const text = `SELECT i.id,
-                         i.zone_id,
-                         i.user_id,
-                         i.type,
-                         i.financial_damage,
-                         i.human_damage,
-                         i.date,
-                         i.description,
-                         i.reason,
-                         i.previous_version
+    const text = `SELECT i.*,
+                            z.name as zone_name
                   FROM incidents i
                            JOIN zones z on i.zone_id = z.id
                   WHERE ${whereString}
@@ -38,7 +35,7 @@ const listIncidents = (projectID, zoneID, page, size, to = '', from = '') => {
     return db.fetchAll({ text, values });
 };
 
-const count = async (projectID, zoneID, to, from) => {
+const count = async (projectID, zoneID, activityID, to, from) => {
     const values = [projectID];
     const where = ['z.project_id = $1'];
 
@@ -55,6 +52,11 @@ const count = async (projectID, zoneID, to, from) => {
     if (zoneID) {
         values.push(zoneID);
         where.push(`i.zone_id = $${values.length}`);
+    }
+
+    if (activityID) {
+        values.push(activityID);
+        where.push(`i.activity_id = $${values.length}`);
     }
 
     const whereString = ` ${where.join(' AND ')}`;

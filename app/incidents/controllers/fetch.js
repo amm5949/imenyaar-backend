@@ -20,6 +20,7 @@ const accessCheck = require('../helpers/access');
         {
             "id": 2,
             "zone_id": 1,
+            "activity_id": 2,
             "type": "some type",
             "financial_damage": 1000,
             "human_damage": 1500,
@@ -31,6 +32,7 @@ const accessCheck = require('../helpers/access');
         {
             "id": 15,
             "zone_id": 1,
+            "activity_id": 2,
             "type": "some new type",
             "financial_damage": 1000,
             "human_damage": 1500,
@@ -42,6 +44,7 @@ const accessCheck = require('../helpers/access');
         {
             "id": 16,
             "zone_id": 1,
+            "activity_id": 2,
             "type": "some brand new type",
             "financial_damage": 1000,
             "human_damage": 1500,

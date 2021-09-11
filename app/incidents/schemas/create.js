@@ -1,6 +1,7 @@
 /* eslint-disable quote-props */
 module.exports = {
     'zone_id': 'integer',
+    'activity_id': 'integer',
     'type': 'string',
     'financial_damage': 'integer',
     'human_damage': 'integer',

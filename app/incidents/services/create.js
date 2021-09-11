@@ -11,6 +11,7 @@ const getZone = async (id) => db.fetch({
 const insertIncident = async (data) => {
     let errors;
     const incidentData = {
+        activity_id: data.activity_id,
         zone_id: data.zone_id,
         type: data.type,
         financial_damage: data.financial_damage,
@@ -20,6 +21,7 @@ const insertIncident = async (data) => {
         reason: data.reason,
         user_id: data.user_id,
     };
+    
     const incident = await db.insertQuery('incidents', incidentData);
     await Promise.all(data.image_ids.map((image) => db.updateQuery('incident_images',
         { incident_id: incident.id }, { id: image })));

@@ -147,6 +147,7 @@ CREATE TABLE IF NOT EXISTS zones
 CREATE TABLE IF NOT EXISTS incidents
 (
     id               SERIAL PRIMARY KEY,
+    activity_id      INT NOT NULL,
     zone_id          INT NOT NULL,
     user_id          BIGINT NOT NULL ,
     type             VARCHAR(127)  NOT NULL,
@@ -156,6 +157,7 @@ CREATE TABLE IF NOT EXISTS incidents
     description      VARCHAR(2047) NOT NULL,
     reason           VARCHAR(255)  NOT NULL,
     previous_version INT DEFAULT NULL,
+    FOREIGN KEY (activity_id) REFERENCES activities,
     FOREIGN KEY (zone_id) REFERENCES zones,
     FOREIGN KEY (user_id) REFERENCES users,
     FOREIGN KEY (previous_version) REFERENCES incidents

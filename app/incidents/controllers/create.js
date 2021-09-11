@@ -2,22 +2,26 @@ const validator = require('../../../core/util/validator');
 const { ok, error } = require('../../../core/util/response');
 const createSchema = require('../schemas/create');
 const createService = require('../services/create');
+const activityService = require('../../activities/services/fetch');
 const subscriptionService = require('../../subscription/services/check');
+const accessHelper = require('../helpers/access');
 
 /**
  * @api {post} /api/incidents Create
  * @apiGroup Incidents
  * @apiName Create Incident
  * @apiVersion 1.0.0
- * @apiDescription Create a new incident
+ * @apiDescription Create a new incident, `zone_id` and `activity_id` are both required,
+ * hence incident can be submitted only by an authorised user for an assigned activity.
+ * 
+ * @apiParam {number} activity_id id of the relevant activity
  * @apiParam {number} zone_id id of the zone incident belongs to
  * @apiParam {string} type Type of incident, can be anything
  * @apiParam {number} financial_damage financial damage
  * @apiParam {number} human_damage human damage
  * @apiParam {string} description description
  * @apiParam {string} reason reason
- * @apiParam {integer} hour Hour of incident
- * @apiParam {string} date acceptable format is "new Date()" provided in body
+ * @apiParam {string} date acceptable format is `new Date()` provided in sample
  * 
  * @apiSuccess {Object} result.incident Incident details
  * @apiSuccess {String} [result.errors]  If present, it indicates errors with attaching voice files 
@@ -34,6 +38,7 @@ const subscriptionService = require('../../subscription/services/check');
         "incident":
         {
             "id": 4,
+            "activity_id": 3,
             "zone_id": 1,
             "user_id": "1",
             "type": "some type",
@@ -49,6 +54,7 @@ const subscriptionService = require('../../subscription/services/check');
 }
  * @apiParamExample {json} request-example:
  * {
+    "activity_id": 3,
     "zone_id":1,
     "type":"some type",
     "financial_damage":1000,
@@ -59,7 +65,8 @@ const subscriptionService = require('../../subscription/services/check');
     "image_ids":[12, 2],
     "voice_ids":[13, 41]
 }
- * @apiError (404) NotFound Zone not found.
+
+ * @apiError (404) NotFound Zone/Activity not found.
  * @apiError (400) BadRequest Invalid date format.
  * @apiError (403) Forbidden User doesn't have access to incidents module (subscription upgrade required).
  */
@@ -77,10 +84,19 @@ const create = async (request, response) => {
         voice_ids: createValidator.data.voice_ids,
     };
     const zone = await createService.getZone(data.zone_id);
-    if (zone === undefined) {
+    const activity = await activityService.fetch_activity(data.activity_id, user);
+    console.log(activity);
+
+    if (zone === undefined || activity === undefined) {
         return error(response, 404, {
-            en: 'No such zone exists',
-            fa: 'منطقه داده شده وجود ندارد',
+            en: 'No such zone/activity exists',
+            fa: 'منطقه یا فعالیت داده شده وجود ندارد',
+        });
+    }
+    if (!accessHelper.byActivity(user, activity)){
+        return error(response, 403, {
+            en:  "You don't have access to this module.",
+            fa: 'شما به این قسمت دسترسی ندارید.'
         });
     }
     if (user.roles[0].name !== 'admin' && !(await 

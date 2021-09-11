@@ -14,3 +14,9 @@ exports.byIncident = async (user, incident) => {
     || (user.id == incident.user_id)
     )
 };
+
+exports.byActivity = (user, activity) => (
+    (user.roles[0].id === 1
+        || (activity.people.includes(user.id)))
+)
+
