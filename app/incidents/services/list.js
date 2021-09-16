@@ -26,9 +26,15 @@ const listIncidents = (projectID, zoneID, activityID, page, size, to = '', from 
 
     const whereString = ` ${where.join(' AND ')}`;
     const text = `SELECT i.*,
-                            z.name as zone_name
+                            a.name as activity_name,
+                            z.name as zone_name,
+                            p.name as project_name,
+                            u.first_name, u.last_name
                   FROM incidents i
                            JOIN zones z on i.zone_id = z.id
+                           JOIN projects p on p.id = z.project_id
+                           JOIN activities a on a.id = i.activity_id
+                           JOIN users u on u.id = i.user_id
                   WHERE ${whereString}
                   ORDER BY date
                   OFFSET $1 LIMIT $2`;

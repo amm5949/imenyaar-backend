@@ -20,6 +20,24 @@ const accessCheck = require('../../projects/services/accessCheck');
  * @apiParam (Query string) [to] Date (to) format new Date() in js, can be truncated to date only
  *  (e.g. `2021-06-15`).
  *
+ * @apiSuccess {Object[]} incidents List of incidents
+ * @apiSuccess {Number} incidents.id Id of the incident
+ * @apiSuccess {Number} incidents.activity_id Activity id of the incident
+ * @apiSuccess {Number} incidents.zone_id Zone id of the incident
+ * @apiSuccess {Number} incidents.user_id User id of the incident
+ * @apiSuccess {String} incidents.type Type of the incident
+ * @apiSuccess {Number} incidents.financial_damage Financial damage of the incident
+ * @apiSuccess {Number} incidents.human_damage Human damage of the incident
+ * @apiSuccess {String} incidents.date Date of the incident (`new Date()` in js with timestamp)
+ * @apiSuccess {String} incidents.description Description of the incident
+ * @apiSuccess {String} incidents.reason Reason of the incident
+ * @apiSuccess {Number} incidents.previous_version Id of the previous version of the incident (`null` if first)
+ * @apiSuccess {String} incidents.activity_name Name of the related activity
+ * @apiSuccess {String} incidents.zone_name Name of the related zone
+ * @apiSuccess {String} incidents.project_name Name of the related project
+ * @apiSuccess {String} incidents.first_name First name of the related user
+ * @apiSuccess {String} incidents.last_name Last name of the related user
+ * 
  * @apiSuccessExample
  HTTP/1.1 200
  {
@@ -42,7 +60,11 @@ const accessCheck = require('../../projects/services/accessCheck');
 				"description": "some screw got loose",
 				"reason": "someone forgot something",
 				"previous_version": null,
-				"zone_name": "dam zone II"
+				"activity_name": "some activity",
+				"zone_name": "zone II",
+				"project_name": "Project Y",
+				"first_name": "John",
+				"last_name": "Doe"
 			}
 		],
 		"pageCount": 1
