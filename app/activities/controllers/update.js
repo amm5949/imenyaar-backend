@@ -12,13 +12,14 @@ const accessCheck = require('../../projects/services/accessCheck.js');
  * @apiVersion 1.0.0
  * @apiDescription Update an activity
  *
- * @apiParam {Number} project_id  
- * @apiParam {Array} people array of people associated with this activity, it will replace the previous array of members, note that non acceptable ones are ignored
- * @apiParam {Array} zones array of zones associated with this activity, it will replace the previous array of members, note that non acceptable ones are ignored
- * @apiParam {Number} status provided in body
- * @apiParam {Date} start_date acceptable format is "new Date()" provided in body
- * @apiParam {Date} scheduled_end_date acceptable format is "new Date()" provided in body
- * @apiParam {Boolean} is_done provided in body
+ * @apiParam {Number} [project_id]  
+ * @apiParam {String} [name]
+ * @apiParam {Array} [people] array of people associated with this activity, it will replace the previous array of members, note that non acceptable ones are ignored
+ * @apiParam {Array} [zones] array of zones associated with this activity, it will replace the previous array of members, note that non acceptable ones are ignored
+ * @apiParam {Number} [status] provided in body
+ * @apiParam {Date} [start_date] acceptable format is "new Date()" provided in body
+ * @apiParam {Date} [scheduled_end_date] acceptable format is "new Date()" provided in body
+ * @apiParam {Boolean} [is_done] provided in body
  *
  *
  */

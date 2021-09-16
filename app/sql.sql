@@ -184,6 +184,7 @@ CREATE TABLE IF NOT EXISTS incident_voices
 CREATE TABLE activities
 (
     id                  SERIAL PRIMARY KEY,
+    name                VARCHAR(64) NOT NULL,
     project_id          INT,
     start_date          DATE,
     scheduled_end_date  DATE,

@@ -11,7 +11,8 @@ const subscriptionService = require('../../subscription/services/check.js');
  * @apiVersion 1.0.0
  * @apiDescription Create an Activity
  *
- * @apiParam {Number} project_id  
+ * @apiParam {Number} project_id  relevant project ID
+ * @apiParam {String} name{1..64}  activity name
  * @apiParam {Array} people array of people associated with this activity, if empty the requesting user will be considered as the only member, but if it is provided and non are acceptable (they are not already added to project) an error will be returned 
  * @apiParam {Array} zones array of zones associated with this activity, if empty or non are acceptable an error will be returned
  * @apiParam {Number} status between 1 and 10 each representing a state
@@ -21,6 +22,7 @@ const subscriptionService = require('../../subscription/services/check.js');
  * @apiParamExample {json} Request-Example:
   {
     "status": 10,
+    "name": "activity"
     "project_id" : 1,
     "zones" : [2],
     "start_date": "2021-07-14T14:53:20.896Z",
@@ -36,6 +38,7 @@ const subscriptionService = require('../../subscription/services/check.js');
     },
     "result": {
         "id": 17,
+        "name": "activity"
         "scheduled_end_date": "2021-07-13T19:30:00.000Z",
         "status": "10",
         "is_done": false,

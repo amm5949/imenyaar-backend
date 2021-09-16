@@ -1,4 +1,5 @@
 module.exports = {
+    'name': ['string', 'length:min,1', 'length:max,64'],
     'zones': 'array',
     'zones.*': 'number',
     'people?': 'array',

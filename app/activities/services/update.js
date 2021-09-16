@@ -2,7 +2,7 @@
 const db = require('../../../core/db/postgresql');
 
 const fetch_activity = async (id) => db.fetch({
-    text: `SELECT id, start_date, scheduled_end_date, people, zones, project_id, status, is_done
+    text: `SELECT *
            FROM activities
            WHERE is_deleted = false AND id = $1`,
     values: [id],
