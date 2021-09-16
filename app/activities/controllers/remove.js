@@ -17,6 +17,7 @@ const accessCheck = require('../../projects/services/accessCheck.js');
     },
     "result": {
         "id": 17,
+        "name": "Eine Aktivität"
         "start_date": "2021-07-13T19:30:00.000Z",
         "scheduled_end_date": "2021-07-13T19:30:00.000Z",
         "project_id": 1,

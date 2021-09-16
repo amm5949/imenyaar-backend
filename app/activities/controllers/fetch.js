@@ -8,6 +8,7 @@ const accessCheck = require('../../projects/services/accessCheck.js');
  * @apiVersion 1.0.0
  * @apiDescription Fetch an activity
  * @apiSuccess {Number} id
+ * @apiSuccess {String} name
  * @apiSuccess {Number} project_id
  * @apiSuccess {Array} people array of people associated with this activity
  * @apiSuccess {Array} zones array of zones associated with this activity
@@ -25,6 +26,7 @@ const accessCheck = require('../../projects/services/accessCheck.js');
     },
     "result": {
         "id": 17,
+        "name": "Eine Aktivität"
         "start_date": "2021-07-13T19:30:00.000Z",
         "scheduled_end_date": "2021-07-13T19:30:00.000Z",
         "project_id": 1,

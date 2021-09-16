@@ -13,6 +13,10 @@ const fetch_activities_page_count = async (activity_data, user) => {
     const temp = [user.id];
     const values = [];
     const wheres = ['a.is_deleted = false'];
+    if (Object.prototype.hasOwnProperty.call(activity_data, 'name')) {
+        values.push(activity_data.zones);
+        wheres.push(`a.name LIKE $${values.length}`);
+    }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
         values.push(activity_data.zones);
         wheres.push(`$${values.length} = ANY(zones)`);
@@ -63,7 +67,7 @@ const fetch_activities = async (activity_data, user) => {
     const page = activity_data.page || 1;
     const size = activity_data.size || 10;
     let text = `
-        SELECT a.id, a.start_date, a.scheduled_end_date, a.project_id, a.people, a.zones, a.status, a.is_done
+        SELECT a.*
         FROM activities a
         INNER JOIN projects pp ON pp.id = a.project_id 
         WHERE
@@ -71,6 +75,10 @@ const fetch_activities = async (activity_data, user) => {
     const temp = [user.id];
     const values = [];
     const wheres = ['a.is_deleted = false'];
+    if (Object.prototype.hasOwnProperty.call(activity_data, 'name')) {
+        values.push(activity_data.zones);
+        wheres.push(`a.name LIKE $${values.length}`);
+    }
     if (Object.prototype.hasOwnProperty.call(activity_data, 'zones')) {
         values.push(activity_data.zones);
         wheres.push(`$${values.length} = ANY(zones)`);

@@ -6,8 +6,11 @@ const { ok } = require('../../../core/util/response');
  * @apiName List Activities
  * @apiGroup Activities
  * @apiVersion 1.0.0
- * @apiDescription List all Activites, output format is same as FetchActivity but activities are in an array
+ * @apiDescription List all Activites, output format is same as FetchActivity but activities are in an array.
+ * Note that using `name` parameter will search through activities using PostgreSQL `LIKE` operator, use with caution.
+ * 
  * @apiParam {Number} project_id  
+ * @apiParam {String} name  
  * @apiParam {Number} status provided in query
  * @apiParam {Array} people array of people associated with this activity, you can provide it in query like people={3} or people={1, 2, 3}
  * @apiParam {Array} zones array of zones associated with this activity, you can provide it in query like zones={3, 4, 5} or zones={3}
@@ -28,6 +31,7 @@ const { ok } = require('../../../core/util/response');
         "values": [
             {
                 "id": 17,
+                "name": "An Activity"
                 "start_date": "2021-07-13T19:30:00.000Z",
                 "scheduled_end_date": "2021-07-13T19:30:00.000Z",
                 "project_id": 1,
@@ -42,6 +46,7 @@ const { ok } = require('../../../core/util/response');
             },
             {
                 "id": 18,
+                "name": "Another Activity"
                 "start_date": "2021-07-13T19:30:00.000Z",
                 "scheduled_end_date": "2021-07-13T19:30:00.000Z",
                 "project_id": 1,
