@@ -34,22 +34,26 @@ const { ok } = require('../../../core/util/response');
     "result": {
         "items": [
             {
-                "id": 3,
-                "activity_id": 1,
-                "zone_id": "1",
-                "creation_date": "2021-06-08T19:30:00.000Z",
-                "parent_id": null,
-                "user_id": "5",
+                "id": 60,
+				"activity_id": 1,
+				"zone_id": "2",
+				"creation_date": "2021-06-21T10:00:55.442Z",
+				"user_id": "1",
+				"zone_name": "Zone X",
+				"project_name": "Project X",
+				"activity_name": "That activity",
                 "first_name": "John",
                 "last_name": "Wick"
             },
             {
-                "id": 1,
-                "activity_id": 1,
-                "zone_id": "1",
-                "creation_date": "2021-06-08T19:30:00.000Z",
-                "parent_id": null,
-                "user_id": "1",
+                "id": 86,
+				"activity_id": 2,
+				"zone_id": "4",
+				"creation_date": "2021-07-21T11:02:23.442Z",
+				"user_id": "1",
+				"zone_name": "zone II",
+				"project_name": "Project Y",
+				"activity_name": "some activity",
                 "first_name": "John",
                 "last_name": "Doe"
             }
