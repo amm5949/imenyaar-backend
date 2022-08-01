@@ -38,7 +38,7 @@ module.exports = async ({ phone_number, password, extendSession }) => {
     const accessToken = auth.signToken({
         id: record.id,
         session_id: sessionId,
-    }); //, { exp: auth.MINUTE }
+    }, { exp: auth.YEAR });
 
     const refreshToken = auth.signToken({
         id: record.id,
