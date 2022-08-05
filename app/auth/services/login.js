@@ -26,7 +26,7 @@ module.exports = async ({ phone_number, password, extendSession }) => {
 
     // Return user data with a signed token
     // set session duration (either 3 or 5) depending on extension
-    const refreshTokenExp = extendSession? auth.DAY * 5 : auth.DAY * 3;
+    const refreshTokenExp = extendSession ? auth.DAY * 5 : auth.DAY * 3;
     const refreshTokenVal = auth.genRandomString(32);
     const sessionId = uuidv4();
     await db.insertQuery('sessions', {
@@ -54,7 +54,7 @@ module.exports = async ({ phone_number, password, extendSession }) => {
                     'phone_number',
                     'first_name',
                     'last_name',
-                ].indexOf(field) > 0),
+                ].indexOf(field) >= 0),
         ),
         tokens: {
             access_token: accessToken,
