@@ -20,7 +20,12 @@ const fetch_people = async (_project) => {
         values: [_project],
     });
     for (const p of people.rows) {
-        project.people.push(p);
+        const person = {
+            id: p.user_id,
+            fist_name: p.first_name,
+            last_name: p.last_name
+        }
+        project.people.push(person);
     }
     return project;
 };
