@@ -1,5 +1,5 @@
 module.exports = {
-    phone_number: 'string',
+    phoneNumber: 'string',
     password: 'string',
     'extend_session?': 'boolean'
 };

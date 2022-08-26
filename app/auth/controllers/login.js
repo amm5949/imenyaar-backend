@@ -56,15 +56,16 @@ const loginService = require('../services/login');
  *
  */
 const login = async (request, response) => {
+    const data = { ...request.body.params };
     // Validate the input
-    const result = validator(loginSchema, request.body);
+    const result = validator(loginSchema, data);
 
     // Check if validation has failed
     if (result.failed) {
         return result.response(response);
     }
-    
-    if (result.data.extendSession === undefined){
+
+    if (result.data.extendSession === undefined) {
         result.data.extendSession = false;
     }
     // Call the service
