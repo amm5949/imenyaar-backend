@@ -3,11 +3,11 @@ const { v4: uuidv4 } = require('uuid');
 const db = require('../../../core/db/postgresql');
 const auth = require('../../../core/auth/auth');
 
-module.exports = async ({ phone_number, password, extendSession }) => {
+module.exports = async ({ phoneNumber, password, extendSession }) => {
     // Get the user record from the database by phone number
     const record = await db.fetch({
         text: 'SELECT * FROM users WHERE phone_number = $1 AND is_deleted = false AND is_active = true',
-        values: [phone_number],
+        values: [phoneNumber],
     });
 
 
