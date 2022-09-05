@@ -83,7 +83,7 @@ const fetch_zones = async (zone_data, user) => {
     });
     const page_count = await fetch_zones_page_count(zone_data, user);
     const ret_val = {
-        values: res.rows,
+        items: res.rows,
         page_count,
     };
     return ret_val;
