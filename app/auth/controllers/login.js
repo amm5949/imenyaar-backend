@@ -24,15 +24,15 @@ const loginService = require('../services/login');
  * @apiSuccessExample {json} Success-Response
  * HTTP/1.1 200
  * {
- *   status: 'ok',
- *   message: {
- *      en: 'Request was successful',
- *      fa: 'درخواست موفقیت آمیز بود'
+ *   "status": "ok",
+ *   "message": {
+ *      "en": "Request was successful",
+ *      "fa": "درخواست موفقیت آمیز بود"
  *   },
- *   result: {
- *     phone_number: '09120000000',
- *     first_name: 'first_name',
- *     last_name: 'last_name',
+ *   "result": {
+ *     "phone_number": "09120000000",
+ *     "first_name": "علی",
+ *     "last_name": "تست زاده",
  *     "tokens": {
  *       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIwODQ5NjMxfQ.SBCY4UtHyF-DzM51F3pHBr3ZuK09T-DyMcuoCgDhbaU",
  *       "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ0b2tlbiI6ImRjNzVjYjU0MzU4NDhlMjhmMzA5YzRiMGE0Y2RjNjRiIiwiaWF0IjoxNjIwODQ5NjMxfQ.yPxnsIJhQl-X-D3zVsl3EBsXAJ9DEzDty7KEQksXep4"
@@ -56,37 +56,36 @@ const loginService = require('../services/login');
  *
  */
 const login = async (request, response) => {
-    const data = { ...request.body.params };
-    // Validate the input
-    const result = validator(loginSchema, data);
+  const data = { ...request.body.params };
+  // Validate the input
+  const result = validator(loginSchema, data);
 
-    // Check if validation has failed
-    if (result.failed) {
-        return result.response(response);
-    }
+  // Check if validation has failed
+  if (result.failed) {
+    return result.response(response);
+  }
 
-    if (result.data.extendSession === undefined) {
-        result.data.extendSession = false;
-    }
-    // Call the service
-    const user = await loginService(result.data);
+  if (result.data.extendSession === undefined) {
+    result.data.extendSession = false;
+  }
+  // Call the service
+  const user = await loginService(result.data);
 
-    // Check the result (wrong combination/user does not exist)
-    if (!user) {
-        return error(response, 400, {
-            en: 'Invalid credentials.',
-            fa: 'اطلاعات کاربری نادرست است.',
-        });
-    }
+  // Check the result (wrong combination/user does not exist)
+  if (!user) {
+    return error(response, 400, {
+      en: 'Invalid credentials.',
+      fa: 'اطلاعات کاربری نادرست است.',
+    });
+  }
 
-    return ok(response, user);
+  return ok(response, user);
 };
 
-
 module.exports = async (request, response, next) => {
-    try {
-        return await login(request, response);
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    return await login(request, response);
+  } catch (err) {
+    return next(err);
+  }
 };

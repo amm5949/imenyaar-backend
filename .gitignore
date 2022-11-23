@@ -117,3 +117,6 @@ dist
 .yarn/build-state.yml
 .pnp.*
 .timetracker
+
+
+.docs
